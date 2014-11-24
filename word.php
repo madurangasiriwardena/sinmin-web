@@ -33,56 +33,61 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <form role="form" id="myForm" onsubmit="return false;">
-                                            <div class="form-group">
-                                                <label>Word</label>
-                                                <input class="form-control" id="word">
+                                            <div class="sinmin-form-group">
+                                                <label class="sinmin-label">Word</label>
+                                                <input class="sinmin-form-control" id="word">
                                             </div>
-                                            <label class="checkbox-inline">
-                                                    <input type="checkbox" id="enable-time" onchange="enable_time();">&nbsp
-                                                </label>
-                                                <label><h4>Time</h4></label>
-                                            <div class="form-group">
-                                                <label>From</label>
-                                                <input class="form-control" id="from">
+                                            <div class="sinmin-form-group" style="margin-top:20px">
+                                                <label  class="sinmin-label"><input type="checkbox" id="enable-time" onchange="enable_time();"></label>
+                                                <label  class="sinmin-label">Time</label>
                                             </div>
-                                            <div class="form-group">
-                                                <label>To</label>
-                                                <input class="form-control" id="to">
+                                            <div class="sinmin-form-group">
+                                                <table style="width:100%">
+                                                    <tr>
+                                                        <td style="width:50%;"><label  class="sinmin-label">From</label></td>
+                                                        <td style="width:50%;padding-left:5px"><label  class="sinmin-label">To</label></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input style="margin-right:5px" class="sinmin-form-control" id="from"></td>
+                                                        <td><input style="margin-left:5px" class="sinmin-form-control" id="to"></td>
+                                                    </tr>
+                                                </table>
+                                                
                                             </div>
-                                            <label class="checkbox-inline">
-                                                    <input type="checkbox" id="enable-category">&nbsp
-                                                </label>
-                                                <label><h4>Category</h4></label>
+                                            <div class="sinmin-form-group" style="margin-top:20px">
+                                                <label  class="sinmin-label"><input type="checkbox" id="enable-time" onchange=""></label>
+                                                <label  class="sinmin-label">Category</label>
+                                            </div>
                                             <div class="form-group">
                                                 <div>
-                                                    <div class="checkbox">
+                                                    <div class="sinmin-checkbox">
                                                         <label>
-                                                            <input type="checkbox" value="" checked="true">All
+                                                            <input type="checkbox" value="" checked="true" style="position: absolute;">All
                                                         </label>
                                                     </div>
-                                                    <div class="checkbox">
+                                                    <div class="sinmin-checkbox">
                                                         <label>
-                                                            <input type="checkbox" value="" checked="true">News
+                                                            <input type="checkbox" value="" checked="true" style="position: absolute;">News
                                                         </label>
                                                     </div>
-                                                    <div class="checkbox">
+                                                    <div class="sinmin-checkbox">
                                                         <label>
-                                                            <input type="checkbox" value="" checked="true">Academic
+                                                            <input type="checkbox" value="" checked="true" style="position: absolute;">Academic
                                                         </label>
                                                     </div>
-                                                    <div class="checkbox">
+                                                    <div class="sinmin-checkbox">
                                                         <label>
-                                                            <input type="checkbox" value="" checked="true">Creative Writing
+                                                            <input type="checkbox" value="" checked="true" style="position: absolute;">Creative Writing
                                                         </label>
                                                     </div>
-                                                    <div class="checkbox">
+                                                    <div class="sinmin-checkbox">
                                                         <label>
-                                                            <input type="checkbox" value="" checked="true">Spoken
+                                                            <input type="checkbox" value="" checked="true" style="position: absolute;">Spoken
                                                         </label>
                                                     </div>
-                                                    <div class="checkbox">
+                                                    <div class="sinmin-checkbox">
                                                         <label>
-                                                            <input type="checkbox" value="" checked="true"  >Gezette
+                                                            <input type="checkbox" value="" checked="true" style="position: absolute;">Gezette
                                                         </label>
                                                     </div>
                                                 </div>
