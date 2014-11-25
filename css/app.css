@@ -48,3 +48,11 @@
 .sinmin-label{
   margin-bottom: 2px;
 }
+
+.sinmin-form-control[disabled],
+.sinmin-form-control[readonly],
+fieldset[disabled] .sinmin-form-control {
+  cursor: not-allowed;
+  background-color: #eee;
+  opacity: 1;
+}
