@@ -290,14 +290,20 @@
         Morris.Donut({
         element: 'morris-donut-chart',
         data: [{
-            label: "Download Sales",
-            value: 12
+            label: "News",
+            value: 12000
         }, {
-            label: "In-Store Sales",
-            value: 30
+            label: "Academic",
+            value: 30000
         }, {
-            label: "Mail-Order Sales",
-            value: 20
+            label: "Creative Writing",
+            value: 20000
+        }, {
+            label: "Spoken",
+            value: 30000
+        }, {
+            label: "Gezette",
+            value: 20000
         }],
         resize: true
     });
@@ -344,62 +350,82 @@
     </script>
 
     <script type="text/javascript">
-        Morris.Area({
+        Morris.Line({
         element: 'morris-area-chart',
         data: [{
-            period: '2010 Q1',
-            iphone: 2666,
-            ipad: null,
-            itouch: 2647
+            period: '2010',
+            News: 2666,
+            Academic: null,
+            Creative_Writing: 2647,
+            Spoken: 2294,
+            Gezette: 2441
         }, {
-            period: '2010 Q2',
-            iphone: 2778,
-            ipad: 2294,
-            itouch: 2441
+            period: '2011',
+            News: 2778,
+            Academic: 2294,
+            Creative_Writing: 2441,
+            Spoken: 2294,
+            Gezette: 2441
         }, {
-            period: '2010 Q3',
-            iphone: 4912,
-            ipad: 1969,
-            itouch: 2501
+            period: '2012',
+            News: 4912,
+            Academic: 1969,
+            Creative_Writing: 2501,
+            Spoken: 5432,
+            Gezette: 7654
         }, {
-            period: '2010 Q4',
-            iphone: 3767,
-            ipad: 3597,
-            itouch: 5689
+            period: '2013',
+            News: 3767,
+            Academic: 3597,
+            Creative_Writing: 5689,
+            Spoken: 6543,
+            Gezette: 9876
         }, {
-            period: '2011 Q1',
-            iphone: 6810,
-            ipad: 1914,
-            itouch: 2293
+            period: '2014',
+            News: 6810,
+            Academic: 1914,
+            Creative_Writing: 2293,
+            Spoken: 4321,
+            Gezette: 5678
         }, {
-            period: '2011 Q2',
-            iphone: 5670,
-            ipad: 4293,
-            itouch: 1881
+            period: '2015',
+            News: 5670,
+            Academic: 4293,
+            Creative_Writing: 1881,
+            Spoken: 2312,
+            Gezette: 7654
         }, {
-            period: '2011 Q3',
-            iphone: 4820,
-            ipad: 3795,
-            itouch: 1588
+            period: '2016',
+            News: 4820,
+            Academic: 3795,
+            Creative_Writing: 1588,
+            Spoken: 1345,
+            Gezette: 3456
         }, {
-            period: '2011 Q4',
-            iphone: 15073,
-            ipad: 5967,
-            itouch: 5175
+            period: '2017',
+            News: 15073,
+            Academic: 5967,
+            Creative_Writing: 5175,
+            Spoken: 2345,
+            Gezette: 7890
         }, {
-            period: '2012 Q1',
-            iphone: 10687,
-            ipad: 4460,
-            itouch: 2028
+            period: '2018',
+            News: 10687,
+            Academic: 4460,
+            Creative_Writing: 2028,
+            Spoken: 1234,
+            Gezette: 7865
         }, {
-            period: '2012 Q2',
-            iphone: 8432,
-            ipad: 5713,
-            itouch: 1791
+            period: '2019',
+            News: 8432,
+            Academic: 5713,
+            Creative_Writing: 1791,
+            Spoken: 2222,
+            Gezette: 3333
         }],
         xkey: 'period',
-        ykeys: ['iphone', 'ipad', 'itouch'],
-        labels: ['iPhone', 'iPad', 'iPod Touch'],
+        ykeys: ['News', 'Academic', 'Creative_Writing', 'Spoken', 'Gezette'],
+        labels: ['News', 'Academic', 'Creative Writing', 'Spoken', 'Gezette'],
         pointSize: 2,
         hideHover: 'auto',
         resize: true
