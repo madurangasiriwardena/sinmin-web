@@ -13,7 +13,7 @@
                             <!-- /input-group -->
             </li>
             <li>
-                <a class="active" href="index.php"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                <a href="index.php"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Chart<span class="fa arrow"></span></a>
@@ -23,6 +23,30 @@
                     </li>
                     <li>
                         <a href="popularwords.php">Popular</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-dashboard fa-fw"></i>Statistics<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="#">Frequency</a>
+                    </li>
+                    <li>
+                        <a href="#">Popular</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-files-o fa-fw"></i>Compare<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="#">Frequency</a>
+                    </li>
+                    <li>
+                        <a href="#">Popular</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
