@@ -19,10 +19,10 @@
                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Chart<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="frequency-time.php">in time period</a>
+                        <a href="frequency.php">Frequency</a>
                     </li>
                     <li>
-                        <a href="frequency-category.php">in category</a>
+                        <a href="popularwords.php">Popular</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
