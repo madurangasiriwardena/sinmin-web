@@ -208,8 +208,9 @@
                 document.getElementById("panel-heading").innerHTML = "Frequency of '"+word+"' over time";
             }else if(!($('#enable-category').is(':checked')) && !($('#enable-time').is(':checked'))){
                 // alert("d");
-            }          
-            
+            }  
+
+            document.getElementById("graph-panel").scrollIntoView();            
 
             function timestamp(date){
                 var myDate=date.split("-");
