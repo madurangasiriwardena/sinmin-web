@@ -273,7 +273,7 @@
                 points[points.length] = {data:data[2],label: word+ " Academic"};
                 points[points.length] = {data:data[3],label: word+ " Creative Writing"};
                 points[points.length] = {data:data[4],label: word+ " Spoken"};
-                points[points.length] = {data:data[5],label: word+ " Gezette"};  
+                points[points.length] = {data:data[5],label: word+ " Gazette"};  
                 
                 var plotObj = $.plot($("#flot-chart-content"), points,
                     options);

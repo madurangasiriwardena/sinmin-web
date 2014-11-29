@@ -302,7 +302,7 @@
             label: "Spoken",
             value: 30000
         }, {
-            label: "Gezette",
+            label: "Gazette",
             value: 20000
         }],
         resize: true
@@ -358,74 +358,74 @@
             Academic: null,
             Creative_Writing: 2647,
             Spoken: 2294,
-            Gezette: 2441
+            Gazette: 2441
         }, {
             period: '2011',
             News: 2778,
             Academic: 2294,
             Creative_Writing: 2441,
             Spoken: 2294,
-            Gezette: 2441
+            Gazette: 2441
         }, {
             period: '2012',
             News: 4912,
             Academic: 1969,
             Creative_Writing: 2501,
             Spoken: 5432,
-            Gezette: 7654
+            Gazette: 7654
         }, {
             period: '2013',
             News: 3767,
             Academic: 3597,
             Creative_Writing: 5689,
             Spoken: 6543,
-            Gezette: 9876
+            Gazette: 9876
         }, {
             period: '2014',
             News: 6810,
             Academic: 1914,
             Creative_Writing: 2293,
             Spoken: 4321,
-            Gezette: 5678
+            Gazette: 5678
         }, {
             period: '2015',
             News: 5670,
             Academic: 4293,
             Creative_Writing: 1881,
             Spoken: 2312,
-            Gezette: 7654
+            Gazette: 7654
         }, {
             period: '2016',
             News: 4820,
             Academic: 3795,
             Creative_Writing: 1588,
             Spoken: 1345,
-            Gezette: 3456
+            Gazette: 3456
         }, {
             period: '2017',
             News: 15073,
             Academic: 5967,
             Creative_Writing: 5175,
             Spoken: 2345,
-            Gezette: 7890
+            Gazette: 7890
         }, {
             period: '2018',
             News: 10687,
             Academic: 4460,
             Creative_Writing: 2028,
             Spoken: 1234,
-            Gezette: 7865
+            Gazette: 7865
         }, {
             period: '2019',
             News: 8432,
             Academic: 5713,
             Creative_Writing: 1791,
             Spoken: 2222,
-            Gezette: 3333
+            Gazette: 3333
         }],
         xkey: 'period',
-        ykeys: ['News', 'Academic', 'Creative_Writing', 'Spoken', 'Gezette'],
-        labels: ['News', 'Academic', 'Creative Writing', 'Spoken', 'Gezette'],
+        ykeys: ['News', 'Academic', 'Creative_Writing', 'Spoken', 'Gazette'],
+        labels: ['News', 'Academic', 'Creative Writing', 'Spoken', 'Gazette'],
         pointSize: 2,
         hideHover: 'auto',
         resize: true

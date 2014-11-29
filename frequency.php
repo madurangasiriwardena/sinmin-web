@@ -87,7 +87,7 @@
                                                     </div>
                                                     <div class="sinmin-checkbox">
                                                         <label>
-                                                            <input class="checkbox-category" type="checkbox"  id="category-5" checked="true" style="position: absolute;">Gezette
+                                                            <input class="checkbox-category" type="checkbox"  id="category-5" checked="true" style="position: absolute;">Gazette
                                                         </label>
                                                     </div>
                                                 </div>
@@ -271,7 +271,7 @@
                     ["Academic",1500],
                     ["Creative Writing",1200],
                     ["Spoken",1800],
-                    ["Gezette",1000]
+                    ["Gazette",1000]
                 ]
                 
 
@@ -416,7 +416,7 @@
                     points[points.length] = {data:data[4],label: "Spoken"};  
                 }
                 if($('#category-5').is(':checked')){
-                    points[points.length] = {data:data[5],label: "Gezette"};  
+                    points[points.length] = {data:data[5],label: "Gazette"};  
                 }
 
                 var plotObj = $.plot($("#flot-chart-content"), points,
