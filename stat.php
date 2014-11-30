@@ -20,80 +20,97 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
+                    <h1 class="page-header">Statistics</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <a href="frequency.php">
-                        <div class="panel sinmin-panel-blue">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-line-chart fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div><h3>Frequency</h3></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <a href="#">
-                        <div class="panel sinmin-panel-green">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-files-o fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div><h3>Compare</h3></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <a href="popularwords.php">
-                        <div class="panel sinmin-panel-gray">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-star fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div><h3>Popular</h3></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <a href="stat.php">
-                        <div class="panel sinmin-panel-purple">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-bar-chart-o fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div><h3>Statistics</h3></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <!-- /.row -->
             <div class="row">
                 <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Frequent
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Words</th>
+                                            <th>Bigrams</th>
+                                            <th>Trigrams</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>මේ</td>
+                                            <td>ශ්‍රී ලංකා</td>
+                                            <td>ජනාධිපති මහින්ද රාජපක්ෂ</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>ඒ</td>
+                                            <td>වන විට</td>
+                                            <td>මේ වන විට</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>හා</td>
+                                            <td>ඒ නිසා</td>
+                                            <td>මහින්ද රාජපක්ෂ මහතා</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>ද</td>
+                                            <td>මහින්ද රාජපක්ෂ</td>
+                                            <td>ශ්‍රී ලංකා ක්‍රිකට්</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>බව</td>
+                                            <td>ඒ සඳහා</td>
+                                            <td>එක්සත් ජනතා නිදහස්</td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td>කළ</td>
+                                            <td>ඇති බව</td>
+                                            <td>ජනාධිපති මහින්ද රාජපක්‍ෂ</td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td>ඇති</td>
+                                            <td>ඒ මහතා</td>
+                                            <td>ශ්‍රී ලංකා නිදහස්</td>
+                                        </tr>
+                                        <tr>
+                                            <td>8</td>
+                                            <td>සඳහා</td>
+                                            <td>ශ්‍රී ලංකාව</td>
+                                            <td>අත්අඩංගුවට ගෙන තිබේ</td>
+                                        </tr>
+                                        <tr>
+                                            <td>9</td>
+                                            <td>කර</td>
+                                            <td>ඒ අනුව</td>
+                                            <td>ද සිල්වා මහතා</td>
+                                        </tr>
+                                        <tr>
+                                            <td>10</td>
+                                            <td>මහතා</td>
+                                            <td>ජනාධිපති මහින්ද</td>
+                                            <td>මහතාගේ උපදෙස් මත</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Time & Category
@@ -167,7 +184,7 @@
                 </div>
                 <!-- /.col-lg-8 -->
                 <div class="col-lg-4">
-                <div class="panel panel-default">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Composition
                         </div>
@@ -179,62 +196,34 @@
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bell fa-fw"></i> Notifications Panel
+                            Count
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small"><em>4 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small"><em>12 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                    <span class="pull-right text-muted small"><em>27 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> New Task
-                                    <span class="pull-right text-muted small"><em>43 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small"><em>11:32 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-bolt fa-fw"></i> Server Crashed!
-                                    <span class="pull-right text-muted small"><em>11:13 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-warning fa-fw"></i> Server Not Responding
-                                    <span class="pull-right text-muted small"><em>10:57 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-shopping-cart fa-fw"></i> New Order Placed
-                                    <span class="pull-right text-muted small"><em>9:49 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-money fa-fw"></i> Payment Received
-                                    <span class="pull-right text-muted small"><em>Yesterday</em>
-                                    </span>
-                                </a>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td>Word</td>
+                                            <td>5000000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sentences</td>
+                                            <td>200000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Articles</td>
+                                            <td>100000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <!-- /.list-group -->
-                            <a href="#" class="btn btn-default btn-block">View All Alerts</a>
+                            <!-- /.table-responsive -->
                         </div>
                         <!-- /.panel-body -->
                     </div>
+                    <!-- /.panel -->
+
                     <!-- /.panel -->
                     
                 <!-- /.col-lg-4 -->
