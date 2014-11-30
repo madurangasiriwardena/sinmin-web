@@ -56,3 +56,96 @@ fieldset[disabled] .sinmin-form-control {
   background-color: #eee;
   opacity: 1;
 }
+
+.sinmin-panel-purple {
+    border-color: #996699;
+}
+
+.sinmin-panel-purple .panel-heading {
+    border-color: #996699;
+    color: #fff;
+    background-color: #996699;
+}
+
+.sinmin-panel-purple .panel-heading:hover {
+    background-color: #8C489F;
+    border-color: #8C489F;
+}
+
+.sinmin-panel-purple a {
+    color: #996699;
+}
+
+.sinmin-panel-purple a:hover {
+    color: #b52b27;
+}
+
+.sinmin-panel-blue {
+    border-color: #428BCA;
+}
+
+.sinmin-panel-blue .panel-heading {
+    border-color: #428BCA;
+    color: #fff;
+    background-color: #428BCA;
+}
+
+.sinmin-panel-blue .panel-heading:hover {
+    background-color: #0B62A4;
+    border-color: #0B62A4;
+}
+
+.sinmin-panel-blue a {
+    color: #428BCA;
+}
+
+.sinmin-panel-blue a:hover {
+    color: #b52b27;
+}
+
+.sinmin-panel-gray {
+    border-color: #808080;
+}
+
+.sinmin-panel-gray .panel-heading {
+    border-color: #808080;
+    color: #fff;
+    background-color: #808080;
+}
+
+.sinmin-panel-gray .panel-heading:hover {
+    background-color: #808060;
+    border-color: #808060;
+}
+
+.sinmin-panel-gray a {
+    color: #808080;
+}
+
+.sinmin-panel-gray a:hover {
+    color: #b52b27;
+}
+
+
+.sinmin-panel-green {
+    border-color: #5CB85C;
+}
+
+.sinmin-panel-green .panel-heading {
+    border-color: #5CB85C;
+    color: #fff;
+    background-color: #5CB85C;
+}
+
+.sinmin-panel-green .panel-heading:hover {
+    background-color: #266A2E;
+    border-color: #266A2E;
+}
+
+.sinmin-panel-green a {
+    color: #5CB85C;
+}
+
+.sinmin-panel-green a:hover {
+    color: #b52b27;
+}
