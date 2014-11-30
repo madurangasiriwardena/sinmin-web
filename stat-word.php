@@ -20,7 +20,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Statistics</h1>
+                    <h1 class="page-header">Statistics - Word</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -37,71 +37,115 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Words</th>
-                                            <th>Bigrams</th>
-                                            <th>Trigrams</th>
+                                            <th>Word</th>
+                                            <th>All</th>
+                                            <th>Academic</th>
+                                            <th>News</th>
+                                            <th>Gazette</th>
+                                            <th>Spoken</th>
+                                            <th>Creative Writing</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td>1</td>
                                             <td>මේ</td>
-                                            <td>ශ්‍රී ලංකා</td>
-                                            <td>ජනාධිපති මහින්ද රාජපක්ෂ</td>
+                                            <td>123442</td>
+                                            <td>53535</td>
+                                            <td>2342</td>
+                                            <td>5456</td>
+                                            <td>6464</td>
+                                            <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>2</td>
                                             <td>ඒ</td>
-                                            <td>වන විට</td>
-                                            <td>මේ වන විට</td>
+                                            <td>123442</td>
+                                            <td>53535</td>
+                                            <td>2342</td>
+                                            <td>5456</td>
+                                            <td>6464</td>
+                                            <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>3</td>
                                             <td>හා</td>
-                                            <td>ඒ නිසා</td>
-                                            <td>මහින්ද රාජපක්ෂ මහතා</td>
+                                            <td>123442</td>
+                                            <td>53535</td>
+                                            <td>2342</td>
+                                            <td>5456</td>
+                                            <td>6464</td>
+                                            <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>4</td>
                                             <td>ද</td>
-                                            <td>මහින්ද රාජපක්ෂ</td>
-                                            <td>ශ්‍රී ලංකා ක්‍රිකට්</td>
+                                            <td>123442</td>
+                                            <td>53535</td>
+                                            <td>2342</td>
+                                            <td>5456</td>
+                                            <td>6464</td>
+                                            <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>5</td>
                                             <td>බව</td>
-                                            <td>ඒ සඳහා</td>
-                                            <td>එක්සත් ජනතා නිදහස්</td>
+                                            <td>123442</td>
+                                            <td>53535</td>
+                                            <td>2342</td>
+                                            <td>5456</td>
+                                            <td>6464</td>
+                                            <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>6</td>
                                             <td>කළ</td>
-                                            <td>ඇති බව</td>
-                                            <td>ජනාධිපති මහින්ද රාජපක්‍ෂ</td>
+                                            <td>123442</td>
+                                            <td>53535</td>
+                                            <td>2342</td>
+                                            <td>5456</td>
+                                            <td>6464</td>
+                                            <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>7</td>
                                             <td>ඇති</td>
-                                            <td>ඒ මහතා</td>
-                                            <td>ශ්‍රී ලංකා නිදහස්</td>
+                                            <td>123442</td>
+                                            <td>53535</td>
+                                            <td>2342</td>
+                                            <td>5456</td>
+                                            <td>6464</td>
+                                            <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>8</td>
                                             <td>සඳහා</td>
-                                            <td>ශ්‍රී ලංකාව</td>
-                                            <td>අත්අඩංගුවට ගෙන තිබේ</td>
+                                            <td>123442</td>
+                                            <td>53535</td>
+                                            <td>2342</td>
+                                            <td>5456</td>
+                                            <td>6464</td>
+                                            <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>9</td>
                                             <td>කර</td>
-                                            <td>ඒ අනුව</td>
-                                            <td>ද සිල්වා මහතා</td>
+                                            <td>123442</td>
+                                            <td>53535</td>
+                                            <td>2342</td>
+                                            <td>5456</td>
+                                            <td>6464</td>
+                                            <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>10</td>
                                             <td>මහතා</td>
-                                            <td>ජනාධිපති මහින්ද</td>
-                                            <td>මහතාගේ උපදෙස් මත</td>
+                                            <td>123442</td>
+                                            <td>53535</td>
+                                            <td>2342</td>
+                                            <td>5456</td>
+                                            <td>6464</td>
+                                            <td>65464</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -319,78 +363,78 @@
         element: 'morris-area-chart',
         data: [{
             period: '2010',
-            News: 2666,
-            Academic: null,
-            Creative_Writing: 2647,
-            Spoken: 2294,
-            Gazette: 2441
+            1: 2666,
+            2: null,
+            3: 2647,
+            4: 2294,
+            5: 2441
         }, {
             period: '2011',
-            News: 2778,
-            Academic: 2294,
-            Creative_Writing: 2441,
-            Spoken: 2294,
-            Gazette: 2441
+            1: 2778,
+            2: 2294,
+            3: 2441,
+            4: 2294,
+            5: 2441
         }, {
             period: '2012',
-            News: 4912,
-            Academic: 1969,
-            Creative_Writing: 2501,
-            Spoken: 5432,
-            Gazette: 7654
+            1: 4912,
+            2: 1969,
+            3: 2501,
+            4: 5432,
+            5: 7654
         }, {
             period: '2013',
-            News: 3767,
-            Academic: 3597,
-            Creative_Writing: 5689,
-            Spoken: 6543,
-            Gazette: 9876
+            1: 3767,
+            2: 3597,
+            3: 5689,
+            4: 6543,
+            5: 9876
         }, {
             period: '2014',
-            News: 6810,
-            Academic: 1914,
-            Creative_Writing: 2293,
-            Spoken: 4321,
-            Gazette: 5678
+            1: 6810,
+            2: 1914,
+            3: 2293,
+            4: 4321,
+            5: 5678
         }, {
             period: '2015',
-            News: 5670,
-            Academic: 4293,
-            Creative_Writing: 1881,
-            Spoken: 2312,
-            Gazette: 7654
+            1: 5670,
+            2: 4293,
+            3: 1881,
+            4: 2312,
+            5: 7654
         }, {
             period: '2016',
-            News: 4820,
-            Academic: 3795,
-            Creative_Writing: 1588,
-            Spoken: 1345,
-            Gazette: 3456
+            1: 4820,
+            2: 3795,
+            3: 1588,
+            4: 1345,
+            5: 3456
         }, {
             period: '2017',
-            News: 15073,
-            Academic: 5967,
-            Creative_Writing: 5175,
-            Spoken: 2345,
-            Gazette: 7890
+            1: 15073,
+            2: 5967,
+            3: 5175,
+            4: 2345,
+            5: 7890
         }, {
             period: '2018',
-            News: 10687,
-            Academic: 4460,
-            Creative_Writing: 2028,
-            Spoken: 1234,
-            Gazette: 7865
+            1: 10687,
+            2: 4460,
+            3: 2028,
+            4: 1234,
+            5: 7865
         }, {
             period: '2019',
-            News: 8432,
-            Academic: 5713,
-            Creative_Writing: 1791,
-            Spoken: 2222,
-            Gazette: 3333
+            1: 8432,
+            2: 5713,
+            3: 1791,
+            4: 2222,
+            5: 3333
         }],
         xkey: 'period',
-        ykeys: ['News', 'Academic', 'Creative_Writing', 'Spoken', 'Gazette'],
-        labels: ['News', 'Academic', 'Creative Writing', 'Spoken', 'Gazette'],
+        ykeys: ['1', '2', '3', '4', '5'],
+        labels: ['මේ', 'ඒ', 'හා', 'ද', 'බව'],
         pointSize: 2,
         hideHover: 'auto',
         resize: true

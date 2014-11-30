@@ -268,12 +268,12 @@
                 var points = [];
 
                 
-                points[points.length] = {data:data[0],label: word+ " All"};
-                points[points.length] = {data:data[1],label: word+ " News"};
-                points[points.length] = {data:data[2],label: word+ " Academic"};
-                points[points.length] = {data:data[3],label: word+ " Creative Writing"};
-                points[points.length] = {data:data[4],label: word+ " Spoken"};
-                points[points.length] = {data:data[5],label: word+ " Gazette"};  
+                points[points.length] = {data:data[0],label: word+ " එක්සත්"};
+                points[points.length] = {data:data[1],label: word+ " නිදහස්"};
+                points[points.length] = {data:data[2],label: word+ " ලංකා"};
+                points[points.length] = {data:data[3],label: word+ " වන"};
+                points[points.length] = {data:data[4],label: word+ " විට"};
+                points[points.length] = {data:data[5],label: word+ " මේ"};  
                 
                 var plotObj = $.plot($("#flot-chart-content"), points,
                     options);

@@ -34,7 +34,7 @@
                         <a href="stat.php">Statistics</a>
                     </li>
                     <li>
-                        <a href="#">Popular</a>
+                        <a href="stat-word.php">Statistics - Word</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
