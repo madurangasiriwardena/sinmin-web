@@ -5,6 +5,12 @@
 
     <?php require 'head.php';?>
 
+    <style type="text/css">
+        td:nth-child(3), th:nth-child(3), td:nth-child(5), th:nth-child(5), td:nth-child(7), th:nth-child(7), td:nth-child(9), th:nth-child(9), td:nth-child(11), th:nth-child(11), td:nth-child(13), th:nth-child(13){
+            display: none;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -28,7 +34,7 @@
                 <div class="col-lg-8">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Frequent
+                            <i class="fa fa-columns fa-fw"></i> Frequent
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -37,13 +43,18 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Word</th>
-                                            <th>All</th>
-                                            <th>Academic</th>
-                                            <th>News</th>
-                                            <th>Gazette</th>
-                                            <th>Spoken</th>
-                                            <th>Creative Writing</th>
+                                            <th onclick="show_column('3')" title="Click to see the values">Word</th>
+                                            <th>Count</th>
+                                            <th onclick="show_column('5')">Academic</th>
+                                            <th>Count</th>
+                                            <th onclick="show_column('7')">News</th>
+                                            <th>Count</th>
+                                            <th onclick="show_column('9')">Gazette</th>
+                                            <th>Count</th>
+                                            <th onclick="show_column('11')">Spoken</th>
+                                            <th>Count</th>
+                                            <th onclick="show_column('13')">Creative Writing</th>
+                                            <th>Count</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -51,100 +62,150 @@
                                             <td>1</td>
                                             <td>මේ</td>
                                             <td>123442</td>
+                                            <td>මේ</td>
                                             <td>53535</td>
+                                            <td>මේ</td>
                                             <td>2342</td>
+                                            <td>මේ</td>
                                             <td>5456</td>
+                                            <td>මේ</td>
                                             <td>6464</td>
+                                            <td>මේ</td>
                                             <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>2</td>
                                             <td>ඒ</td>
                                             <td>123442</td>
+                                            <td>මේ</td>
                                             <td>53535</td>
+                                            <td>ඒ</td>
                                             <td>2342</td>
+                                            <td>මේ</td>
                                             <td>5456</td>
+                                            <td>ඒ</td>
                                             <td>6464</td>
+                                            <td>මේ</td>
                                             <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>3</td>
                                             <td>හා</td>
                                             <td>123442</td>
+                                            <td>හා</td>
                                             <td>53535</td>
+                                            <td>හා</td>
                                             <td>2342</td>
+                                            <td>හා</td>
                                             <td>5456</td>
+                                            <td>හා</td>
                                             <td>6464</td>
+                                            <td>හා</td>
                                             <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>4</td>
                                             <td>ද</td>
                                             <td>123442</td>
+                                            <td>හා</td>
                                             <td>53535</td>
+                                            <td>ද</td>
                                             <td>2342</td>
+                                            <td>හා</td>
                                             <td>5456</td>
+                                            <td>ද</td>
                                             <td>6464</td>
+                                            <td>ද</td>
                                             <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>5</td>
                                             <td>බව</td>
                                             <td>123442</td>
+                                            <td>බව</td>
                                             <td>53535</td>
+                                            <td>බව</td>
                                             <td>2342</td>
+                                            <td>බව</td>
                                             <td>5456</td>
+                                            <td>බව</td>
                                             <td>6464</td>
+                                            <td>බව</td>
                                             <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>6</td>
                                             <td>කළ</td>
                                             <td>123442</td>
+                                            <td>කළ</td>
                                             <td>53535</td>
+                                            <td>කළ</td>
                                             <td>2342</td>
+                                            <td>කළ</td>
                                             <td>5456</td>
+                                            <td>කළ</td>
                                             <td>6464</td>
+                                            <td>කළ</td>
                                             <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>7</td>
                                             <td>ඇති</td>
                                             <td>123442</td>
+                                            <td>ඇති</td>
                                             <td>53535</td>
+                                            <td>ඇති</td>
                                             <td>2342</td>
+                                            <td>ඇති</td>
                                             <td>5456</td>
+                                            <td>ඇති</td>
                                             <td>6464</td>
+                                            <td>ඇති</td>
                                             <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>8</td>
                                             <td>සඳහා</td>
                                             <td>123442</td>
+                                            <td>සඳහා</td>
                                             <td>53535</td>
+                                            <td>සඳහා</td>
                                             <td>2342</td>
+                                            <td>සඳහා</td>
                                             <td>5456</td>
+                                            <td>සඳහා</td>
                                             <td>6464</td>
+                                            <td>සඳහා</td>
                                             <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>9</td>
                                             <td>කර</td>
                                             <td>123442</td>
+                                            <td>කර</td>
                                             <td>53535</td>
+                                            <td>කර</td>
                                             <td>2342</td>
+                                            <td>කර</td>
                                             <td>5456</td>
+                                            <td>කර</td>
                                             <td>6464</td>
+                                            <td>කර</td>
                                             <td>65464</td>
                                         </tr>
                                         <tr>
                                             <td>10</td>
                                             <td>මහතා</td>
                                             <td>123442</td>
+                                            <td>මහතා</td>
                                             <td>53535</td>
+                                            <td>මහතා</td>
                                             <td>2342</td>
+                                            <td>මහතා</td>
                                             <td>5456</td>
+                                            <td>මහතා</td>
                                             <td>6464</td>
+                                            <td>මහතා</td>
                                             <td>65464</td>
                                         </tr>
                                     </tbody>
@@ -158,25 +219,6 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Time & Category
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                        Actions
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a href="#">Action</a>
-                                        </li>
-                                        <li><a href="#">Another action</a>
-                                        </li>
-                                        <li><a href="#">Something else here</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Separated link</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -187,26 +229,7 @@
                     <!-- /.panel -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Bar Chart Example
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                        Actions
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a href="#">Action</a>
-                                        </li>
-                                        <li><a href="#">Another action</a>
-                                        </li>
-                                        <li><a href="#">Something else here</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Separated link</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Frequency in category
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -245,7 +268,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table class="table table-hover">
+                                <table class="table table-bordered table-hover">
                                     <tbody>
                                         <tr>
                                             <td>Word</td>
@@ -296,6 +319,15 @@
     <script src="js/sb-admin-2.js"></script>
 
     <script type="text/javascript">
+        function show_column(col){
+            if($('th:nth-child('+col+')').is(':visible')){
+                $('td:nth-child('+col+'),th:nth-child('+col+')').hide();
+            }else{
+                $('td:nth-child('+col+'),th:nth-child('+col+')').show();
+            }
+        }
+
+
         Morris.Donut({
         element: 'morris-donut-chart',
         data: [{
@@ -316,49 +348,26 @@
         }],
         resize: true
     });
-    </script>
 
-    <script type="text/javascript">
+
         Morris.Bar({
         element: 'morris-bar-chart',
         data: [{
-            y: '2006',
-            a: 100,
-            b: 90
-        }, {
-            y: '2007',
-            a: 75,
-            b: 65
-        }, {
-            y: '2008',
-            a: 50,
-            b: 40
-        }, {
-            y: '2009',
-            a: 75,
-            b: 65
-        }, {
-            y: '2010',
-            a: 50,
-            b: 40
-        }, {
-            y: '2011',
-            a: 75,
-            b: 65
-        }, {
-            y: '2012',
-            a: 100,
-            b: 90
+            y: 'Total',
+            1: 100,
+            2: 90,
+            3: 75,
+            4: 65,
+            5: 34
         }],
         xkey: 'y',
-        ykeys: ['a', 'b'],
-        labels: ['Series A', 'Series B'],
+        ykeys: ['1', '2', '3', '4', '5'],
+        labels: ['මේ', 'ඒ', 'හා', 'ද', 'බව'],
         hideHover: 'auto',
         resize: true
     });
-    </script>
 
-    <script type="text/javascript">
+
         Morris.Line({
         element: 'morris-area-chart',
         data: [{
@@ -439,8 +448,17 @@
         hideHover: 'auto',
         resize: true
     });
-    </script>
 
+// $('[data-toggle="popover"]').popover({
+//     trigger: 'hover',
+//         'placement': 'top'
+// });
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
+    </script>
 </body>
 
 </html>
