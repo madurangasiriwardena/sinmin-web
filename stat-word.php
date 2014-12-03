@@ -9,6 +9,10 @@
         td:nth-child(3), th:nth-child(3), td:nth-child(5), th:nth-child(5), td:nth-child(7), th:nth-child(7), td:nth-child(9), th:nth-child(9), td:nth-child(11), th:nth-child(11), td:nth-child(13), th:nth-child(13){
             display: none;
         }
+
+        th:nth-child(2), th:nth-child(4), th:nth-child(6), th:nth-child(8), th:nth-child(10), th:nth-child(12){
+            cursor: pointer;
+        }
     </style>
 
 </head>
@@ -43,17 +47,29 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th onclick="show_column('3')" title="Click to see the values">Word</th>
+                                            <th onclick="show_column('3')" title="Click to see the values">All
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                            </th>
                                             <th>Count</th>
-                                            <th onclick="show_column('5')">Academic</th>
+                                            <th onclick="show_column('5')" title="Click to see the values">Academic
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                            </th>
                                             <th>Count</th>
-                                            <th onclick="show_column('7')">News</th>
+                                            <th onclick="show_column('7')" title="Click to see the values">News
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                            </th>
                                             <th>Count</th>
-                                            <th onclick="show_column('9')">Gazette</th>
+                                            <th onclick="show_column('9')" title="Click to see the values">Gazette
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                            </th>
                                             <th>Count</th>
-                                            <th onclick="show_column('11')">Spoken</th>
+                                            <th onclick="show_column('11')" title="Click to see the values">Spoken
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                            </th>
                                             <th>Count</th>
-                                            <th onclick="show_column('13')">Creative Writing</th>
+                                            <th onclick="show_column('13')" title="Click to see the values">Creative Writing
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                            </th>
                                             <th>Count</th>
                                         </tr>
                                     </thead>
@@ -322,8 +338,12 @@
         function show_column(col){
             if($('th:nth-child('+col+')').is(':visible')){
                 $('td:nth-child('+col+'),th:nth-child('+col+')').hide();
+                $('th:nth-child('+(col-1)+') span i').removeClass("fa-arrow-circle-left");
+                $('th:nth-child('+(col-1)+') span i').addClass("fa-arrow-circle-right");
             }else{
                 $('td:nth-child('+col+'),th:nth-child('+col+')').show();
+                $('th:nth-child('+(col-1)+') span i').removeClass("fa-arrow-circle-right");
+                $('th:nth-child('+(col-1)+') span i').addClass("fa-arrow-circle-left");
             }
         }
 

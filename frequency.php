@@ -31,29 +31,32 @@
                             <!-- /.panel-heading -->
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-lg-6">
-                                        <form role="form" id="myForm" onsubmit="return false;">
+                                <form role="form" id="myForm" onsubmit="return false;">
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-6">
                                             <div class="sinmin-form-group">
                                                 <label class="sinmin-label">Word</label>
                                                 <input class="sinmin-form-control" id="word">
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="col-lg-6">
                                             <div class="sinmin-form-group" style="margin-top:20px">
-                                                <label  class="sinmin-label"><input type="checkbox" checked="true" id="enable-time" ></label>
-                                                <label  class="sinmin-label">Time</label>
-                                            </div>
-                                            <div class="sinmin-form-group">
-                                                <table style="width:100%">
-                                                    <tr>
-                                                        <td style="width:50%;"><label  class="sinmin-label">From</label></td>
-                                                        <td style="width:50%;padding-left:5px"><label  class="sinmin-label">To</label></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="padding-right:5px"><input class="sinmin-form-control" id="from"></td>
-                                                        <td style="padding-left:5px"><input class="sinmin-form-control" id="to"></td>
-                                                    </tr>
-                                                </table>
-                                                
-                                            </div>
+                                                    <label  class="sinmin-label"><input type="checkbox" checked="true" id="enable-time" ></label>
+                                                    <label  class="sinmin-label">Time</label>
+                                                </div>
+                                                <div class="sinmin-form-group">
+                                                    <label class="sinmin-label">From</label>
+                                                    <input class="sinmin-form-control" id="from">
+                                                </div>
+                                                <div class="sinmin-form-group">
+                                                    <label class="sinmin-label">To</label>
+                                                    <input class="sinmin-form-control" id="to">
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
                                             <div class="sinmin-form-group" style="margin-top:20px">
                                                 <label  class="sinmin-label"><input type="checkbox" id="enable-category" checked="true" ></label>
                                                 <label  class="sinmin-label">Category</label>
@@ -92,10 +95,14 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button input="submit" class="btn btn-outline btn-primary">Search</button>
-                                            <button type="reset" class="btn btn-outline btn-primary">Reset</button>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="col-lg-12">
+                                                    <button input="submit" class="btn btn-outline btn-primary">Search</button>
+                                                    <button type="reset" class="btn btn-outline btn-primary">Reset</button>
+                                                </div>
+                                            </div>
                                         </form>
-                                    </div>
                                 </div>
                             </div>
                             <!-- /.panel-body -->
