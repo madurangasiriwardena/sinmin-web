@@ -249,19 +249,19 @@
         element: 'morris-donut-chart',
         data: [{
             label: "News",
-            value: 16500000
+            value: 55000000
         }, {
             label: "Academic",
-            value: 11000000
+            value: 10000000
         }, {
             label: "Creative Writing",
-            value: 16500000
+            value: 40000000
         }, {
             label: "Spoken",
-            value: 5500000
+            value: 5000000
         }, {
             label: "Gazette",
-            value: 5500000
+            value: 15000000
         }],
         resize: true
     });
@@ -311,70 +311,56 @@
         Morris.Line({
         element: 'morris-area-chart',
         data: [{
-            period: '2010',
-            News: 2666,
-            Academic: null,
-            Creative_Writing: 2647,
-            Spoken: 2294,
-            Gazette: 2441
-        }, {
-            period: '2011',
-            News: 2778,
-            Academic: 2294,
-            Creative_Writing: 2441,
-            Spoken: 2294,
-            Gazette: 2441
-        }, {
-            period: '2012',
-            News: 4912,
-            Academic: 1969,
-            Creative_Writing: 2501,
+            period: '2006',
+            News: 0,
+            Academic: 0,
+            Creative_Writing: 0,
             Spoken: 5432,
             Gazette: 7654
         }, {
-            period: '2013',
-            News: 3767,
-            Academic: 3597,
-            Creative_Writing: 5689,
+            period: '2007',
+            News: 0,
+            Academic: 0,
+            Creative_Writing: 0,
             Spoken: 6543,
             Gazette: 9876
         }, {
-            period: '2014',
+            period: '2008',
             News: 6810,
             Academic: 1914,
-            Creative_Writing: 2293,
+            Creative_Writing: 0,
             Spoken: 4321,
             Gazette: 5678
         }, {
-            period: '2015',
+            period: '2009',
             News: 5670,
             Academic: 4293,
             Creative_Writing: 1881,
             Spoken: 2312,
             Gazette: 7654
         }, {
-            period: '2016',
+            period: '2010',
             News: 4820,
             Academic: 3795,
             Creative_Writing: 1588,
             Spoken: 1345,
             Gazette: 3456
         }, {
-            period: '2017',
+            period: '2011',
             News: 15073,
             Academic: 5967,
             Creative_Writing: 5175,
             Spoken: 2345,
             Gazette: 7890
         }, {
-            period: '2018',
+            period: '2012',
             News: 10687,
             Academic: 4460,
             Creative_Writing: 2028,
             Spoken: 1234,
             Gazette: 7865
         }, {
-            period: '2019',
+            period: '2013',
             News: 8432,
             Academic: 5713,
             Creative_Writing: 1791,

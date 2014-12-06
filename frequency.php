@@ -38,6 +38,10 @@
                                                 <label class="sinmin-label">Word</label>
                                                 <input class="sinmin-form-control" id="word">
                                             </div>
+                                            <div class="sinmin-form-group">
+                                                <span class="pull-right"><input type="button" class="btn btn-outline btn-primary" value="Type in Singlish" id="type_in_singlish"></span>
+                                                
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -135,6 +139,23 @@
         <!-- /#page-wrapper -->
 
     </div>
+
+    <div id="light_box" class="col-lg-6">
+        <form role="form" name="converter" id="converter" onsubmit="return false;">
+            <div class="sinmin-form-group">
+                <label class="sinmin-label">Singlish</label>
+                <textarea id="box1" onkeyup="startText();" onselect="startText();" onclick="startText();" style="font-size: 12pt; width: 350px;" name="box1" rows="3"></textarea>
+            </div>
+            <div class="sinmin-form-group" style="margin-top:20px">
+                <label class="sinmin-label">Unicode</label>
+                <textarea style="font-size: 14pt; font-family: Potha, Malithi Web , Arial Unicode MS; width: 350px;" name="box2" rows="3" id="box2"></textarea>
+            </div>
+            <br/>
+            <button input="button" onclick="copyit()" class="btn btn-outline btn-primary">Ok</button>
+            <button type="reset" class="btn btn-outline btn-primary">Reset</button>
+        </form>
+        <a id="close_x" class="fa fa-close fa-fw close" href="#"></a>
+    </div>
     <!-- /#wrapper -->
 
     <!-- jQuery -->
@@ -156,14 +177,29 @@
     <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
     <script src="js/plugins/flot/jquery.flot.time.js"></script>
     <script src="js/plugins/flot/jquery.flot.categories.js"></script>
+    <script src="js/jquery.lightbox.js"></script>
+    <script src="js/converter.js"></script>
+    
 
-    <script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
+   $('#type_in_singlish').click(function(e) {
+        $("#light_box").lightbox_me({centered: true, preventScroll: true, onLoad: function() {
+            $("#light_box").find("textarea:first").focus();
+        }});
+        
+        e.preventDefault();
+    });
+
+    function copyit () {
+        var text = $('#box2').val();
+        $('#word').val(text);
+        $("#light_box").trigger('close');
+    }
+
+
     $(document).ready(function(){
         document.getElementById("graph-panel").style.display = "none";
     });
-    </script>
-
-    <script type="text/javascript">
         $('#enable-time').change(function(){
             if($('#enable-time').is(':checked')){
                 document.getElementById("from").disabled = false;
@@ -174,9 +210,6 @@
             }
         });
         
-    </script>
-
-    <script type="text/javascript">
         $('#enable-category').change(function(){
             if($('#enable-category').is(':checked')){
                 var categories = document.getElementsByClassName("checkbox-category");
@@ -192,9 +225,6 @@
             }
         });
         
-    </script>
-
-    <script type="text/javascript">
         $('#myForm').submit(function() {
 
             document.getElementById("graph-panel").style.display = "block";

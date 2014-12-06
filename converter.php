@@ -35,173 +35,25 @@
         }
     </style>
 
+    <script src="js/converter.js"></script>
+
     <script language="JavaScript" type="text/javascript">
-<!-- Begin
-var text;
-var nVowels;
-var consonants= []
-var consonantsUni= []
-var vowels= []
-var vowelsUni= []
-var vowelModifiersUni= []
-var specialConsonants= []
-var specialConsonantsUni= []
-var specialCharUni= []
-var specialChar= []
-
-
-    vowelsUni[0]='ඌ';    vowels[0]='oo';    vowelModifiersUni[0]='ූ';
-    vowelsUni[1]='ඕ';    vowels[1]='o\\)';    vowelModifiersUni[1]='ෝ';
-    vowelsUni[2]='ඕ';    vowels[2]='oe';    vowelModifiersUni[2]='ෝ';
-    vowelsUni[3]='\u0D86';    vowels[3]='aa';    vowelModifiersUni[3]='\u0DCF'; //ආ
-    vowelsUni[4]='ආ';    vowels[4]='a\\)';    vowelModifiersUni[4]='ා';
-    vowelsUni[5]='ඈ';    vowels[5]='Aa';    vowelModifiersUni[5]='ෑ';
-    vowelsUni[6]='ඈ';    vowels[6]='A\\)';    vowelModifiersUni[6]='ෑ';
-    vowelsUni[7]='ඈ';    vowels[7]='ae';    vowelModifiersUni[7]='ෑ';
-    vowelsUni[8]='ඊ';    vowels[8]='ii';    vowelModifiersUni[8]='ී';
-    vowelsUni[9]='ඊ';    vowels[9]='i\\)';    vowelModifiersUni[9]='ී';
-    vowelsUni[10]='ඊ';    vowels[10]='ie';    vowelModifiersUni[10]='ී';
-    vowelsUni[11]='ඊ';    vowels[11]='ee';    vowelModifiersUni[11]='ී';
-    vowelsUni[12]='ඒ';    vowels[12]='ea';    vowelModifiersUni[12]='ේ';
-    vowelsUni[13]='ඒ';    vowels[13]='e\\)';    vowelModifiersUni[13]='ේ';
-    vowelsUni[14]='ඒ';    vowels[14]='ei';    vowelModifiersUni[14]='ේ';
-    vowelsUni[15]='ඌ';    vowels[15]='uu';    vowelModifiersUni[15]='ූ';
-    vowelsUni[16]='ඌ';    vowels[16]='u\\)';    vowelModifiersUni[16]='ූ';
-    vowelsUni[17]='ඖ';    vowels[17]='au';    vowelModifiersUni[17]='ෞ';
-    vowelsUni[18]='ඇ';    vowels[18]='/\a';    vowelModifiersUni[18]='ැ';
-    
-    vowelsUni[19]='\u0D85';    vowels[19]='a';    vowelModifiersUni[19]=''; //අ
-    vowelsUni[20]='ඇ';    vowels[20]='A';    vowelModifiersUni[20]='ැ';
-    vowelsUni[21]='ඉ';    vowels[21]='i';    vowelModifiersUni[21]='ි';
-    vowelsUni[22]='එ';    vowels[22]='e';    vowelModifiersUni[22]='ෙ';
-    vowelsUni[23]='උ';    vowels[23]='u';    vowelModifiersUni[23]='ු';
-    vowelsUni[24]='ඔ';    vowels[24]='o';    vowelModifiersUni[24]='ො';
-    vowelsUni[25]='ඓ';    vowels[25]='I';    vowelModifiersUni[25]='ෛ';
-    nVowels=26;
-
-    specialConsonantsUni[0]='ං'; specialConsonants[0]=/\\n/g;
-    specialConsonantsUni[1]='ඃ'; specialConsonants[1]=/\\h/g;
-    specialConsonantsUni[2]='ඞ'; specialConsonants[2]=/\\N/g;
-    specialConsonantsUni[3]='ඍ'; specialConsonants[3]=/\\R/g;
-    //special characher Repaya
-    specialConsonantsUni[4]='ර්'+'\u200D'; specialConsonants[4]=/R/g;
-    specialConsonantsUni[5]='ර්'+'\u200D'; specialConsonants[5]=/\\r/g;
-    
-    consonantsUni[0]='ඬ'; consonants[0]='nnd';
-    consonantsUni[1]='ඳ'; consonants[1]='nndh';
-    consonantsUni[2]='ඟ'; consonants[2]='nng';
-    consonantsUni[3]='ථ'; consonants[3]='Th';
-    consonantsUni[4]='ධ'; consonants[4]='Dh';
-    consonantsUni[5]='ඝ'; consonants[5]='gh';
-    consonantsUni[6]='ඡ'; consonants[6]='Ch';
-    consonantsUni[7]='ඵ'; consonants[7]='ph';
-    consonantsUni[8]='භ'; consonants[8]='bh';
-    consonantsUni[9]='ශ'; consonants[9]='sh';
-    consonantsUni[10]='ෂ'; consonants[10]='Sh';
-    consonantsUni[11]='ඥ'; consonants[11]='GN';
-    consonantsUni[12]='ඤ'; consonants[12]='KN';
-    consonantsUni[13]='ළු'; consonants[13]='Lu';
-    consonantsUni[14]='ද'; consonants[14]='dh';
-    consonantsUni[15]='ච'; consonants[15]='ch';
-    consonantsUni[16]='ඛ'; consonants[16]='kh';
-    consonantsUni[17]='ත'; consonants[17]='th';
-    
-    consonantsUni[18]='ට'; consonants[18]='t';
-    consonantsUni[19]='ක'; consonants[19]='k';    
-    consonantsUni[20]='ඩ'; consonants[20]='d';
-    consonantsUni[21]='න'; consonants[21]='n';
-    consonantsUni[22]='ප'; consonants[22]='p';
-    consonantsUni[23]='බ'; consonants[23]='b';
-    consonantsUni[24]='ම'; consonants[24]='m';   
-    consonantsUni[25]='‍ය'; consonants[25]='\\u005C' + 'y';
-    consonantsUni[26]='‍ය'; consonants[26]='Y';
-    consonantsUni[27]='ය'; consonants[27]='y';
-    consonantsUni[28]='ජ'; consonants[28]='j';
-    consonantsUni[29]='ල'; consonants[29]='l';
-    consonantsUni[30]='ව'; consonants[30]='v';
-    consonantsUni[31]='ව'; consonants[31]='w';
-    consonantsUni[32]='ස'; consonants[32]='s';
-    consonantsUni[33]='හ'; consonants[33]='h';
-    consonantsUni[34]='ණ'; consonants[34]='N';
-    consonantsUni[35]='ළ'; consonants[35]='L';
-    consonantsUni[36]='ඛ'; consonants[36]='K';
-    consonantsUni[37]='ඝ'; consonants[37]='G';
-    consonantsUni[38]='ඨ'; consonants[38]='T';
-    consonantsUni[39]='ඪ'; consonants[39]='D';
-    consonantsUni[40]='ඵ'; consonants[40]='P';
-    consonantsUni[41]='ඹ'; consonants[41]='B';
-    consonantsUni[42]='ෆ'; consonants[42]='f';
-    consonantsUni[43]='ඣ'; consonants[43]='q';
-    consonantsUni[44]='ග'; consonants[44]='g';
-    //last because we need to ommit this in dealing with Rakaransha
-    consonantsUni[45]='ර'; consonants[45]='r';
-
-    specialCharUni[0]='ෲ'; specialChar[0]='ruu';
-    specialCharUni[1]='ෘ'; specialChar[1]='ru';
-    //specialCharUni[2]='්‍ර'; specialChar[2]='ra';
-    
-
-function startText() {
-    var s,r,v;
-    text = document.txtBox.box1.value;  
-    //special consonents
-    for (var i=0; i<specialConsonants.length; i++){
-        text = text.replace(specialConsonants[i], specialConsonantsUni[i]);
-    }
-    //consonents + special Chars
-    for (var i=0; i<specialCharUni.length; i++){
-        for (var j=0;j<consonants.length;j++){
-            s = consonants[j] + specialChar[i];
-            v = consonantsUni[j] + specialCharUni[i];
-            r = new RegExp(s, "g");
-            text = text.replace(r, v);
-        }
-    }
-    //consonants + Rakaransha + vowel modifiers
-    for (var j=0;j<consonants.length;j++){
-        for (var i=0;i<vowels.length;i++){
-            s = consonants[j] + "r" + vowels[i];
-            v = consonantsUni[j] + "්‍ර" + vowelModifiersUni[i];
-            r = new RegExp(s, "g");
-            text = text.replace(r, v);
-        }
-        s = consonants[j] + "r";
-        v = consonantsUni[j] + "්‍ර";
-        r = new RegExp(s, "g");
-        text = text.replace(r, v);
-    }
-    //consonents + vowel modifiers
-    for (var i=0;i<consonants.length;i++){
-        for (var j=0;j<nVowels;j++){ 
-            s = consonants[i]+vowels[j];
-            v = consonantsUni[i] + vowelModifiersUni[j];
-            r = new RegExp(s, "g");
-            text = text.replace(r, v);
-        }
-    }
-
-    //consonents + HAL
-    for (var i=0; i<consonants.length; i++){
-        r = new RegExp(consonants[i], "g");
-        text = text.replace(r, consonantsUni[i]+"්");
-    }
-        
-    //vowels
-    for (var i=0; i<vowels.length; i++){
-        r = new RegExp(vowels[i], "g");
-        text = text.replace(r, vowelsUni[i]);
-    }
-
-    document.txtBox.box2.value=text;
+function copyit() {
+    $('#box2').select();
 }
 
-function copyit(theField) {
-    var tempval=eval("document."+theField);
-    tempval.focus();
-    tempval.select();
-    therange=tempval.createTextRange();
-    therange.execCommand("Copy")
-}
+var isIe = (navigator.userAgent.toLowerCase().indexOf("msie") != -1 
+           || navigator.userAgent.toLowerCase().indexOf("trident") != -1);
+
+document.addEventListener('copy', function(e) {
+    var textToPutOnClipboard = $('#box2').val();;
+    if (isIe) {
+        window.clipboardData.setData('Text', textToPutOnClipboard);    
+    } else {
+        e.clipboardData.setData('text/plain', textToPutOnClipboard);
+    }
+    e.preventDefault();
+});
 
 var schemeVisible = 0;
 function changeVisibility(){
@@ -222,7 +74,7 @@ function changeVisibility(){
 
 </head>
 
-<body onload="javascript:txtBox.box1.focus();">
+<body>
 
     <div id="wrapper">
 
@@ -249,23 +101,19 @@ function changeVisibility(){
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <form role="form" name="txtBox" id="txtBox" onsubmit="return false;">
+                                        <form role="form" name="converter" id="converter" onsubmit="return false;">
                                             <div class="sinmin-form-group">
                                                 <label class="sinmin-label">Singlish</label>
-                                                <textarea onkeyup="startText();" onselect="startText();" onclick="startText();" style="font-size: 12pt;
-                            width: 600px;" name="box1" rows="7"></textarea>
-                                                <!-- <input class="sinmin-form-control" id="word"> -->
+                                                <textarea id="box1" onkeyup="startText();" onselect="startText();" onclick="startText();" style="font-size: 12pt; width: 600px;" name="box1" rows="7"></textarea>
                                             </div>
                                             <div class="sinmin-form-group" style="margin-top:20px">
                                                 <label class="sinmin-label">Unicode</label>
-                                                <textarea style="font-size: 14pt; font-family: Potha, Malithi Web , Arial Unicode MS;
-                            width: 600px;" name="box2" rows="7"></textarea>
-                            <input type="reset" value="Reset" style="position: relative; left: 500px; width: 100px;" />
-                                                <input onclick="copyit('txtBox.box2')" type="button" value="Copy" style="position: relative;
-                            left: 500px; width: 100px;" />
+                                                <textarea style="font-size: 14pt; font-family: Potha, Malithi Web , Arial Unicode MS; width: 600px;" name="box2" rows="7" id="box2"></textarea>
+                            <!-- <input type="reset" value="Reset" style="position: relative; left: 500px; width: 100px;" /> -->
+                                                <!-- <input onclick="copyit('txtBox.box2')" type="button" value="Copy" style="position: relative; left: 500px; width: 100px;" /> -->
                                             </div>
                                             <br/>
-                                            <button input="submit" class="btn btn-outline btn-primary">Search</button>
+                                            <button input="button" onclick="copyit()" class="btn btn-outline btn-primary">Select</button>
                                             <button type="reset" class="btn btn-outline btn-primary">Reset</button>
                                         </form>
                                     </div>
@@ -275,7 +123,465 @@ function changeVisibility(){
                         </div>
                         <!-- /.panel -->
                     </div>
-            </div>
+                </div>
+                <div class="row">
+                        <div class="col-lg-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <i class="fa">Vowel Sounds</i> 
+                                </div>
+                                <div class="panel-body">
+                                        <div  class="col-lg-5">
+                                            <table class="table table-bordered table-hover">
+                                            <tr>
+                                                <td colspan="3" >Short</td>
+                                            </tr>
+                                             
+                                            <tr>
+                                                <td>&#3461;</td>
+                                                <td>a</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3463;</td>
+                                                <td>A</td>
+                                                <td>\a</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3465;</td>
+                                                <td>i</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3473;</td>
+                                                <td>e</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3476;</td>
+                                                <td>o</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3467;</td>
+                                                <td>u</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                        </table>
+                                        </div>
+
+                                        <div  class="col-lg-6">
+                                        <table class="table table-bordered table-hover">
+                                            <tr>
+                                                <td colspan="5">Long</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3462;</td>
+                                                <td>aa</td>
+                                                <td>a)</td>
+                                                <td>&nbsp;</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3464;</td>
+                                                <td>Aa</td>
+                                                <td>A)</td>
+                                                <td>ae</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3466;</td>
+                                                <td>ii</td>
+                                                <td>i)</td>
+                                                <td>ie</td>
+                                                <td>ee</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3474;</td>
+                                                <td>ea</td>
+                                                <td>e)</td>
+                                                <td>ei</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3477;</td>
+                                                <td>oe</td>
+                                                <td>o)</td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3468;</td>
+                                                <td>uu</td>
+                                                <td>u)</td>
+                                                <td>oo</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3478;</td>
+                                                <td>au</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                        </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        
+                        <div class="col-lg-8">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <i class="fa fa-fw">Consonants</i> 
+                                </div>
+                                <div class="panel-body">
+                                    <div  class="col-lg-5">
+                                        <table class="table table-bordered table-hover">
+                                            <tr>
+                                                <td colspan="5">Common</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3482;</td>
+                                                <td>k</td>
+                                                <td>&#3510;</td>
+                                                <td>b</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3484;</td>
+                                                <td>g</td>
+                                                <td>&#3512;</td>
+                                                <td>m</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3488;</td>
+                                                <td>ch</td>
+                                                <td>&#3514;</td>
+                                                <td>y</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3490;</td>
+                                                <td>j</td>
+                                                <td>&#3515;</td>
+                                                <td>r</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3495;</td>
+                                                <td>t</td>
+                                                <td>&#3517;</td>
+                                                <td>l</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3497;</td>
+                                                <td>d</td>
+                                                <td>&#3520;</td>
+                                                <td>w</td>
+                                                <td>v</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3501;</td>
+                                                <td>th</td>
+                                                <td>&#3523;</td>
+                                                <td>s</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3503;</td>
+                                                <td>dh</td>
+                                                <td>&#3524;</td>
+                                                <td>h</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3505;</td>
+                                                <td>n</td>
+                                                <td>&#3499;</td>
+                                                <td>N</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3508;</td>
+                                                <td>p</td>
+                                                <td>&#3525;</td>
+                                                <td>L</td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div  class="col-lg-3">
+                                        <table class="table table-bordered table-hover">
+                                            <tr>
+                                                <td colspan="3">Aspirated</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3483;</td>
+                                                <td>kh</td>
+                                                <td>K</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3485;</td>
+                                                <td>gh</td>
+                                                <td>G</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3489;</td>
+                                                <td>Ch</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3496;</td>
+                                                <td>&nbsp;</td>
+                                                <td>T</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3498;</td>
+                                                <td>&nbsp;</td>
+                                                <td>D</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3502;</td>
+                                                <td>Th</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3504;</td>
+                                                <td>Dh</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3509;</td>
+                                                <td>ph</td>
+                                                <td>P</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3511;</td>
+                                                <td>bh</td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div  class="col-lg-2">
+                                        <table class="table table-bordered table-hover">
+                                            <tr>
+                                                <td colspan="2">Special</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3513;</td>
+                                                <td>B</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3521;</td>
+                                                <td>sh</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3522;</td>
+                                                <td>Sh</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3526;</td>
+                                                <td>f</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3493;</td>
+                                                <td>GN</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3492;</td>
+                                                <td>KN</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3491;</td>
+                                                <td>q</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3525;&#3540;</td>
+                                                <td>Lu</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3525;&#3542;</td>
+                                                <td>Luu</td>
+                                            </tr>
+                                            <tr>
+                                        </table>
+                                    </div>
+                                    <div  class="col-lg-2">
+                                        <table class="table table-bordered table-hover">
+                                            <tr>
+                                                <td colspan="2">Standalone</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3458;</td>
+                                                <td>\n</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3459;</td>
+                                                <td>\h</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3500;</td>
+                                                <td>\N</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3469;</td>
+                                                <td>\R</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <i class="fa">Auxiliaries</i> 
+                                </div>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover">
+                                            <tr>
+                                                <td colspan="4">Special Auxiliaries</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3515;&#3530;</td>
+                                                <td style='font-family:"Iskoola Pota";font-size: initial;'>&#3512;&#3515;&#3530;&#8205;</td>
+                                                <td>\r&lt;letter&gt;</td>
+                                                <td>R&lt;letter&gt;</td>
+                                            </tr>
+                                            <tr>
+                                                <td >&#3530;&#8205;&#3514;</td>
+                                                <td>&#3504;&#3530;&#8205;&#3514;&#8205;</td>
+                                                <td >&lt;letter&gt;Y</td>
+                                                <td >&lt;letter&gt;\y</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">Vowel Sound Auxiliaries</td>
+                                            </tr>
+                                            <tr>
+                                                <td >&#3544;</td>
+                                                <td >&#3482;&#3544;</td>
+                                                <td >&lt;letter&gt;ru</td>
+                                                <td ></td>
+                                            </tr>
+                                            <tr>
+                                                <td >&#3551;</td>
+                                                <td >&#3488;&#3550;</td>
+                                                <td>&lt;letter&gt;au</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>ෛ</td>
+                                                <td>&#3512;&#3547;</td>
+                                                <td>&lt;letter&gt;I</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">Nasal Sound Auxiliaries</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3500;</td>
+                                                <td>&#3524;&#3500;</td>
+                                                <td><b>nn</b>da</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>&#3507;</td>
+                                                <td>&#3524;&#3507;</td>
+                                                <td><b>nn</b>dha</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td >&#3487;</td>
+                                                <td>&#3484;&#3487;</td>
+                                                <td><b>nn</b>ga</td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="col-lg-8">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <i class="fa">Deriving Consonants</i> 
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-lg-12">
+                                        <table class="table table-bordered table-hover">
+                                        <tr>
+                                            <td>&#3482;&#3530;</td>
+                                            <td>&#3482;</td>
+                                            <td>&#3482;&#3535;</td>
+                                            <td>&#3482;&#3536;</td>
+                                            <td>&#3482;&#3537;</td>
+                                            <td>&#3482;&#3538;</td>
+                                            <td>&#3482;&#3539;</td>
+                                            <td>&#3482;&#3540;</td>
+                                            <td>&#3482;&#3542;</td>
+                                            <td>&#3482;&#3545;</td>
+                                            <td>&#3482;&#3546;</td>
+                                            <td>&#3482;&#3548;</td>
+                                            <td>&#3482;&#3549;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>k</td>
+                                            <td>ka</td>
+                                            <td>kaa</td>
+                                            <td>kA</td>
+                                            <td>kAa</td>
+                                            <td>ki</td>
+                                            <td>kie</td>
+                                            <td>ku</td>
+                                            <td>kuu</td>
+                                            <td>ke</td>
+                                            <td>kei</td>
+                                            <td>ko</td>
+                                            <td>koe</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&#3482;&#3550;</td>
+                                            <td>&#3482;&#3530;&#8205;&#3515;</td>
+                                            <td>&#3482;&#3530;&#8205;&#3515;&#3535;</td>
+                                            <td>&#3482;&#3530;&#8205;&#3515;&#3536;</td>
+                                            <td>&#3482;&#3530;&#8205;&#3515;&#3537;</td>
+                                            <td>&#3482;&#3530;&#8205;&#3515;&#3538;</td>
+                                            <td>&#3482;&#3530;&#8205;&#3515;&#3539;</td>
+                                            <td>&#3482;&#3544;</td>
+                                            <td>&#3482;&#3570;</td>
+                                            <td>&#3482;&#3530;&#8205;&#3515;&#3545;</td>
+                                            <td>&#3482;&#3530;&#8205;&#3515;&#3546;</td>
+                                            <td>&#3482;&#3530;&#8205;&#3515;&#3548;</td>
+                                            <td>&#3482;&#3530;&#8205;&#3515;&#3549;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>kau</td>
+                                            <td>kra</td>
+                                            <td>kraa</td>
+                                            <td>krA</td>
+                                            <td>krAa</td>
+                                            <td>kri</td>
+                                            <td>krie</td>
+                                            <td>kru</td>
+                                            <td>kruu</td>
+                                            <td>kre</td>
+                                            <td>krei</td>
+                                            <td>kro</td>
+                                            <td>kroe</td>
+                                        </tr>
+                                    </table>
+                                    </div>
+                                </div>
+                            </div>   
+                </div>                    
             </div>
             <!-- /.container-fluid -->
         </div>
