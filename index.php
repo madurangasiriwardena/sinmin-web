@@ -43,7 +43,7 @@
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <a href="#">
+                    <a href="compare.php">
                         <div class="panel sinmin-panel-green">
                             <div class="panel-heading">
                                 <div class="row">

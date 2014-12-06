@@ -43,7 +43,7 @@
                 <a href="#"><i class="fa fa-files-o fa-fw"></i> Compare<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="#">Frequency</a>
+                        <a href="compare.php">Compare</a>
                     </li>
                     <li>
                         <a href="#">Popular</a>
