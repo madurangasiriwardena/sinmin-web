@@ -39,7 +39,7 @@
                                                 <input class="sinmin-form-control" id="word">
                                             </div>
                                             <div class="sinmin-form-group">
-                                                <span class="pull-right"><input type="button" class="btn btn-outline btn-primary" value="Type in Singlish" id="type_in_singlish"></span>
+                                                <span class="pull-right"><input type="button" class="btn btn-outline btn-primary" value="Type in Singlish" onclick="type_in_singlish('word')"></span>
                                                 
                                             </div>
                                         </div>
@@ -151,6 +151,7 @@
                 <textarea style="font-size: 14pt; font-family: Potha, Malithi Web , Arial Unicode MS; width: 350px;" name="box2" rows="3" id="box2"></textarea>
             </div>
             <br/>
+            <input type="hidden" id="input_id">
             <button input="button" onclick="copyit()" class="btn btn-outline btn-primary">Ok</button>
             <button type="reset" class="btn btn-outline btn-primary">Reset</button>
         </form>
@@ -182,17 +183,16 @@
     
 
 <script type="text/javascript" charset="utf-8">
-   $('#type_in_singlish').click(function(e) {
+   function type_in_singlish(input_id) {
         $("#light_box").lightbox_me({centered: true, preventScroll: true, onLoad: function() {
             $("#light_box").find("textarea:first").focus();
         }});
-        
-        e.preventDefault();
-    });
+        $('#input_id').val(input_id);
+    };
 
     function copyit () {
         var text = $('#box2').val();
-        $('#word').val(text);
+        $("#"+$('#input_id').val()+"").val(text);
         $("#light_box").trigger('close');
     }
 
