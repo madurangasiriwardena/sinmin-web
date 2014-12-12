@@ -172,14 +172,17 @@
     <script src="js/sb-admin-2.js"></script>
 
 
-    <script src="js/plugins/flot/excanvas.min.js"></script>
+    <!--script src="js/plugins/flot/excanvas.min.js"></script>
     <script src="js/plugins/flot/jquery.flot.js"></script>
     <script src="js/plugins/flot/jquery.flot.resize.js"></script>
     <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
     <script src="js/plugins/flot/jquery.flot.time.js"></script>
-    <script src="js/plugins/flot/jquery.flot.categories.js"></script>
+    <script src="js/plugins/flot/jquery.flot.categories.js"></script-->
     <script src="js/jquery.lightbox.js"></script>
     <script src="js/converter.js"></script>
+
+    <script src="js/plugins/highcharts/highcharts.js"></script>
+    <script src="js/plugins/highcharts/modules/exporting.js"></script>
     
 
 <script type="text/javascript" charset="utf-8">
@@ -256,50 +259,73 @@
             }
 
             function plot_time() {
-                var data = [
-                    [timestamp("01-01-2005"),1000],
-                    [timestamp("01-01-2006"),1500],
-                    [timestamp("01-01-2007"),1200],
-                    [timestamp("01-01-2008"),1800],
-                    [timestamp("01-01-2009"),1000],
-                    [timestamp("01-01-2010"),1500],
-                    [timestamp("01-01-2011"),1200],
-                    [timestamp("01-01-2012"),1800],
-                    [timestamp("01-01-2013"),1300],
-                    [timestamp("01-01-2014"),1600]
-                ]
-                
-
-                var options = {
-                    series: {
-                        lines: {
-                            show: true
+                $('#flot-chart-content').highcharts({
+                    chart: {
+                        zoomType: 'x',
+                        type: 'spline'
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                                'Click and drag in the plot area to zoom in' :
+                                'Pinch the chart to zoom in'
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        minRange: 365 * 24 * 3600000
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Words'
+                        }
+                    },
+                    tooltip: {
+                            shared: true,
+                            crosshairs: true
                         },
-                        points: {
-                            show: true
+                    legend: {
+                        enabled: false
+                        },
+                    plotOptions: {
+                        area: {
+                            fillColor: {
+                                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                                stops: [
+                                    [0, Highcharts.getOptions().colors[0]],
+                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                ]
+                            },
+                            marker: {
+                                radius: 2
+                            },
+                            lineWidth: 1,
+                            states: {
+                                hover: {
+                                    lineWidth: 1
+                                }
+                            },
+                            threshold: null
                         }
                     },
-                    grid: {
-                        hoverable: true //IMPORTANT! this is needed for tooltip to work
-                    },
-                    xaxes: [{
-                        mode: 'time'
-                    }],
-                    tooltip: true,
-                    tooltipOpts: {
-                        content: "'%s' of %x.1 is %y.4",
-                        shifts: {
-                            x: -60,
-                            y: 25
-                        }
-                    }
-                };
 
-                var plotObj = $.plot($("#flot-chart-content"), [{
-                        data: data,
-                        label: word
-                    }],
-                    options);
+                    series: [
+                {
+                    name: 'Words',
+                    data: [
+                    [Date.UTC(2006, 0, 1), 59.9],
+                    [Date.UTC(2007, 0, 1), 101.5],
+                    [Date.UTC(2008, 0, 1), 156.4],
+                    [Date.UTC(2009, 0, 1), 109.9],
+                    [Date.UTC(2010, 0, 1), 99.5],
+                    [Date.UTC(2011, 0, 1), 126.4],
+                    [Date.UTC(2012, 0, 1), 89.9],
+                    [Date.UTC(2013, 0, 1), 71.5],
+                    [Date.UTC(2014, 0, 1), 96.4]]
+                    }
+            ]
+                });
             }
 
             function plot_category() {
@@ -312,152 +338,200 @@
                 ]
                 
 
-                var options = {
-                    series: {
-                        bars: {
-                    show: true,
-                    barWidth: 0.6,
-                    align: "center"
-                }
+                $('#flot-chart-content').highcharts({
+                    chart: {
+                        type: 'column'
                     },
-                    xaxis: {
-                        mode: "categories",
-                        tickLength: 0
+                    title: {
+                        text: null
                     },
-                    grid: {
-                        hoverable: true
+                    xAxis: {
+                        categories: [
+                            'News',
+                            'Accademic',
+                            'Creative Writing',
+                            'Spoken',
+                            'Gazette'
+                        ]
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Words'
+                        }
                     },
                     legend: {
-                        show: false
+                        enabled: false
                     },
-                    tooltip: true,
-                    tooltipOpts: {
-                        content: "year: %x, frequency: %y"
-                    }
-                };
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        name: 'Words',
+                        data: [1043121, 312341, 543533, 543532, 534534]
 
-                var plotObj = $.plot($("#flot-chart-content"), [data],options);
+                    }]
+                });
             }
 
             function plot_time_category() {
                 var data = [
-                    [[timestamp("01-01-2005"),1000],
-                    [timestamp("01-01-2006"),1500],
-                    [timestamp("01-01-2007"),1200],
-                    [timestamp("01-01-2008"),1800],
-                    [timestamp("01-01-2009"),1000],
-                    [timestamp("01-01-2010"),1500],
-                    [timestamp("01-01-2011"),1200],
-                    [timestamp("01-01-2012"),1800],
-                    [timestamp("01-01-2013"),1300],
-                    [timestamp("01-01-2014"),1600]],
+                    [[Date.UTC(2006, 0, 1),1000],
+                    [Date.UTC(2007, 0, 1),1500],
+                    [Date.UTC(2008, 0, 1),1200],
+                    [Date.UTC(2009, 0, 1),1800],
+                    [Date.UTC(2010, 0, 1),1000],
+                    [Date.UTC(2011, 0, 1),1500],
+                    [Date.UTC(2012, 0, 1),1200],
+                    [Date.UTC(2013, 0, 1),1800],
+                    [Date.UTC(2014, 0, 1),1300],
+                    [Date.UTC(2015, 0, 1),1600]],
 
-                    [[timestamp("01-01-2005"),100],
-                    [timestamp("01-01-2006"),500],
-                    [timestamp("01-01-2007"),100],
-                    [timestamp("01-01-2008"),800],
-                    [timestamp("01-01-2009"),10],
-                    [timestamp("01-01-2010"),50],
-                    [timestamp("01-01-2011"),200],
-                    [timestamp("01-01-2012"),100],
-                    [timestamp("01-01-2013"),300],
-                    [timestamp("01-01-2014"),600]],
+                    [[Date.UTC(2006, 0, 1),100],
+                    [Date.UTC(2007, 0, 1),500],
+                    [Date.UTC(2008, 0, 1),100],
+                    [Date.UTC(2009, 0, 1),800],
+                    [Date.UTC(2010, 0, 1),10],
+                    [Date.UTC(2011, 0, 1),50],
+                    [Date.UTC(2012, 0, 1),200],
+                    [Date.UTC(2013, 0, 1),100],
+                    [Date.UTC(2014, 0, 1),300],
+                    [Date.UTC(2015, 0, 1),600]],
 
-                    [[timestamp("01-01-2005"),200],
-                    [timestamp("01-01-2006"),100],
-                    [timestamp("01-01-2007"),200],
-                    [timestamp("01-01-2008"),400],
-                    [timestamp("01-01-2009"),300],
-                    [timestamp("01-01-2010"),150],
-                    [timestamp("01-01-2011"),300],
-                    [timestamp("01-01-2012"),100],
-                    [timestamp("01-01-2013"),250],
-                    [timestamp("01-01-2014"),450]],
+                    [[Date.UTC(2006, 0, 1),200],
+                    [Date.UTC(2007, 0, 1),100],
+                    [Date.UTC(2008, 0, 1),200],
+                    [Date.UTC(2009, 0, 1),400],
+                    [Date.UTC(2010, 0, 1),300],
+                    [Date.UTC(2011, 0, 1),150],
+                    [Date.UTC(2012, 0, 1),300],
+                    [Date.UTC(2013, 0, 1),100],
+                    [Date.UTC(2014, 0, 1),250],
+                    [Date.UTC(2015, 0, 1),450]],
 
-                    [[timestamp("01-01-2005"),500],
-                    [timestamp("01-01-2006"),500],
-                    [timestamp("01-01-2007"),120],
-                    [timestamp("01-01-2008"),180],
-                    [timestamp("01-01-2009"),100],
-                    [timestamp("01-01-2010"),350],
-                    [timestamp("01-01-2011"),120],
-                    [timestamp("01-01-2012"),180],
-                    [timestamp("01-01-2013"),130],
-                    [timestamp("01-01-2014"),160]],
+                    [[Date.UTC(2006, 0, 1),500],
+                    [Date.UTC(2007, 0, 1),500],
+                    [Date.UTC(2008, 0, 1),120],
+                    [Date.UTC(2009, 0, 1),180],
+                    [Date.UTC(2010, 0, 1),100],
+                    [Date.UTC(2011, 0, 1),350],
+                    [Date.UTC(2012, 0, 1),120],
+                    [Date.UTC(2013, 0, 1),180],
+                    [Date.UTC(2014, 0, 1),130],
+                    [Date.UTC(2015, 0, 1),160]],
 
-                    [[timestamp("01-01-2005"),300],
-                    [timestamp("01-01-2006"),150],
-                    [timestamp("01-01-2007"),220],
-                    [timestamp("01-01-2008"),280],
-                    [timestamp("01-01-2009"),440],
-                    [timestamp("01-01-2010"),150],
-                    [timestamp("01-01-2011"),220],
-                    [timestamp("01-01-2012"),800],
-                    [timestamp("01-01-2013"),300],
-                    [timestamp("01-01-2014"),260]],
+                    [[Date.UTC(2006, 0, 1),300],
+                    [Date.UTC(2007, 0, 1),150],
+                    [Date.UTC(2008, 0, 1),220],
+                    [Date.UTC(2009, 0, 1),280],
+                    [Date.UTC(2010, 0, 1),440],
+                    [Date.UTC(2011, 0, 1),150],
+                    [Date.UTC(2012, 0, 1),220],
+                    [Date.UTC(2013, 0, 1),800],
+                    [Date.UTC(2014, 0, 1),300],
+                    [Date.UTC(2015, 0, 1),260]],
 
-                    [[timestamp("01-01-2005"),100],
-                    [timestamp("01-01-2006"),100],
-                    [timestamp("01-01-2007"),420],
-                    [timestamp("01-01-2008"),800],
-                    [timestamp("01-01-2009"),150],
-                    [timestamp("01-01-2010"),150],
-                    [timestamp("01-01-2011"),120],
-                    [timestamp("01-01-2012"),380],
-                    [timestamp("01-01-2013"),230],
-                    [timestamp("01-01-2014"),165]]
+                    [[Date.UTC(2006, 0, 1),100],
+                    [Date.UTC(2007, 0, 1),100],
+                    [Date.UTC(2008, 0, 1),420],
+                    [Date.UTC(2009, 0, 1),800],
+                    [Date.UTC(2010, 0, 1),150],
+                    [Date.UTC(2011, 0, 1),150],
+                    [Date.UTC(2012, 0, 1),120],
+                    [Date.UTC(2013, 0, 1),380],
+                    [Date.UTC(2014, 0, 1),230],
+                    [Date.UTC(2015, 0, 1),165]]
 
                 ]
-                
-
-                var options = {
-                    series: {
-                        lines: {
-                            show: true
-                        },
-                        points: {
-                            show: true
-                        }
-                    },
-                    grid: {
-                        hoverable: true //IMPORTANT! this is needed for tooltip to work
-                    },
-                    xaxes: [{
-                        mode: 'time'
-                    }],
-                    tooltip: true,
-                    tooltipOpts: {
-                        content: "'%s' of %x.1 is %y.4",
-                        shifts: {
-                            x: -60,
-                            y: 25
-                        }
-                    }
-                };
 
                 var points = [];
 
                 if($('#category-0').is(':checked')){
-                    points[points.length] = {data:data[0],label: "All"};  
+                    points[points.length] = {data:data[0],name: "All"};  
                 }
                 if($('#category-1').is(':checked')){
-                    points[points.length] = {data:data[1],label: "News"};  
+                    points[points.length] = {data:data[1],name: "News"};  
                 }
                 if($('#category-2').is(':checked')){
-                    points[points.length] = {data:data[2],label: "Academic"};  
+                    points[points.length] = {data:data[2],name: "Academic"};  
                 }
                 if($('#category-3').is(':checked')){
-                    points[points.length] = {data:data[3],label: "Creative Writing"};  
+                    points[points.length] = {data:data[3],name: "Creative Writing"};  
                 }
                 if($('#category-4').is(':checked')){
-                    points[points.length] = {data:data[4],label: "Spoken"};  
+                    points[points.length] = {data:data[4],name: "Spoken"};  
                 }
                 if($('#category-5').is(':checked')){
-                    points[points.length] = {data:data[5],label: "Gazette"};  
+                    points[points.length] = {data:data[5],name: "Gazette"};  
                 }
 
-                var plotObj = $.plot($("#flot-chart-content"), points,
-                    options);
+                $('#flot-chart-content').highcharts({
+                    chart: {
+                        zoomType: 'x',
+                        type: 'spline'
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                                'Click and drag in the plot area to zoom in' :
+                                'Pinch the chart to zoom in'
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        minRange: 365 * 24 * 3600000
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Words'
+                        }
+                    },
+                    tooltip: {
+                            shared: true,
+                            crosshairs: true
+                        },
+                    legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom',
+                            borderWidth: 0
+                        },
+                    plotOptions: {
+                        area: {
+                            fillColor: {
+                                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                                stops: [
+                                    [0, Highcharts.getOptions().colors[0]],
+                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                ]
+                            },
+                            marker: {
+                                radius: 2
+                            },
+                            lineWidth: 1,
+                            states: {
+                                hover: {
+                                    lineWidth: 1
+                                }
+                            },
+                            threshold: null
+                        }
+                    },
+
+                    series: points
+                });
             }
 
             function timestamp(date){
