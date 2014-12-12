@@ -170,14 +170,6 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
-
-
-    <!--script src="js/plugins/flot/excanvas.min.js"></script>
-    <script src="js/plugins/flot/jquery.flot.js"></script>
-    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
-    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="js/plugins/flot/jquery.flot.time.js"></script>
-    <script src="js/plugins/flot/jquery.flot.categories.js"></script-->
     <script src="js/jquery.lightbox.js"></script>
     <script src="js/converter.js"></script>
 
@@ -274,7 +266,13 @@
                     },
                     xAxis: {
                         type: 'datetime',
-                        minRange: 365 * 24 * 3600000
+                        labels:
+                            {
+                                formatter: function () {
+                                    return Highcharts.dateFormat("%Y", this.value);
+                                }
+                            },
+                            tickInterval: Date.UTC(2010, 0, 1) - Date.UTC(2009, 0, 1)
                     },
                     yAxis: {
                         title: {
@@ -288,44 +286,23 @@
                     legend: {
                         enabled: false
                         },
-                    plotOptions: {
-                        area: {
-                            fillColor: {
-                                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
-                                stops: [
-                                    [0, Highcharts.getOptions().colors[0]],
-                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                                ]
-                            },
-                            marker: {
-                                radius: 2
-                            },
-                            lineWidth: 1,
-                            states: {
-                                hover: {
-                                    lineWidth: 1
-                                }
-                            },
-                            threshold: null
-                        }
-                    },
 
                     series: [
-                {
-                    name: 'Words',
-                    data: [
-                    [Date.UTC(2006, 0, 1), 59.9],
-                    [Date.UTC(2007, 0, 1), 101.5],
-                    [Date.UTC(2008, 0, 1), 156.4],
-                    [Date.UTC(2009, 0, 1), 109.9],
-                    [Date.UTC(2010, 0, 1), 99.5],
-                    [Date.UTC(2011, 0, 1), 126.4],
-                    [Date.UTC(2012, 0, 1), 89.9],
-                    [Date.UTC(2013, 0, 1), 71.5],
-                    [Date.UTC(2014, 0, 1), 96.4]]
-                    }
-            ]
-                });
+                        {
+                            name: 'Words',
+                            data: [
+                            [Date.UTC(2006, 0, 1), 59.9],
+                            [Date.UTC(2007, 0, 1), 101.5],
+                            [Date.UTC(2008, 0, 1), 156.4],
+                            [Date.UTC(2009, 0, 1), 109.9],
+                            [Date.UTC(2010, 0, 1), 99.5],
+                            [Date.UTC(2011, 0, 1), 126.4],
+                            [Date.UTC(2012, 0, 1), 89.9],
+                            [Date.UTC(2013, 0, 1), 71.5],
+                            [Date.UTC(2014, 0, 1), 96.4]]
+                            }
+                    ]
+                        });
             }
 
             function plot_category() {
@@ -491,7 +468,13 @@
                     },
                     xAxis: {
                         type: 'datetime',
-                        minRange: 365 * 24 * 3600000
+                        labels:
+                            {
+                                formatter: function () {
+                                    return Highcharts.dateFormat("%Y", this.value);
+                                }
+                            },
+                            tickInterval: Date.UTC(2010, 0, 1) - Date.UTC(2009, 0, 1)
                     },
                     yAxis: {
                         title: {
