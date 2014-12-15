@@ -193,6 +193,9 @@
 
 
     $(document).ready(function(){
+        $('#from').val(start_year);
+        $('#to').val(end_year);
+        $('#word').val(word_string);
         document.getElementById("graph-panel").style.display = "none";
     });
         $('#enable-time').change(function(){
@@ -222,7 +225,7 @@
         
         $('#myForm').submit(function() {
 
-            document.getElementById("graph-panel").style.display = "block";
+            
             
             var word = document.getElementById("word").value;
             var from = document.getElementById("from").value;
@@ -242,7 +245,7 @@
                 // alert("d");
             }  
 
-            document.getElementById("graph-panel").scrollIntoView();            
+                       
 
             function timestamp(date){
                 var myDate=date.split("-");
@@ -251,6 +254,36 @@
             }
 
             function plot_time() {
+                years = [];
+                for (i = from; i <= to; i++) {
+                    years[years.length] = i.toString(); 
+                }
+                
+                $.ajax({
+                    url: api_url+"wordFrequency",
+                    type: 'POST',
+                    data: JSON.stringify({"value":word,"time":years}),
+                    headers: {
+                        'Content-Type': "application/json",
+                        Accept : "application/json"
+                    },
+                    success: function (data) {
+                        plot_time_draw(data);
+                    },
+                    error: function (data) { console.log(data)},
+                });
+            }
+
+            function plot_time_draw(data_received){
+                data = [];
+
+                for (i = 0; i < data_received.length; i++) {
+                    data[data.length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
+                }
+
+                document.getElementById("graph-panel").style.display = "block";
+                document.getElementById("graph-panel").scrollIntoView(); 
+
                 $('#flot-chart-content').highcharts({
                     chart: {
                         zoomType: 'x',
@@ -280,8 +313,7 @@
                         }
                     },
                     tooltip: {
-                            shared: true,
-                            crosshairs: true
+                            shared: true
                         },
                     legend: {
                         enabled: false
@@ -290,18 +322,9 @@
                     series: [
                         {
                             name: 'Words',
-                            data: [
-                            [Date.UTC(2006, 0, 1), 59.9],
-                            [Date.UTC(2007, 0, 1), 101.5],
-                            [Date.UTC(2008, 0, 1), 156.4],
-                            [Date.UTC(2009, 0, 1), 109.9],
-                            [Date.UTC(2010, 0, 1), 99.5],
-                            [Date.UTC(2011, 0, 1), 126.4],
-                            [Date.UTC(2012, 0, 1), 89.9],
-                            [Date.UTC(2013, 0, 1), 71.5],
-                            [Date.UTC(2014, 0, 1), 96.4]]
+                            data: data
                             }
-                    ]
+                            ]
                         });
             }
 
@@ -313,6 +336,9 @@
                     ["Spoken",1800],
                     ["Gazette",1000]
                 ]
+
+                document.getElementById("graph-panel").style.display = "block";
+                document.getElementById("graph-panel").scrollIntoView(); 
                 
 
                 $('#flot-chart-content').highcharts({
@@ -453,6 +479,9 @@
                     points[points.length] = {data:data[5],name: "Gazette"};  
                 }
 
+                document.getElementById("graph-panel").style.display = "block";
+                document.getElementById("graph-panel").scrollIntoView(); 
+
                 $('#flot-chart-content').highcharts({
                     chart: {
                         zoomType: 'x',
@@ -482,8 +511,7 @@
                         }
                     },
                     tooltip: {
-                            shared: true,
-                            crosshairs: true
+                            shared: true
                         },
                     legend: {
                             layout: 'horizontal',
