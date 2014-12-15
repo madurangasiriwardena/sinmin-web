@@ -196,7 +196,7 @@
         $('#from').val(start_year);
         $('#to').val(end_year);
         $('#word').val(word_string);
-        document.getElementById("graph-panel").style.display = "none";
+        $("#graph-panel").css("display", "none");
     });
         $('#enable-time').change(function(){
             if($('#enable-time').is(':checked')){
@@ -224,9 +224,6 @@
         });
         
         $('#myForm').submit(function() {
-
-            
-            
             var word = document.getElementById("word").value;
             var from = document.getElementById("from").value;
             var to = document.getElementById("to").value;
@@ -246,7 +243,6 @@
             }  
 
                        
-
             function timestamp(date){
                 var myDate=date.split("-");
                 var newDate=myDate[1]+"/"+myDate[0]+"/"+myDate[2];
@@ -254,6 +250,11 @@
             }
 
             function plot_time() {
+                if($('#flot-chart-content').is(':visible')){
+                    $('#flot-chart-content').contents().remove();
+                    $("#graph-panel").css("display", "none");
+                }
+
                 years = [];
                 for (i = from; i <= to; i++) {
                     years[years.length] = i.toString(); 
@@ -275,13 +276,13 @@
             }
 
             function plot_time_draw(data_received){
-                data = [];
+                var data = [];
 
                 for (i = 0; i < data_received.length; i++) {
                     data[data.length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
                 }
 
-                document.getElementById("graph-panel").style.display = "block";
+                $("#graph-panel").css("display", "block");
                 document.getElementById("graph-panel").scrollIntoView(); 
 
                 $('#flot-chart-content').highcharts({
@@ -337,7 +338,7 @@
                     ["Gazette",1000]
                 ]
 
-                document.getElementById("graph-panel").style.display = "block";
+                $("#graph-panel").css("display", "block");
                 document.getElementById("graph-panel").scrollIntoView(); 
                 
 
@@ -389,97 +390,91 @@
             }
 
             function plot_time_category() {
-                var data = [
-                    [[Date.UTC(2006, 0, 1),1000],
-                    [Date.UTC(2007, 0, 1),1500],
-                    [Date.UTC(2008, 0, 1),1200],
-                    [Date.UTC(2009, 0, 1),1800],
-                    [Date.UTC(2010, 0, 1),1000],
-                    [Date.UTC(2011, 0, 1),1500],
-                    [Date.UTC(2012, 0, 1),1200],
-                    [Date.UTC(2013, 0, 1),1800],
-                    [Date.UTC(2014, 0, 1),1300],
-                    [Date.UTC(2015, 0, 1),1600]],
+                if($('#flot-chart-content').is(':visible')){
+                    $('#flot-chart-content').contents().remove();
+                    $("#graph-panel").css("display", "none");
+                }
 
-                    [[Date.UTC(2006, 0, 1),100],
-                    [Date.UTC(2007, 0, 1),500],
-                    [Date.UTC(2008, 0, 1),100],
-                    [Date.UTC(2009, 0, 1),800],
-                    [Date.UTC(2010, 0, 1),10],
-                    [Date.UTC(2011, 0, 1),50],
-                    [Date.UTC(2012, 0, 1),200],
-                    [Date.UTC(2013, 0, 1),100],
-                    [Date.UTC(2014, 0, 1),300],
-                    [Date.UTC(2015, 0, 1),600]],
+                years = [];
+                for (i = from; i <= to; i++) {
+                    years[years.length] = i.toString(); 
+                }
 
-                    [[Date.UTC(2006, 0, 1),200],
-                    [Date.UTC(2007, 0, 1),100],
-                    [Date.UTC(2008, 0, 1),200],
-                    [Date.UTC(2009, 0, 1),400],
-                    [Date.UTC(2010, 0, 1),300],
-                    [Date.UTC(2011, 0, 1),150],
-                    [Date.UTC(2012, 0, 1),300],
-                    [Date.UTC(2013, 0, 1),100],
-                    [Date.UTC(2014, 0, 1),250],
-                    [Date.UTC(2015, 0, 1),450]],
-
-                    [[Date.UTC(2006, 0, 1),500],
-                    [Date.UTC(2007, 0, 1),500],
-                    [Date.UTC(2008, 0, 1),120],
-                    [Date.UTC(2009, 0, 1),180],
-                    [Date.UTC(2010, 0, 1),100],
-                    [Date.UTC(2011, 0, 1),350],
-                    [Date.UTC(2012, 0, 1),120],
-                    [Date.UTC(2013, 0, 1),180],
-                    [Date.UTC(2014, 0, 1),130],
-                    [Date.UTC(2015, 0, 1),160]],
-
-                    [[Date.UTC(2006, 0, 1),300],
-                    [Date.UTC(2007, 0, 1),150],
-                    [Date.UTC(2008, 0, 1),220],
-                    [Date.UTC(2009, 0, 1),280],
-                    [Date.UTC(2010, 0, 1),440],
-                    [Date.UTC(2011, 0, 1),150],
-                    [Date.UTC(2012, 0, 1),220],
-                    [Date.UTC(2013, 0, 1),800],
-                    [Date.UTC(2014, 0, 1),300],
-                    [Date.UTC(2015, 0, 1),260]],
-
-                    [[Date.UTC(2006, 0, 1),100],
-                    [Date.UTC(2007, 0, 1),100],
-                    [Date.UTC(2008, 0, 1),420],
-                    [Date.UTC(2009, 0, 1),800],
-                    [Date.UTC(2010, 0, 1),150],
-                    [Date.UTC(2011, 0, 1),150],
-                    [Date.UTC(2012, 0, 1),120],
-                    [Date.UTC(2013, 0, 1),380],
-                    [Date.UTC(2014, 0, 1),230],
-                    [Date.UTC(2015, 0, 1),165]]
-
-                ]
-
-                var points = [];
-
+                categories = [];
                 if($('#category-0').is(':checked')){
-                    points[points.length] = {data:data[0],name: "All"};  
+                    categories[categories.length] = "All";  
                 }
                 if($('#category-1').is(':checked')){
-                    points[points.length] = {data:data[1],name: "News"};  
+                    categories[categories.length] = "NEWS";  
                 }
                 if($('#category-2').is(':checked')){
-                    points[points.length] = {data:data[2],name: "Academic"};  
+                    categories[categories.length] = "ACADEMIC";  
                 }
                 if($('#category-3').is(':checked')){
-                    points[points.length] = {data:data[3],name: "Creative Writing"};  
+                    categories[categories.length] = "CREATIVE";  
                 }
                 if($('#category-4').is(':checked')){
-                    points[points.length] = {data:data[4],name: "Spoken"};  
+                    categories[categories.length] = "SPOKEN";  
                 }
                 if($('#category-5').is(':checked')){
-                    points[points.length] = {data:data[5],name: "Gazette"};  
+                    categories[categories.length] = "GAZETTE";  
+                }
+                
+                $.ajax({
+                    url: api_url+"wordFrequency",
+                    type: 'POST',
+                    data: JSON.stringify({"value":word,"time":years, "category":categories}),
+                    headers: {
+                        'Content-Type': "application/json",
+                        Accept : "application/json"
+                    },
+                    success: function (data) {
+                        plot_time_category_draw(data);
+                        console.log(data)
+                    },
+                    error: function (data) { console.log(data)},
+                });
+            }
+
+            function plot_time_category_draw(data_received) {
+                var data = [];
+                var categories = [];
+
+                for (i = 0; i < 5; i++) {
+                    categories[i] = [];
                 }
 
-                document.getElementById("graph-panel").style.display = "block";
+                for (i = 0; i < data_received.length; i++) {
+                    if(data_received[i].category == "NEWS"){
+                        categories[0][categories[0].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
+                    }else if(data_received[i].category == "ACADEMIC"){
+                        categories[1][categories[1].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
+                    }else if(data_received[i].category == "CREATIVE"){
+                        categories[2][categories[2].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
+                    }else if(data_received[i].category == "SPOKEN"){
+                        categories[3][categories[3].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
+                    }else if(data_received[i].category == "GAZETTE"){
+                        categories[4][categories[4].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
+                    }
+                }
+
+                if(categories[0].length>0){
+                        data[data.length] = {data:categories[0],name: "News"}
+                }
+                if(categories[1].length>0){
+                        data[data.length] = {data:categories[1],name: "Academic"}
+                }
+                if(categories[2].length>0){
+                        data[data.length] = {data:categories[2],name: "Creative Writing"}
+                }
+                if(categories[3].length>0){
+                        data[data.length] = {data:categories[3],name: "Spoken"}
+                }
+                if(categories[4].length>0){
+                        data[data.length] = {data:categories[4],name: "Gazette"}
+                }
+
+                $("#graph-panel").css("display", "block");
                 document.getElementById("graph-panel").scrollIntoView(); 
 
                 $('#flot-chart-content').highcharts({
@@ -541,7 +536,7 @@
                         }
                     },
 
-                    series: points
+                    series: data
                 });
             }
 
