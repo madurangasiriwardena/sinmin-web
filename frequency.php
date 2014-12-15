@@ -330,13 +330,56 @@
             }
 
             function plot_category() {
-                var data = [
-                    ["News",1000],
-                    ["Academic",1500],
-                    ["Creative Writing",1200],
-                    ["Spoken",1800],
-                    ["Gazette",1000]
-                ]
+                if($('#flot-chart-content').is(':visible')){
+                    $('#flot-chart-content').contents().remove();
+                    $("#graph-panel").css("display", "none");
+                }
+
+                var categories = [];
+                if($('#category-0').is(':checked')){
+                    categories[categories.length] = "All";  
+                }
+                if($('#category-1').is(':checked')){
+                    categories[categories.length] = "NEWS";  
+                }
+                if($('#category-2').is(':checked')){
+                    categories[categories.length] = "ACADEMIC";  
+                }
+                if($('#category-3').is(':checked')){
+                    categories[categories.length] = "CREATIVE";  
+                }
+                if($('#category-4').is(':checked')){
+                    categories[categories.length] = "SPOKEN";  
+                }
+                if($('#category-5').is(':checked')){
+                    categories[categories.length] = "GAZETTE";  
+                }
+                
+                $.ajax({
+                    url: api_url+"wordFrequency",
+                    type: 'POST',
+                    data: JSON.stringify({"value":word,"category":categories}),
+                    headers: {
+                        'Content-Type': "application/json",
+                        Accept : "application/json"
+                    },
+                    success: function (data) {
+                        plot_category_draw(data);
+                        console.log(data)
+                    },
+                    error: function (data) { console.log(data)},
+                });
+            }
+
+            function plot_category_draw(data_received) {
+
+                var data = [];
+                var categories = [];
+
+                for (i = 0; i < data_received.length; i++) {
+                    data[data.length] = [data_received[i].frequency];
+                    categories[categories.length] = [data_received[i].category]
+                }
 
                 $("#graph-panel").css("display", "block");
                 document.getElementById("graph-panel").scrollIntoView(); 
@@ -350,13 +393,7 @@
                         text: null
                     },
                     xAxis: {
-                        categories: [
-                            'News',
-                            'Accademic',
-                            'Creative Writing',
-                            'Spoken',
-                            'Gazette'
-                        ]
+                        categories: categories
                     },
                     yAxis: {
                         min: 0,
@@ -383,7 +420,7 @@
                     },
                     series: [{
                         name: 'Words',
-                        data: [1043121, 312341, 543533, 543532, 534534]
+                        data: data
 
                     }]
                 });
@@ -395,12 +432,12 @@
                     $("#graph-panel").css("display", "none");
                 }
 
-                years = [];
+                var years = [];
                 for (i = from; i <= to; i++) {
                     years[years.length] = i.toString(); 
                 }
 
-                categories = [];
+                var categories = [];
                 if($('#category-0').is(':checked')){
                     categories[categories.length] = "All";  
                 }
