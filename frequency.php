@@ -177,27 +177,30 @@
     <script src="js/plugins/highcharts/modules/exporting.js"></script>
     
 
-<script type="text/javascript" charset="utf-8">
-   function type_in_singlish(input_id) {
-        $("#light_box").lightbox_me({centered: true, preventScroll: true, onLoad: function() {
-            $("#light_box").find("textarea:first").focus();
-        }});
-        $('#input_id').val(input_id);
-    };
+    <script type="text/javascript" charset="utf-8">
 
-    function copyit () {
-        var text = $('#box2').val();
-        $("#"+$('#input_id').val()+"").val(text);
-        $("#light_box").trigger('close');
-    }
+       function type_in_singlish(input_id) {
+            $("#light_box").lightbox_me({centered: true, preventScroll: true, onLoad: function() {
+                $("#light_box").find("textarea:first").focus();
+            }});
+            $('#input_id').val(input_id);
+        };
+
+        function copyit () {
+            var text = $('#box2').val();
+            $("#"+$('#input_id').val()+"").val(text);
+            $("#light_box").trigger('close');
+        }
 
 
-    $(document).ready(function(){
-        $('#from').val(start_year);
-        $('#to').val(end_year);
-        $('#word').val(word_string);
-        $("#graph-panel").css("display", "none");
-    });
+        $(document).ready(function(){
+            $('#from').val(start_year);
+            $('#to').val(end_year);
+            $('#word').val(word_string);
+            $("#graph-panel").css("display", "none");
+        });
+
+
         $('#enable-time').change(function(){
             if($('#enable-time').is(':checked')){
                 document.getElementById("from").disabled = false;
@@ -228,6 +231,7 @@
             var from = document.getElementById("from").value;
             var to = document.getElementById("to").value;
             var offset = 0;
+            var spinner;
 
             if($('#enable-category').is(':checked') && $('#enable-time').is(':checked')){
                 document.getElementById("panel-heading").innerHTML = "Frequency of '"+word+"' over time and category";
@@ -254,6 +258,9 @@
                     $('#flot-chart-content').contents().remove();
                     $("#graph-panel").css("display", "none");
                 }
+
+                var target = document.getElementById('page-wrapper');
+                spinner = new Spinner(spin_opts).spin(target);
 
                 years = [];
                 for (i = from; i <= to; i++) {
@@ -282,6 +289,7 @@
                     data[data.length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
                 }
 
+                spinner.stop();
                 $("#graph-panel").css("display", "block");
                 document.getElementById("graph-panel").scrollIntoView(); 
 
@@ -335,6 +343,9 @@
                     $("#graph-panel").css("display", "none");
                 }
 
+                var target = document.getElementById('page-wrapper');
+                spinner = new Spinner(spin_opts).spin(target);
+
                 var categories = [];
                 if($('#category-0').is(':checked')){
                     categories[categories.length] = "All";  
@@ -381,6 +392,7 @@
                     categories[categories.length] = [data_received[i].category]
                 }
 
+                spinner.stop();
                 $("#graph-panel").css("display", "block");
                 document.getElementById("graph-panel").scrollIntoView(); 
                 
@@ -431,6 +443,9 @@
                     $('#flot-chart-content').contents().remove();
                     $("#graph-panel").css("display", "none");
                 }
+
+                var target = document.getElementById('page-wrapper');
+                spinner = new Spinner(spin_opts).spin(target);
 
                 var years = [];
                 for (i = from; i <= to; i++) {
@@ -511,6 +526,7 @@
                         data[data.length] = {data:categories[4],name: "Gazette"}
                 }
 
+                spinner.stop();
                 $("#graph-panel").css("display", "block");
                 document.getElementById("graph-panel").scrollIntoView(); 
 
