@@ -134,6 +134,25 @@
                 <!-- /.row -->
                 </div>
 
+            <div class="row" id="table-panel">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" id="table-panel-heading">
+                                Data
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <div class="table-content" id="table-content"></div>
+                                </div>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                <!-- /.row -->
+                </div>
+
             <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->
@@ -172,9 +191,13 @@
     <script src="js/sb-admin-2.js"></script>
     <script src="js/jquery.lightbox.js"></script>
     <script src="js/converter.js"></script>
+    <script src="js/functions.js"></script>
 
     <script src="js/plugins/highcharts/highcharts.js"></script>
     <script src="js/plugins/highcharts/modules/exporting.js"></script>
+
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
     
 
     <script type="text/javascript" charset="utf-8">
@@ -198,6 +221,7 @@
             $('#to').val(end_year);
             $('#word').val(word_string);
             $("#graph-panel").css("display", "none");
+            $("#table-panel").css("display", "none");
         });
 
 
@@ -226,12 +250,21 @@
             }
         });
         
+        var sent_calls;
+        var success_calls;
+        var data_calls = [];
+
+
         $('#myForm').submit(function() {
             var word = document.getElementById("word").value;
             var from = document.getElementById("from").value;
             var to = document.getElementById("to").value;
             var offset = 0;
             var spinner;
+
+            sent_calls = 0;
+            success_calls = 0;
+            data_calls = [];
 
             if($('#enable-category').is(':checked') && $('#enable-time').is(':checked')){
                 document.getElementById("panel-heading").innerHTML = "Frequency of '"+word+"' over time and category";
@@ -257,6 +290,8 @@
                 if($('#flot-chart-content').is(':visible')){
                     $('#flot-chart-content').contents().remove();
                     $("#graph-panel").css("display", "none");
+                    $("#table-panel").css("display", "none");
+                    $('#table-content').contents().remove();
                 }
 
                 var target = document.getElementById('page-wrapper');
@@ -267,19 +302,7 @@
                     years[years.length] = i.toString(); 
                 }
                 
-                $.ajax({
-                    url: api_url+"wordFrequency",
-                    type: 'POST',
-                    data: JSON.stringify({"value":word,"time":years}),
-                    headers: {
-                        'Content-Type': "application/json",
-                        Accept : "application/json"
-                    },
-                    success: function (data) {
-                        plot_time_draw(data);
-                    },
-                    error: function (data) { console.log(data)},
-                });
+                ajax_call("wordFrequency", word, [], years, plot_time_draw, draw_table);
             }
 
             function plot_time_draw(data_received){
@@ -291,9 +314,18 @@
 
                 spinner.stop();
                 $("#graph-panel").css("display", "block");
-                document.getElementById("graph-panel").scrollIntoView(); 
+                $('html, body').animate({
+                    scrollTop: $("#graph-panel").offset().top
+                }, 1000); 
 
-                $('#flot-chart-content').highcharts({
+                var chart;
+
+                if (typeof chart !== "undefined"){
+                    while(chart.series.length > 0)
+                    chart.series[0].remove(true);
+                }
+                 
+                chart = $('#flot-chart-content').highcharts({
                     chart: {
                         zoomType: 'x',
                         type: 'spline'
@@ -341,14 +373,19 @@
                 if($('#flot-chart-content').is(':visible')){
                     $('#flot-chart-content').contents().remove();
                     $("#graph-panel").css("display", "none");
+                    $("#table-panel").css("display", "none");
+                    $('#table-content').contents().remove();
                 }
 
                 var target = document.getElementById('page-wrapper');
                 spinner = new Spinner(spin_opts).spin(target);
 
+                var all_categories = 0;
+
                 var categories = [];
                 if($('#category-0').is(':checked')){
-                    categories[categories.length] = "All";  
+                    // categories[categories.length] = "All";
+                    all_categories = 1;  
                 }
                 if($('#category-1').is(':checked')){
                     categories[categories.length] = "NEWS";  
@@ -365,21 +402,12 @@
                 if($('#category-5').is(':checked')){
                     categories[categories.length] = "GAZETTE";  
                 }
+
+                if(all_categories == 1){
+                    ajax_call("wordFrequency", word, [], [], plot_category_draw, draw_table);
+                }
+                ajax_call("wordFrequency", word, categories, [], plot_category_draw, draw_table);
                 
-                $.ajax({
-                    url: api_url+"wordFrequency",
-                    type: 'POST',
-                    data: JSON.stringify({"value":word,"category":categories}),
-                    headers: {
-                        'Content-Type': "application/json",
-                        Accept : "application/json"
-                    },
-                    success: function (data) {
-                        plot_category_draw(data);
-                        console.log(data)
-                    },
-                    error: function (data) { console.log(data)},
-                });
             }
 
             function plot_category_draw(data_received) {
@@ -394,10 +422,18 @@
 
                 spinner.stop();
                 $("#graph-panel").css("display", "block");
-                document.getElementById("graph-panel").scrollIntoView(); 
-                
+                $('html, body').animate({
+                    scrollTop: $("#graph-panel").offset().top
+                }, 1000);
+            
+                var chart;
 
-                $('#flot-chart-content').highcharts({
+                if (typeof chart !== "undefined"){
+                    while(chart.series.length > 0)
+                    chart.series[0].remove(true);
+                }
+                 
+                chart = $('#flot-chart-content').highcharts({
                     chart: {
                         type: 'column'
                     },
@@ -442,6 +478,8 @@
                 if($('#flot-chart-content').is(':visible')){
                     $('#flot-chart-content').contents().remove();
                     $("#graph-panel").css("display", "none");
+                    $("#table-panel").css("display", "none");
+                    $('#table-content').contents().remove();
                 }
 
                 var target = document.getElementById('page-wrapper');
@@ -452,85 +490,86 @@
                     years[years.length] = i.toString(); 
                 }
 
+
                 var categories = [];
                 if($('#category-0').is(':checked')){
-                    categories[categories.length] = "All";  
+                    ajax_call("wordFrequency", word, [], years, plot_time_category_draw, draw_table);
                 }
                 if($('#category-1').is(':checked')){
-                    categories[categories.length] = "NEWS";  
+                    ajax_call("wordFrequency", word, ["NEWS"], years, plot_time_category_draw, draw_table);
                 }
                 if($('#category-2').is(':checked')){
-                    categories[categories.length] = "ACADEMIC";  
+                    ajax_call("wordFrequency", word, ["ACADEMIC"], years, plot_time_category_draw, draw_table); 
                 }
                 if($('#category-3').is(':checked')){
-                    categories[categories.length] = "CREATIVE";  
+                    ajax_call("wordFrequency", word, ["CREATIVE"], years, plot_time_category_draw, draw_table); 
                 }
                 if($('#category-4').is(':checked')){
-                    categories[categories.length] = "SPOKEN";  
+                    ajax_call("wordFrequency", word, ["SPOKEN"], years, plot_time_category_draw, draw_table);
                 }
                 if($('#category-5').is(':checked')){
-                    categories[categories.length] = "GAZETTE";  
+                    ajax_call("wordFrequency", word, ["GAZETTE"], years, plot_time_category_draw, draw_table);
                 }
-                
-                $.ajax({
-                    url: api_url+"wordFrequency",
-                    type: 'POST',
-                    data: JSON.stringify({"value":word,"time":years, "category":categories}),
-                    headers: {
-                        'Content-Type': "application/json",
-                        Accept : "application/json"
-                    },
-                    success: function (data) {
-                        plot_time_category_draw(data);
-                        console.log(data)
-                    },
-                    error: function (data) { console.log(data)},
-                });
             }
 
             function plot_time_category_draw(data_received) {
                 var data = [];
                 var categories = [];
 
-                for (i = 0; i < 5; i++) {
+                for (i = 0; i < 6; i++) {
                     categories[i] = [];
                 }
 
                 for (i = 0; i < data_received.length; i++) {
-                    if(data_received[i].category == "NEWS"){
+                    if(data_received[i].category == "all"){
                         categories[0][categories[0].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
-                    }else if(data_received[i].category == "ACADEMIC"){
+                    }else if(data_received[i].category == "NEWS"){
                         categories[1][categories[1].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
-                    }else if(data_received[i].category == "CREATIVE"){
+                    }else if(data_received[i].category == "ACADEMIC"){
                         categories[2][categories[2].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
-                    }else if(data_received[i].category == "SPOKEN"){
+                    }else if(data_received[i].category == "CREATIVE"){
                         categories[3][categories[3].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
-                    }else if(data_received[i].category == "GAZETTE"){
+                    }else if(data_received[i].category == "SPOKEN"){
                         categories[4][categories[4].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
+                    }else if(data_received[i].category == "GAZETTE"){
+                        categories[5][categories[5].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
                     }
                 }
-
                 if(categories[0].length>0){
-                        data[data.length] = {data:categories[0],name: "News"}
+                        data[data.length] = {data:categories[0],name: "All"}
                 }
                 if(categories[1].length>0){
-                        data[data.length] = {data:categories[1],name: "Academic"}
+                        data[data.length] = {data:categories[1],name: "News"}
                 }
                 if(categories[2].length>0){
-                        data[data.length] = {data:categories[2],name: "Creative Writing"}
+                        data[data.length] = {data:categories[2],name: "Academic"}
                 }
                 if(categories[3].length>0){
-                        data[data.length] = {data:categories[3],name: "Spoken"}
+                        data[data.length] = {data:categories[3],name: "Creative Writing"}
                 }
                 if(categories[4].length>0){
-                        data[data.length] = {data:categories[4],name: "Gazette"}
+                        data[data.length] = {data:categories[4],name: "Spoken"}
+                }
+                if(categories[5].length>0){
+                        data[data.length] = {data:categories[5],name: "Gazette"}
                 }
 
                 spinner.stop();
                 $("#graph-panel").css("display", "block");
-                document.getElementById("graph-panel").scrollIntoView(); 
+                $('html, body').animate({
+                    scrollTop: $("#graph-panel").offset().top
+                }, 1000);
 
-                $('#flot-chart-content').highcharts({
+                var chart;
+
+                if (typeof chart !== "undefined"){
+                    console.log('the property is available...'); // print into console
+                    while(chart.series.length > 0)
+                    chart.series[0].remove(true);
+                }
+                 
+
+                chart = $('#flot-chart-content').highcharts({
                     chart: {
                         zoomType: 'x',
                         type: 'spline'
@@ -591,6 +630,90 @@
 
                     series: data
                 });
+            }
+
+
+            function draw_table(data_received){
+                var data = [];
+                var categories = [];
+                var columns = [];
+                var column_titles = [];
+                var no_date = 0;
+
+                for (i = 0; i < 6; i++) {
+                    categories[i] = [];
+                }
+
+                for (i = 0; i < 6; i++) {
+                    columns[i] = 0;
+                }
+
+                for (i = 0; i < data_received.length; i++) {
+                    if(data_received[i].date == 0){
+                        no_date = 1;
+                    }
+                    if(data_received[i].category == "all"){
+                        categories[0][data_received[i].date] = data_received[i].frequency;
+                        columns[0] = 1;
+                    }else if(data_received[i].category == "NEWS"){
+                        categories[1][data_received[i].date] = data_received[i].frequency;
+                        columns[1] = 1;
+                    }else if(data_received[i].category == "ACADEMIC"){
+                        categories[2][data_received[i].date] = data_received[i].frequency;
+                        columns[2] = 1;
+                    }else if(data_received[i].category == "CREATIVE"){
+                        categories[3][data_received[i].date] = data_received[i].frequency;
+                        columns[3] = 1;
+                    }else if(data_received[i].category == "SPOKEN"){
+                        categories[4][data_received[i].date] = data_received[i].frequency;
+                        columns[4] = 1;
+                    }else if(data_received[i].category == "GAZETTE"){
+                        categories[5][data_received[i].date] = data_received[i].frequency;
+                        columns[5] = 1;
+                    }
+                }
+
+                var dataSet = [];
+                if(no_date == 0){
+                    for (i = from; i <= to; i++) {
+                        var row = [];
+                        row[0] = i;
+                        for(j = 0; j< categories.length; j++){
+                            if(columns[j]==1){
+                                row[row.length] = categories[j][i.toString()];
+                            }
+                        }
+
+                        dataSet[dataSet.length] = row; 
+                    }
+                }else{
+                    var row = [];
+                    row[0] = "All";
+                    for(j = 0; j< categories.length; j++){
+                        if(columns[j]==1){
+                            row[row.length] = categories[j][0+""];
+                        }
+                    }
+
+                    dataSet[dataSet.length] = row;
+                }
+                
+                column_titles[0] = {"title": "Year"};
+                for (var i = 0; i < 6; i++) {
+                    if(columns[i]==1){
+                        column_titles[column_titles.length] = {"title": category_names[i]};
+                    }
+                };
+
+
+                $('#table-content').html( '<table class="table table-striped table-bordered table-hover" border="0" id="example"></table>' );
+ 
+                $('#example').dataTable( {
+                    "data": dataSet,
+                    "columns": column_titles
+                } );  
+
+                $("#table-panel").css("display", "block");
             }
 
             function timestamp(date){
