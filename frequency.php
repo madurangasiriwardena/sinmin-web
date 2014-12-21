@@ -135,23 +135,23 @@
                 </div>
 
             <div class="row" id="table-panel">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading" id="table-panel-heading">
-                                Data
-                            </div>
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <div class="table-content" id="table-content"></div>
-                                </div>
-                            </div>
-                            <!-- /.panel-body -->
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" id="table-panel-heading">
+                            Data
                         </div>
-                        <!-- /.panel -->
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <div class="table-content" id="table-content"></div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
                     </div>
-                <!-- /.row -->
+                    <!-- /.panel -->
                 </div>
+            <!-- /.row -->
+            </div>
 
             <!-- /.container-fluid -->
         </div>
@@ -176,6 +176,25 @@
         </form>
         <a id="close_x" class="fa fa-close fa-fw close" href="#"></a>
     </div>
+
+
+    <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Error</h4>
+      </div>
+      <div class="modal-body">
+        You can search only upto trigrams.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
     <!-- /#wrapper -->
 
     <!-- jQuery -->
@@ -252,7 +271,7 @@
         
         var sent_calls;
         var success_calls;
-        var data_calls = [];
+        var data_calls;
 
 
         $('#myForm').submit(function() {
@@ -261,23 +280,44 @@
             var to = document.getElementById("to").value;
             var offset = 0;
             var spinner;
+            var method_name;
 
             sent_calls = 0;
             success_calls = 0;
             data_calls = [];
 
-            if($('#enable-category').is(':checked') && $('#enable-time').is(':checked')){
-                document.getElementById("panel-heading").innerHTML = "Frequency of '"+word+"' over time and category";
-                plot_time_category();
-            }else if($('#enable-category').is(':checked') && !($('#enable-time').is(':checked'))){
-                document.getElementById("panel-heading").innerHTML = "Frequency of '"+word+"' over category";
-                plot_category();
-            }else if(!($('#enable-category').is(':checked')) && $('#enable-time').is(':checked')){
-                plot_time();
-                document.getElementById("panel-heading").innerHTML = "Frequency of '"+word+"' over time";
-            }else if(!($('#enable-category').is(':checked')) && !($('#enable-time').is(':checked'))){
-                // alert("d");
-            }  
+            word = word.trim();
+            var word_arr = word.split(' ');
+
+            var valied_string = true;
+
+            if(word_arr.length == 1){
+                method_name = "wordFrequency";
+            }else if(word_arr.length == 2){
+                method_name = "bigramFrequency";
+            }else if(word_arr.length == 3){
+                method_name = "trigramFrequency";
+            }else{
+                valied_string = false;
+            }
+
+            if(valied_string){
+                if($('#enable-category').is(':checked') && $('#enable-time').is(':checked')){
+                    document.getElementById("panel-heading").innerHTML = "Frequency of '"+word+"' over time and category";
+                    plot_time_category();
+                }else if($('#enable-category').is(':checked') && !($('#enable-time').is(':checked'))){
+                    document.getElementById("panel-heading").innerHTML = "Frequency of '"+word+"' over category";
+                    plot_category();
+                }else if(!($('#enable-category').is(':checked')) && $('#enable-time').is(':checked')){
+                    plot_time();
+                    document.getElementById("panel-heading").innerHTML = "Frequency of '"+word+"' over time";
+                }else if(!($('#enable-category').is(':checked')) && !($('#enable-time').is(':checked'))){
+                    // alert("d");
+                }
+            }else{
+                $('#myModal').modal('show')
+             
+            }
 
                        
             function timestamp(date){
@@ -302,7 +342,7 @@
                     years[years.length] = i.toString(); 
                 }
                 
-                ajax_call("wordFrequency", word, [], years, plot_time_draw, draw_table);
+                ajax_call(method_name, word_arr, [], years, plot_time_draw, draw_table);
             }
 
             function plot_time_draw(data_received){
@@ -404,9 +444,9 @@
                 }
 
                 if(all_categories == 1){
-                    ajax_call("wordFrequency", word, [], [], plot_category_draw, draw_table);
+                    ajax_call(method_name, word_arr, [], [], plot_category_draw, draw_table);
                 }
-                ajax_call("wordFrequency", word, categories, [], plot_category_draw, draw_table);
+                ajax_call(method_name, word_arr, categories, [], plot_category_draw, draw_table);
                 
             }
 
@@ -493,22 +533,22 @@
 
                 var categories = [];
                 if($('#category-0').is(':checked')){
-                    ajax_call("wordFrequency", word, [], years, plot_time_category_draw, draw_table);
+                    ajax_call(method_name, word_arr, [], years, plot_time_category_draw, draw_table);
                 }
                 if($('#category-1').is(':checked')){
-                    ajax_call("wordFrequency", word, ["NEWS"], years, plot_time_category_draw, draw_table);
+                    ajax_call(method_name, word_arr, ["NEWS"], years, plot_time_category_draw, draw_table);
                 }
                 if($('#category-2').is(':checked')){
-                    ajax_call("wordFrequency", word, ["ACADEMIC"], years, plot_time_category_draw, draw_table); 
+                    ajax_call(method_name, word_arr, ["ACADEMIC"], years, plot_time_category_draw, draw_table); 
                 }
                 if($('#category-3').is(':checked')){
-                    ajax_call("wordFrequency", word, ["CREATIVE"], years, plot_time_category_draw, draw_table); 
+                    ajax_call(method_name, word_arr, ["CREATIVE"], years, plot_time_category_draw, draw_table); 
                 }
                 if($('#category-4').is(':checked')){
-                    ajax_call("wordFrequency", word, ["SPOKEN"], years, plot_time_category_draw, draw_table);
+                    ajax_call(method_name, word_arr, ["SPOKEN"], years, plot_time_category_draw, draw_table);
                 }
                 if($('#category-5').is(':checked')){
-                    ajax_call("wordFrequency", word, ["GAZETTE"], years, plot_time_category_draw, draw_table);
+                    ajax_call(method_name, word_arr, ["GAZETTE"], years, plot_time_category_draw, draw_table);
                 }
             }
 

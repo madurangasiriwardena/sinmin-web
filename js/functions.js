@@ -2,14 +2,27 @@ function ajax_call(method, word, categories, years, plot_func, draw_table){
 	sent_calls = sent_calls+1
 	var data;
 	if(categories.length==0 & years.length!=0){
-		data = JSON.stringify({"value":word,"time":years})
+		data = {"time":years}
 	}else if(years.length==0 & categories.length!=0){
-		data = JSON.stringify({"value":word,"category":categories})
+		data = {"category":categories}
 	}else if(years.length==0 & categories.length==0){
-		data = JSON.stringify({"value":word})
+		data = {}
 	}else{
-		data = JSON.stringify({"value":word,"time":years, "category":categories})
+		data = {"time":years, "category":categories}
 	}
+
+	if(word.length == 1){
+		data["value"] = word[0];
+	}else if(word.length == 2){
+		data["value1"] = word[0];
+		data["value2"] = word[1];
+	}else if(word.length == 3){
+		data["value1"] = word[0];
+		data["value2"] = word[1];
+		data["value3"] = word[2];
+	}
+
+	data = JSON.stringify(data);
 
 	$.ajax({
         url: api_url+method,

@@ -42,7 +42,6 @@
                                                 
                                             </div>
                                             <div class="sinmin-form-group" style="margin-top:20px">
-                                                <label  class="sinmin-label"><input type="checkbox" checked="true" id="enable-time" ></label>
                                                 <label  class="sinmin-label">Time</label>
                                             </div>
                                             <div class="sinmin-form-group">
@@ -71,23 +70,42 @@
             </div>
 
             <div class="row" id="graph-panel">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading" id="panel-heading">
-                                
-                            </div>
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div class="flot-chart">
-                                    <div class="flot-chart-content" id="flot-chart-content"></div>
-                                </div>
-                            </div>
-                            <!-- /.panel-body -->
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" id="panel-heading">
+                            
                         </div>
-                        <!-- /.panel -->
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-chart-content"></div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
                     </div>
-                <!-- /.row -->
+                    <!-- /.panel -->
                 </div>
+            <!-- /.row -->
+            </div>
+
+            <div class="row" id="table-panel">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" id="table-panel-heading">
+                            Data
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <div class="table-content" id="table-content"></div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+            <!-- /.row -->
+            </div>
 
             <!-- /.container-fluid -->
         </div>
@@ -154,31 +172,11 @@
     }
 
     $(document).ready(function(){
-        document.getElementById("graph-panel").style.display = "none";
-    });
-        $('#enable-time').change(function(){
-            if($('#enable-time').is(':checked')){
-                document.getElementById("from").disabled = false;
-                document.getElementById("to").disabled = false;
-            }else{
-                document.getElementById("from").disabled = true;
-                document.getElementById("to").disabled = true;
-            }
-        });
-        
-    $('#enable-category').change(function(){
-        if($('#enable-category').is(':checked')){
-            var categories = document.getElementsByClassName("checkbox-category");
-            for (i = 0; i < categories.length; i++) {
-                categories[i].disabled=false ;
-            }
-        }else{
-            var categories = document.getElementsByClassName("checkbox-category");
-
-            for (i = 0; i < categories.length; i++) {
-                categories[i].disabled=true; 
-            }
-        }
+        $('#from').val(start_year);
+        $('#to').val(end_year);
+        $('#word').val(word_string);
+        $("#graph-panel").css("display", "none");
+        $("#table-panel").css("display", "none");
     });
         
     
