@@ -145,16 +145,14 @@
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 
-
-    <script src="js/plugins/flot/excanvas.min.js"></script>
-    <script src="js/plugins/flot/jquery.flot.js"></script>
-    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
-    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="js/plugins/flot/jquery.flot.time.js"></script>
-    <script src="js/plugins/flot/jquery.flot.categories.js"></script>
-
     <script src="js/jquery.lightbox.js"></script>
     <script src="js/converter.js"></script>
+
+    <script src="js/plugins/highcharts/highcharts.js"></script>
+    <script src="js/plugins/highcharts/modules/exporting.js"></script>
+
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
 
     <script type="text/javascript">
 
@@ -178,135 +176,267 @@
         $("#graph-panel").css("display", "none");
         $("#table-panel").css("display", "none");
     });
-        
+
+    var sent_calls;
+        var success_calls;
+        var data_calls;        
     
         $('#myForm').submit(function() {
-
-            document.getElementById("graph-panel").style.display = "block";
             
             var word = document.getElementById("word").value;
             var from = document.getElementById("from").value;
             var to = document.getElementById("to").value;
             var offset = 0;
 
-            plot_popular();
+            var spinner;
+            var method_name;
 
-            document.getElementById("graph-panel").scrollIntoView();            
+            sent_calls = 0;
+            success_calls = 0;
+            data_calls = [];
 
-            function timestamp(date){
-                var myDate=date.split("-");
-                var newDate=myDate[1]+"/"+myDate[0]+"/"+myDate[2];
-                return (new Date(newDate).getTime());
+            word = word.trim();
+            var word_arr = word.split(' ');
+
+            var valied_string = true;
+
+            if(word_arr.length == 1){
+                method_name = "frequentWordsAfterWordTimeRange";
+            }else if(word_arr.length == 2){
+                method_name = "frequentWordsAfterBigramTimeRange";
+            }else{
+                valied_string = false;
             }
 
+            document.getElementById("panel-heading").innerHTML = "Most popular words after '"+word+"'";
+            plot_popular();
+
             function plot_popular() {
-                var data = [
-                    [[timestamp("01-01-2005"),1000],
-                    [timestamp("01-01-2006"),1500],
-                    [timestamp("01-01-2007"),1200],
-                    [timestamp("01-01-2008"),1800],
-                    [timestamp("01-01-2009"),1000],
-                    [timestamp("01-01-2010"),1500],
-                    [timestamp("01-01-2011"),1200],
-                    [timestamp("01-01-2012"),1800],
-                    [timestamp("01-01-2013"),1300],
-                    [timestamp("01-01-2014"),1600]],
+                if($('#flot-chart-content').is(':visible')){
+                    $('#flot-chart-content').contents().remove();
+                    $("#graph-panel").css("display", "none");
+                    $("#table-panel").css("display", "none");
+                    $('#table-content').contents().remove();
+                }
 
-                    [[timestamp("01-01-2005"),100],
-                    [timestamp("01-01-2006"),500],
-                    [timestamp("01-01-2007"),100],
-                    [timestamp("01-01-2008"),800],
-                    [timestamp("01-01-2009"),10],
-                    [timestamp("01-01-2010"),50],
-                    [timestamp("01-01-2011"),200],
-                    [timestamp("01-01-2012"),100],
-                    [timestamp("01-01-2013"),300],
-                    [timestamp("01-01-2014"),600]],
+                var target = document.getElementById('page-wrapper');
+                spinner = new Spinner(spin_opts).spin(target);
 
-                    [[timestamp("01-01-2005"),200],
-                    [timestamp("01-01-2006"),100],
-                    [timestamp("01-01-2007"),200],
-                    [timestamp("01-01-2008"),400],
-                    [timestamp("01-01-2009"),300],
-                    [timestamp("01-01-2010"),150],
-                    [timestamp("01-01-2011"),300],
-                    [timestamp("01-01-2012"),100],
-                    [timestamp("01-01-2013"),250],
-                    [timestamp("01-01-2014"),450]],
-
-                    [[timestamp("01-01-2005"),500],
-                    [timestamp("01-01-2006"),500],
-                    [timestamp("01-01-2007"),120],
-                    [timestamp("01-01-2008"),180],
-                    [timestamp("01-01-2009"),100],
-                    [timestamp("01-01-2010"),350],
-                    [timestamp("01-01-2011"),120],
-                    [timestamp("01-01-2012"),180],
-                    [timestamp("01-01-2013"),130],
-                    [timestamp("01-01-2014"),160]],
-
-                    [[timestamp("01-01-2005"),300],
-                    [timestamp("01-01-2006"),150],
-                    [timestamp("01-01-2007"),220],
-                    [timestamp("01-01-2008"),280],
-                    [timestamp("01-01-2009"),440],
-                    [timestamp("01-01-2010"),150],
-                    [timestamp("01-01-2011"),220],
-                    [timestamp("01-01-2012"),800],
-                    [timestamp("01-01-2013"),300],
-                    [timestamp("01-01-2014"),260]],
-
-                    [[timestamp("01-01-2005"),100],
-                    [timestamp("01-01-2006"),100],
-                    [timestamp("01-01-2007"),420],
-                    [timestamp("01-01-2008"),800],
-                    [timestamp("01-01-2009"),150],
-                    [timestamp("01-01-2010"),150],
-                    [timestamp("01-01-2011"),120],
-                    [timestamp("01-01-2012"),380],
-                    [timestamp("01-01-2013"),230],
-                    [timestamp("01-01-2014"),165]]
-
-                ]
+                years = [];
+                years[years.length] = from;
+                years[years.length] = to;
                 
+                ajax_call(method_name, word_arr, [], years, plot_popular_draw, draw_table);
+            }
 
-                var options = {
-                    series: {
-                        lines: {
-                            show: true
-                        },
-                        points: {
-                            show: true
-                        }
-                    },
-                    grid: {
-                        hoverable: true //IMPORTANT! this is needed for tooltip to work
-                    },
-                    xaxes: [{
-                        mode: 'time'
-                    }],
-                    tooltip: true,
-                    tooltipOpts: {
-                        content: "'%s' of %x.1 is %y.4",
-                        shifts: {
-                            x: -60,
-                            y: 25
-                        }
+            function plot_popular_draw(data_received){
+                data = [];
+                words = [];
+                word_frequency = [];
+                word_frequency_available = []; 
+
+                for (i = 0; i < data_received[0].words.length; i++) {
+                    word_temp = data_received[0].words[i].word;
+                    word_temp = word_temp.trim();
+
+                    if (typeof word_frequency[word_temp] === "undefined"){
+                        words[words.length] = word_temp;
+                        word_frequency[word_temp] = [];
+                        word_frequency_available[word_temp] = [];
                     }
+                    word_frequency[word_temp][word_frequency[word_temp].length] = [Date.UTC(data_received[0].words[i].year, 0, 1), data_received[0].words[i].frequency]
+                    word_frequency_available[word_temp][(data_received[0].words[i].year).toString()] = true;
+                }
+
+                for (var i = 0; i < words.length; i++) {
+                    for (var j = from; j <= to; j++) {
+                        if (typeof word_frequency_available[words[i]][j.toString()] === "undefined"){
+                            word_frequency[words[i]][word_frequency[words[i]].length] = [Date.UTC(j, 0, 1), 0]
+                        }
+                    };
+
+                    word_frequency[words[i]].sort(function(a, b){return a[0]-b[0]})
                 };
 
-                var points = [];
+                for (var i = 0; i < words.length; i++) {
+                    data[data.length] = {data:word_frequency[words[i]],name: words[i]}
+                };
 
+                spinner.stop();
+                $("#graph-panel").css("display", "block");
+                $('html, body').animate({
+                    scrollTop: $("#graph-panel").offset().top
+                }, 1000); 
+
+                var chart;
+
+                if (typeof chart !== "undefined"){
+                    while(chart.series.length > 0)
+                    chart.series[0].remove(true);
+                }
+                 
+                chart = $('#flot-chart-content').highcharts({
+                    chart: {
+                        zoomType: 'x',
+                        type: 'spline'
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                                'Click and drag in the plot area to zoom in' :
+                                'Pinch the chart to zoom in'
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        labels:
+                            {
+                                formatter: function () {
+                                    return Highcharts.dateFormat("%Y", this.value);
+                                }
+                            },
+                            tickInterval: Date.UTC(2010, 0, 1) - Date.UTC(2009, 0, 1)
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Words'
+                        }
+                    },
+                    tooltip: {
+                            shared: true
+                        },
+                    legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom',
+                            borderWidth: 0
+                        },
+                    plotOptions: {
+                        area: {
+                            fillColor: {
+                                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                                stops: [
+                                    [0, Highcharts.getOptions().colors[0]],
+                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                ]
+                            },
+                            marker: {
+                                radius: 2
+                            },
+                            lineWidth: 1,
+                            states: {
+                                hover: {
+                                    lineWidth: 1
+                                }
+                            },
+                            threshold: null
+                        }
+                    },
+
+                    series: data
+                });
+            }
+
+            function draw_table(data_received){
+                data = [];
+                words = [];
+                word_frequency = [];
+                word_frequency_available = []; 
+                column_titles = [];
+
+                for (i = 0; i < data_received[0].words.length; i++) {
+                    word_temp = data_received[0].words[i].word;
+                    word_temp = word_temp.trim();
+
+                    if (typeof word_frequency[word_temp] === "undefined"){
+                        words[words.length] = word_temp;
+                        word_frequency[word_temp] = [];
+                        word_frequency_available[word_temp] = [];
+                    }
+                    word_frequency[word_temp][(data_received[0].words[i].year).toString()] = data_received[0].words[i].frequency;
+                    word_frequency_available[word_temp][(data_received[0].words[i].year).toString()] = true;
+                }
+
+                for (var i = 0; i < words.length; i++) {
+                    for (var j = from; j <= to; j++) {
+                        if (typeof word_frequency_available[words[i]][j.toString()] === "undefined"){
+                            word_frequency[words[i]][j.toString()] = 0;
+                        }
+                    };
+                };
+
+                var dataSet = [];
+                for (i = from; i <= to; i++) {
+                    var row = [];
+                    row[0] = i;
+                    for(j = 0; j< words.length; j++){
+                        row[row.length] = word_frequency[words[j]][i.toString()];
+                    }
+
+                    dataSet[dataSet.length] = row; 
+                }
                 
-                points[points.length] = {data:data[0],label: word+ " එක්සත්"};
-                points[points.length] = {data:data[1],label: word+ " නිදහස්"};
-                points[points.length] = {data:data[2],label: word+ " ලංකා"};
-                points[points.length] = {data:data[3],label: word+ " වන"};
-                points[points.length] = {data:data[4],label: word+ " විට"};
-                points[points.length] = {data:data[5],label: word+ " මේ"};  
-                
-                var plotObj = $.plot($("#flot-chart-content"), points,
-                    options);
+                column_titles[0] = {"title": "Year"};
+                for (var i = 0; i < 10; i++) {
+                    column_titles[column_titles.length] = {"title": words[i]};
+                };
+
+
+                $('#table-content').html( '<table class="table table-striped table-bordered table-hover" border="0" id="example"></table>' );
+ 
+                $('#example').dataTable( {
+                    "data": dataSet,
+                    "columns": column_titles
+                } );  
+
+                $("#table-panel").css("display", "block");
+            }
+
+
+
+            function ajax_call(method, word, categories, years, plot_func, draw_table){
+                sent_calls = sent_calls+1
+                var data;
+                if(categories.length==0 & years.length!=0){
+                    data = {"time":years}
+                }else if(years.length==0 & categories.length!=0){
+                    data = {"category":categories}
+                }else if(years.length==0 & categories.length==0){
+                    data = {}
+                }else{
+                    data = {"time":years, "category":categories}
+                }
+
+                if(word.length == 1){
+                    data["value"] = word[0];
+                }else if(word.length == 2){
+                    data["value1"] = word[0];
+                    data["value2"] = word[1];
+                }
+
+                data["amount"] = 10;
+
+                data = JSON.stringify(data);
+
+                $.ajax({
+                    url: api_url+method,
+                    type: 'POST',
+                    data: data,
+                    headers: {
+                        'Content-Type': "application/json",
+                        Accept : "application/json"
+                    },
+                    success: function (data) {
+                        data_calls.push.apply(data_calls, data);
+                        success_calls = success_calls+1;
+                        if(sent_calls == success_calls){
+                            plot_func(data_calls);
+                            draw_table(data_calls);
+                        }
+                    },
+                    error: function (data) { console.log(data)},
+                });
             }
 
             function timestamp(date){

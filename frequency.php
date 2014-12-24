@@ -594,6 +594,8 @@
                         data[data.length] = {data:categories[5],name: "Gazette"}
                 }
 
+                console.log(data);
+
                 spinner.stop();
                 $("#graph-panel").css("display", "block");
                 $('html, body').animate({
@@ -674,7 +676,6 @@
 
 
             function draw_table(data_received){
-                var data = [];
                 var categories = [];
                 var columns = [];
                 var column_titles = [];
