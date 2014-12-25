@@ -5,16 +5,6 @@
 
     <?php require 'head.php';?>
 
-    <style type="text/css">
-        td:nth-child(3), th:nth-child(3), td:nth-child(5), th:nth-child(5), td:nth-child(7), th:nth-child(7), td:nth-child(9), th:nth-child(9), td:nth-child(11), th:nth-child(11), td:nth-child(13), th:nth-child(13){
-            display: none;
-        }
-
-        th:nth-child(2), th:nth-child(4), th:nth-child(6), th:nth-child(8), th:nth-child(10), th:nth-child(12){
-            cursor: pointer;
-        }
-    </style>
-
 </head>
 
 <body>
@@ -35,7 +25,7 @@
                 <!-- /.col-lg-12 -->
             </div>
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-columns fa-fw"></i> Frequent
@@ -43,194 +33,16 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th onclick="show_column('3')" title="Click to see the values">All
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                            </th>
-                                            <th>Count</th>
-                                            <th onclick="show_column('5')" title="Click to see the values">Academic
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                            </th>
-                                            <th>Count</th>
-                                            <th onclick="show_column('7')" title="Click to see the values">News
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                            </th>
-                                            <th>Count</th>
-                                            <th onclick="show_column('9')" title="Click to see the values">Gazette
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                            </th>
-                                            <th>Count</th>
-                                            <th onclick="show_column('11')" title="Click to see the values">Spoken
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                            </th>
-                                            <th>Count</th>
-                                            <th onclick="show_column('13')" title="Click to see the values">Creative Writing
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                            </th>
-                                            <th>Count</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>මේ</td>
-                                            <td>123442</td>
-                                            <td>මේ</td>
-                                            <td>53535</td>
-                                            <td>මේ</td>
-                                            <td>2342</td>
-                                            <td>මේ</td>
-                                            <td>5456</td>
-                                            <td>මේ</td>
-                                            <td>6464</td>
-                                            <td>මේ</td>
-                                            <td>65464</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>ඒ</td>
-                                            <td>123442</td>
-                                            <td>මේ</td>
-                                            <td>53535</td>
-                                            <td>ඒ</td>
-                                            <td>2342</td>
-                                            <td>මේ</td>
-                                            <td>5456</td>
-                                            <td>ඒ</td>
-                                            <td>6464</td>
-                                            <td>මේ</td>
-                                            <td>65464</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>හා</td>
-                                            <td>123442</td>
-                                            <td>හා</td>
-                                            <td>53535</td>
-                                            <td>හා</td>
-                                            <td>2342</td>
-                                            <td>හා</td>
-                                            <td>5456</td>
-                                            <td>හා</td>
-                                            <td>6464</td>
-                                            <td>හා</td>
-                                            <td>65464</td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>ද</td>
-                                            <td>123442</td>
-                                            <td>හා</td>
-                                            <td>53535</td>
-                                            <td>ද</td>
-                                            <td>2342</td>
-                                            <td>හා</td>
-                                            <td>5456</td>
-                                            <td>ද</td>
-                                            <td>6464</td>
-                                            <td>ද</td>
-                                            <td>65464</td>
-                                        </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td>බව</td>
-                                            <td>123442</td>
-                                            <td>බව</td>
-                                            <td>53535</td>
-                                            <td>බව</td>
-                                            <td>2342</td>
-                                            <td>බව</td>
-                                            <td>5456</td>
-                                            <td>බව</td>
-                                            <td>6464</td>
-                                            <td>බව</td>
-                                            <td>65464</td>
-                                        </tr>
-                                        <tr>
-                                            <td>6</td>
-                                            <td>කළ</td>
-                                            <td>123442</td>
-                                            <td>කළ</td>
-                                            <td>53535</td>
-                                            <td>කළ</td>
-                                            <td>2342</td>
-                                            <td>කළ</td>
-                                            <td>5456</td>
-                                            <td>කළ</td>
-                                            <td>6464</td>
-                                            <td>කළ</td>
-                                            <td>65464</td>
-                                        </tr>
-                                        <tr>
-                                            <td>7</td>
-                                            <td>ඇති</td>
-                                            <td>123442</td>
-                                            <td>ඇති</td>
-                                            <td>53535</td>
-                                            <td>ඇති</td>
-                                            <td>2342</td>
-                                            <td>ඇති</td>
-                                            <td>5456</td>
-                                            <td>ඇති</td>
-                                            <td>6464</td>
-                                            <td>ඇති</td>
-                                            <td>65464</td>
-                                        </tr>
-                                        <tr>
-                                            <td>8</td>
-                                            <td>සඳහා</td>
-                                            <td>123442</td>
-                                            <td>සඳහා</td>
-                                            <td>53535</td>
-                                            <td>සඳහා</td>
-                                            <td>2342</td>
-                                            <td>සඳහා</td>
-                                            <td>5456</td>
-                                            <td>සඳහා</td>
-                                            <td>6464</td>
-                                            <td>සඳහා</td>
-                                            <td>65464</td>
-                                        </tr>
-                                        <tr>
-                                            <td>9</td>
-                                            <td>කර</td>
-                                            <td>123442</td>
-                                            <td>කර</td>
-                                            <td>53535</td>
-                                            <td>කර</td>
-                                            <td>2342</td>
-                                            <td>කර</td>
-                                            <td>5456</td>
-                                            <td>කර</td>
-                                            <td>6464</td>
-                                            <td>කර</td>
-                                            <td>65464</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10</td>
-                                            <td>මහතා</td>
-                                            <td>123442</td>
-                                            <td>මහතා</td>
-                                            <td>53535</td>
-                                            <td>මහතා</td>
-                                            <td>2342</td>
-                                            <td>මහතා</td>
-                                            <td>5456</td>
-                                            <td>මහතා</td>
-                                            <td>6464</td>
-                                            <td>මහතා</td>
-                                            <td>65464</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class="table-content" id="frequent-words-table-content"></div>
                             </div>
                             <!-- /.table-responsive -->
                         </div>
                         <!-- /.panel-body -->
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
                     <!-- /.panel -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -272,7 +84,7 @@
                             <i class="fa fa-bar-chart-o fa-fw"></i> Composition
                         </div>
                         <div class="panel-body">
-                            <div id="morris-donut-chart"></div>
+                            <div id="composition-chart"></div>
                             <a href="#" class="btn btn-default btn-block">View Details</a>
                         </div>
                         <!-- /.panel-body -->
@@ -331,10 +143,19 @@
     <script src="js/plugins/morris/raphael.min.js"></script>
     <script src="js/plugins/morris/morris.min.js"></script>
 
+    <script src="js/plugins/highcharts/highcharts.js"></script>
+    <script src="js/plugins/highcharts/modules/exporting.js"></script>
+
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 
     <script type="text/javascript">
+        show_composition();
+        show_frequent_words();
+
         function show_column(col){
             if($('th:nth-child('+col+')').is(':visible')){
                 $('td:nth-child('+col+'),th:nth-child('+col+')').hide();
@@ -347,27 +168,242 @@
             }
         }
 
+        function ajax_call(method, word, categories, years, amount, plot_func, calls, data_calls){
+            //calls[0] = sent, calls[1] = success
+            calls[0] = calls[0]+1;
+            console.log("---------calls" + calls[0])
+            var data;
+            if(categories.length==0 & years.length!=0){
+                data = {"time":years}
+            }else if(years.length==0 & categories.length!=0){
+                data = {"category":categories}
+            }else if(years.length==0 & categories.length==0){
+                data = {}
+            }else{
+                data = {"time":years, "category":categories}
+            }
 
-        Morris.Donut({
-        element: 'morris-donut-chart',
-        data: [{
-            label: "News",
-            value: 12000
-        }, {
-            label: "Academic",
-            value: 30000
-        }, {
-            label: "Creative Writing",
-            value: 20000
-        }, {
-            label: "Spoken",
-            value: 30000
-        }, {
-            label: "Gazette",
-            value: 20000
-        }],
-        resize: true
-    });
+            if(word.length == 1){
+                data["value"] = word[0];
+            }else if(word.length == 2){
+                data["value1"] = word[0];
+                data["value2"] = word[1];
+            }else if(word.length == 3){
+                data["value1"] = word[0];
+                data["value2"] = word[1];
+                data["value3"] = word[2];
+            }
+
+            if(amount != 0){
+                data["amount"] = amount;
+            }
+
+            data = JSON.stringify(data);
+            console.log(data);
+
+            $.ajax({
+                url: api_url+method,
+                type: 'POST',
+                data: data,
+                headers: {
+                    'Content-Type': "application/json",
+                    Accept : "application/json"
+                },
+                success: function (data) {
+                    data_calls.push.apply(data_calls, data);
+                    calls[1] = calls[1]+1;
+                    if(calls[0] == calls[1]){
+                        plot_func(data_calls);
+                    }
+                },
+                error: function (data) { console.log(data)},
+            });
+        }
+
+        function show_frequent_words(){
+            calls = [0,0]; //calls[0] = sent, calls[1] = success
+            data_calls = [];
+            categories = ["NEWS","ACADEMIC","CREATIVE","SPOKEN","GAZETTE"];
+            ajax_call("frequentWords", [], [], [], 10, draw_frequent_words, calls, data_calls);
+            ajax_call("frequentWords", [], ["NEWS"], [], 10, draw_frequent_words, calls, data_calls);
+            ajax_call("frequentWords", [], ["ACADEMIC"], [], 10, draw_frequent_words, calls, data_calls);
+            ajax_call("frequentWords", [], ["CREATIVE"], [], 10, draw_frequent_words, calls, data_calls);
+            ajax_call("frequentWords", [], ["SPOKEN"], [], 10, draw_frequent_words, calls, data_calls);
+            ajax_call("frequentWords", [], ["GAZETTE"], [], 10, draw_frequent_words, calls, data_calls);
+        }
+
+        function draw_frequent_words(data_received){
+            console.log(data_received);
+
+            data_set = [];
+            column_titles = [];
+            column_defs = [];
+            for (i = 0; i < 10; i++) {
+                console.log("-----------------row " + i)
+                var row = [];
+                row[0] = i+1;
+                for(j = 0; j< data_received.length; j++){
+                    console.log("category " + j)
+                    if(data_received[j].category == "all"){
+                        if (data_received[j].value1[i] !== null){
+                            row[1] = (data_received[j].value1[i].value).trim();
+                            row[2] = data_received[j].value1[i].frequency;
+                        }else{
+                            row[1] = "-";
+                            row[2] = "-";
+                        }
+                    }else if(data_received[j].category == "NEWS"){
+                        if (data_received[j].value1[i] !== null){
+                            row[3] = (data_received[j].value1[i].value).trim();
+                            row[4] = data_received[j].value1[i].frequency;
+                        }else{
+                            row[3] = "-";
+                            row[4] = "-";
+                        }
+                    }else if(data_received[j].category == "ACADEMIC"){
+                        if (data_received[j].value1[i] !== null){
+                            row[5] = (data_received[j].value1[i].value).trim();
+                            row[6] = data_received[j].value1[i].frequency;
+                        }else{
+                            row[5] = "-";
+                            row[6] = "-";
+                        }
+                    }else if(data_received[j].category == "CREATIVE"){
+                        if (data_received[j].value1[i] !== null){
+                            row[7] = (data_received[j].value1[i].value).trim();
+                            row[8] = data_received[j].value1[i].frequency;
+                        }else{
+                            row[7] = "-";
+                            row[8] = "-";
+                        }
+                    }else if(data_received[j].category == "SPOKEN"){
+                        if (data_received[j].value1[i] !== null){
+                            row[9] = (data_received[j].value1[i].value).trim();
+                            row[10] = data_received[j].value1[i].frequency;
+                        }else{
+                            row[9] = "-";
+                            row[10] = "-";
+                        }
+                    }else if(data_received[j].category == "GAZETTE"){
+                        if (data_received[j].value1[i] !== null){
+                            row[11] = (data_received[j].value1[i].value).trim();
+                            row[12] = data_received[j].value1[i].frequency;
+                        }else{
+                            row[11] = "-";
+                            row[12] = "-";
+                        }
+                    }
+                }
+
+                data_set[data_set.length] = row; 
+            }
+
+            console.log(data_set);
+
+            column_titles[0] = {"title": "#"};
+            column_defs[0] = {"targets": column_defs.length,"visible": true,};
+            for (var i = 0; i < 6; i++) {
+                column_index = column_titles.length;
+                column_titles[column_index] = {"title": category_names[i]};
+                column_defs[column_index] = {"targets": column_defs.length,"visible": true, "orderable": false};
+
+                column_index = column_titles.length;
+                column_titles[column_index] = {"title": "Frequency"};
+                column_defs[column_index] = {"targets": column_defs.length,"visible": true, "orderable": false}
+
+            };
+            console.log(column_titles);
+
+            $('#frequent-words-table-content').html( '<table class="table table-striped table-bordered table-hover" border="0" id="example"></table>' );
+ 
+            var table = $('#example').dataTable( {
+                "data": data_set,
+                "columns": column_titles,
+                "columnDefs": column_defs
+            } );
+
+            // $('#example thead').on( 'click', 'th', function () {         
+            //     alert( 'Column title clicked on: ');
+            // } );
+
+            $("#table-panel").css("display", "block");
+        }
+
+        
+
+        function show_composition() {
+            // ajax_call(method, word, categories, years, plot_func);
+        }
+
+
+        function draw_composition() {
+
+            // Make monochrome colors and set them as default for all pies
+            Highcharts.getOptions().plotOptions.pie.colors = (function () {
+                var colors = [],
+                    base = Highcharts.getOptions().colors[0],
+                    i;
+
+                for (i = 0; i < 5; i += 1) {
+                    // Start out with a darkened base color (negative brighten), and end
+                    // up with a much brighter color
+                    colors.push(Highcharts.Color(base).brighten((i - 3) / 7).get());
+                }
+                console.log(colors);
+                return colors;
+            }());
+
+            // Build the chart
+            
+            $('#composition-chart').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: 0,
+                    plotShadow: false
+                },
+                title: {
+                    text: 'Category<br>shares',
+                    align: 'center',
+                    verticalAlign: 'middle',
+                    y: 0
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        dataLabels: {
+                            enabled: true,
+                            distance: -50,
+                            style: {
+                                fontWeight: 'bold',
+                                color: 'white',
+                                textShadow: '0px 1px 2px black'
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Browser share',
+                    innerSize: '50%',
+                    data: [
+                        ['Firefox',   45.0],
+                        ['IE',       26.8],
+                        ['Chrome', 12.8],
+                        ['Safari',    8.5],
+                        ['Opera',     6.2],
+                        {
+                            name: 'Others',
+                            y: 0.7,
+                            dataLabels: {
+                                enabled: false
+                            }
+                        }
+                    ]
+                }]
+            });
+        };
 
 
         Morris.Bar({
