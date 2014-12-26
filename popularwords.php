@@ -154,6 +154,8 @@
     <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
     <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
 
+    <link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+
     <script type="text/javascript">
 
     function type_in_singlish(input_id) {

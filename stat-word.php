@@ -5,6 +5,12 @@
 
     <?php require 'head.php';?>
 
+    <style type="text/css">
+        /*th:nth-child(2), th:nth-child(4), th:nth-child(6), th:nth-child(8), th:nth-child(10), th:nth-child(12){
+            cursor: pointer;
+        }*/
+    </style>
+
 </head>
 
 <body>
@@ -152,26 +158,27 @@
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 
+    <link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+
     <script type="text/javascript">
         show_composition();
         show_frequent_words();
 
-        function show_column(col){
-            if($('th:nth-child('+col+')').is(':visible')){
-                $('td:nth-child('+col+'),th:nth-child('+col+')').hide();
-                $('th:nth-child('+(col-1)+') span i').removeClass("fa-arrow-circle-left");
-                $('th:nth-child('+(col-1)+') span i').addClass("fa-arrow-circle-right");
-            }else{
-                $('td:nth-child('+col+'),th:nth-child('+col+')').show();
-                $('th:nth-child('+(col-1)+') span i').removeClass("fa-arrow-circle-right");
-                $('th:nth-child('+(col-1)+') span i').addClass("fa-arrow-circle-left");
-            }
-        }
+        // function show_column(col){
+        //     if($('th:nth-child('+col+')').is(':visible')){
+        //         $('td:nth-child('+col+'),th:nth-child('+col+')').hide();
+        //         $('th:nth-child('+(col-1)+') span i').removeClass("fa-arrow-circle-left");
+        //         $('th:nth-child('+(col-1)+') span i').addClass("fa-arrow-circle-right");
+        //     }else{
+        //         $('td:nth-child('+col+'),th:nth-child('+col+')').show();
+        //         $('th:nth-child('+(col-1)+') span i').removeClass("fa-arrow-circle-right");
+        //         $('th:nth-child('+(col-1)+') span i').addClass("fa-arrow-circle-left");
+        //     }
+        // }
 
         function ajax_call(method, word, categories, years, amount, plot_func, calls, data_calls){
             //calls[0] = sent, calls[1] = success
             calls[0] = calls[0]+1;
-            console.log("---------calls" + calls[0])
             var data;
             if(categories.length==0 & years.length!=0){
                 data = {"time":years}
@@ -199,7 +206,6 @@
             }
 
             data = JSON.stringify(data);
-            console.log(data);
 
             $.ajax({
                 url: api_url+method,
@@ -239,11 +245,9 @@
             column_titles = [];
             column_defs = [];
             for (i = 0; i < 10; i++) {
-                console.log("-----------------row " + i)
                 var row = [];
                 row[0] = i+1;
                 for(j = 0; j< data_received.length; j++){
-                    console.log("category " + j)
                     if(data_received[j].category == "all"){
                         if (data_received[j].value1[i] !== null){
                             row[1] = (data_received[j].value1[i].value).trim();
@@ -298,38 +302,46 @@
                 data_set[data_set.length] = row; 
             }
 
-            console.log(data_set);
 
             column_titles[0] = {"title": "#"};
             column_defs[0] = {"targets": column_defs.length,"visible": true,};
             for (var i = 0; i < 6; i++) {
                 column_index = column_titles.length;
-                column_titles[column_index] = {"title": category_names[i]};
+                column_titles[column_index] = {"title": category_names[i]+"<span class='pull-right'><i class='fa fa-arrow-circle-right'></i></span>"};
                 column_defs[column_index] = {"targets": column_defs.length,"visible": true, "orderable": false};
 
                 column_index = column_titles.length;
                 column_titles[column_index] = {"title": "Frequency"};
-                column_defs[column_index] = {"targets": column_defs.length,"visible": true, "orderable": false}
+                column_defs[column_index] = {"targets": column_defs.length,"visible": false, "orderable": false}
 
             };
-            console.log(column_titles);
 
             $('#frequent-words-table-content').html( '<table class="table table-striped table-bordered table-hover" border="0" id="example"></table>' );
  
-            var table = $('#example').dataTable( {
+            table = $('#example').DataTable( {
                 "data": data_set,
                 "columns": column_titles,
                 "columnDefs": column_defs
             } );
 
-            // $('#example thead').on( 'click', 'th', function () {         
-            //     alert( 'Column title clicked on: ');
-            // } );
+            $("#example").find("thead").on('click', 'th', function(){
+                var col_idx =  table.column(this).index();
+                console.log("colId = " + col_idx);
+                if(col_idx>0 & col_idx%2==1){
+                    if(table.column(col_idx+1).visible()){
+                        table.column(col_idx+1).visible(false);
+                        $('th:nth-child('+(col_idx+1)+') span i').removeClass("fa-arrow-circle-left");
+                        $('th:nth-child('+(col_idx+1)+') span i').addClass("fa-arrow-circle-right");
+                    }else{
+                        table.column(col_idx+1).visible(true);
+                        $('th:nth-child('+(col_idx+1)+') span i').removeClass("fa-arrow-circle-right");
+                        $('th:nth-child('+(col_idx+1)+') span i').addClass("fa-arrow-circle-left");
+                    }
+                }
+            });
 
             $("#table-panel").css("display", "block");
         }
-
-        
 
         function show_composition() {
             // ajax_call(method, word, categories, years, plot_func);

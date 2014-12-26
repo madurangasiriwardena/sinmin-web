@@ -218,6 +218,7 @@
     <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
     <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
     
+    <link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
 
     <script type="text/javascript" charset="utf-8">
 
@@ -749,10 +750,10 @@
 
                 $('#table-content').html( '<table class="table table-striped table-bordered table-hover" border="0" id="example"></table>' );
  
-                $('#example').dataTable( {
+                var Table = $('#example').dataTable( {
                     "data": dataSet,
                     "columns": column_titles
-                } );  
+                } );
 
                 $("#table-panel").css("display", "block");
             }
