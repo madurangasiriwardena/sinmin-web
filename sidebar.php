@@ -24,6 +24,9 @@
                     <li>
                         <a href="popularwords.php">Popular</a>
                     </li>
+                    <li>
+                        <a href="compare-chart.php">Compare</a>
+                    </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
