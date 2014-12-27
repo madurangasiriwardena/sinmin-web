@@ -32,12 +32,12 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" id="frequent-words-table-div">
                         <div class="panel-heading">
-                            <i class="fa fa-columns fa-fw"></i> Frequent
+                            <i class="fa fa-columns fa-fw"></i> Frequent Words
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
+                        <div class="panel-body sinmin-panel-body">
                             <div class="table-responsive">
                                 <div class="table-content" id="frequent-words-table-content"></div>
                             </div>
@@ -176,7 +176,7 @@
         //     }
         // }
 
-        function ajax_call(method, word, categories, years, amount, plot_func, calls, data_calls){
+        function ajax_call(method, word, categories, years, amount, plot_func, calls, data_calls, spinner){
             //calls[0] = sent, calls[1] = success
             calls[0] = calls[0]+1;
             var data;
@@ -219,7 +219,7 @@
                     data_calls.push.apply(data_calls, data);
                     calls[1] = calls[1]+1;
                     if(calls[0] == calls[1]){
-                        plot_func(data_calls);
+                        plot_func(data_calls, spinner);
                     }
                 },
                 error: function (data) { console.log(data)},
@@ -227,18 +227,20 @@
         }
 
         function show_frequent_words(){
+            target = document.getElementById('frequent-words-table-div');
+            spinner = new Spinner(spin_opts).spin(target);
             calls = [0,0]; //calls[0] = sent, calls[1] = success
             data_calls = [];
             categories = ["NEWS","ACADEMIC","CREATIVE","SPOKEN","GAZETTE"];
-            ajax_call("frequentWords", [], [], [], 10, draw_frequent_words, calls, data_calls);
-            ajax_call("frequentWords", [], ["NEWS"], [], 10, draw_frequent_words, calls, data_calls);
-            ajax_call("frequentWords", [], ["ACADEMIC"], [], 10, draw_frequent_words, calls, data_calls);
-            ajax_call("frequentWords", [], ["CREATIVE"], [], 10, draw_frequent_words, calls, data_calls);
-            ajax_call("frequentWords", [], ["SPOKEN"], [], 10, draw_frequent_words, calls, data_calls);
-            ajax_call("frequentWords", [], ["GAZETTE"], [], 10, draw_frequent_words, calls, data_calls);
+            ajax_call("frequentWords", [], [], [], 10, draw_frequent_words, calls, data_calls, spinner);
+            ajax_call("frequentWords", [], ["NEWS"], [], 10, draw_frequent_words, calls, data_calls, spinner);
+            ajax_call("frequentWords", [], ["ACADEMIC"], [], 10, draw_frequent_words, calls, data_calls, spinner);
+            ajax_call("frequentWords", [], ["CREATIVE"], [], 10, draw_frequent_words, calls, data_calls, spinner);
+            ajax_call("frequentWords", [], ["SPOKEN"], [], 10, draw_frequent_words, calls, data_calls, spinner);
+            ajax_call("frequentWords", [], ["GAZETTE"], [], 10, draw_frequent_words, calls, data_calls, spinner);
         }
 
-        function draw_frequent_words(data_received){
+        function draw_frequent_words(data_received, spinner){
             console.log(data_received);
 
             data_set = [];
@@ -315,6 +317,8 @@
                 column_defs[column_index] = {"targets": column_defs.length,"visible": false, "orderable": false}
 
             };
+
+            spinner.stop();
 
             $('#frequent-words-table-content').html( '<table class="table table-striped table-bordered table-hover" border="0" id="example"></table>' );
  
