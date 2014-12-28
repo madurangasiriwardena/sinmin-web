@@ -85,13 +85,12 @@
                 </div>
                 <!-- /.col-lg-8 -->
                 <div class="col-lg-4">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" id="composition-div">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Composition
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body sinmin-panel-body">
                             <div id="composition-chart"></div>
-                            <a href="#" class="btn btn-default btn-block">View Details</a>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -162,19 +161,7 @@
 
     <script type="text/javascript">
         show_composition();
-        show_frequent_words();
-
-        // function show_column(col){
-        //     if($('th:nth-child('+col+')').is(':visible')){
-        //         $('td:nth-child('+col+'),th:nth-child('+col+')').hide();
-        //         $('th:nth-child('+(col-1)+') span i').removeClass("fa-arrow-circle-left");
-        //         $('th:nth-child('+(col-1)+') span i').addClass("fa-arrow-circle-right");
-        //     }else{
-        //         $('td:nth-child('+col+'),th:nth-child('+col+')').show();
-        //         $('th:nth-child('+(col-1)+') span i').removeClass("fa-arrow-circle-right");
-        //         $('th:nth-child('+(col-1)+') span i').addClass("fa-arrow-circle-left");
-        //     }
-        // }
+        // show_frequent_words();
 
         function ajax_call(method, word, categories, years, amount, plot_func, calls, data_calls, spinner){
             //calls[0] = sent, calls[1] = success
@@ -348,11 +335,25 @@
         }
 
         function show_composition() {
-            // ajax_call(method, word, categories, years, plot_func);
+            target = document.getElementById('composition-div');
+            spinner = new Spinner(spin_opts).spin(target);
+            calls = [0,0]; //calls[0] = sent, calls[1] = success
+            data_calls = [];
+            categories = ["NEWS","ACADEMIC","CREATIVE","SPOKEN","GAZETTE"];
+            ajax_call("wordCount", [], categories, [], 0, draw_composition, calls, data_calls, spinner);
+            // (method, word, categories, years, amount, plot_func, calls, data_calls, spinner)
         }
 
 
-        function draw_composition() {
+        function draw_composition(data_received, spinner){
+            console.log(data_received);
+            data_set = [];
+
+            for (var i = 0; i < data_received.length; i++) {
+                data_set[data_set.length] = [data_received[i].category, data_received[i].count];
+            };
+
+            spinner.stop();
 
             // Make monochrome colors and set them as default for all pies
             Highcharts.getOptions().plotOptions.pie.colors = (function () {
@@ -365,60 +366,39 @@
                     // up with a much brighter color
                     colors.push(Highcharts.Color(base).brighten((i - 3) / 7).get());
                 }
-                console.log(colors);
                 return colors;
             }());
 
             // Build the chart
             
             $('#composition-chart').highcharts({
-                chart: {
-                    plotBackgroundColor: null,
-                    plotBorderWidth: 0,
-                    plotShadow: false
-                },
-                title: {
-                    text: 'Category<br>shares',
-                    align: 'center',
-                    verticalAlign: 'middle',
-                    y: 0
-                },
-                tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                },
-                plotOptions: {
-                    pie: {
-                        dataLabels: {
-                            enabled: true,
-                            distance: -50,
-                            style: {
-                                fontWeight: 'bold',
-                                color: 'white',
-                                textShadow: '0px 1px 2px black'
-                            }
-                        }
-                    }
-                },
-                series: [{
-                    type: 'pie',
-                    name: 'Browser share',
-                    innerSize: '50%',
-                    data: [
-                        ['Firefox',   45.0],
-                        ['IE',       26.8],
-                        ['Chrome', 12.8],
-                        ['Safari',    8.5],
-                        ['Opera',     6.2],
-                        {
-                            name: 'Others',
-                            y: 0.7,
-                            dataLabels: {
-                                enabled: false
-                            }
-                        }
-                    ]
-                }]
-            });
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: null
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Cotegory share',
+                data: data_set
+            }]
+        });
         };
 
 
