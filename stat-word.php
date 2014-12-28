@@ -50,13 +50,13 @@
             <div class="row">
                 <div class="col-lg-8">
                     <!-- /.panel -->
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" id="words-time-category-div">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Time & Category
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div id="morris-area-chart"></div>
+                        <div class="panel-body sinmin-panel-body">
+                            <div id="words-time-category-chart"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -161,7 +161,8 @@
 
     <script type="text/javascript">
         show_composition();
-        // show_frequent_words();
+        show_frequent_words();
+        show_word_time_category();
 
         function ajax_call(method, word, categories, years, amount, plot_func, calls, data_calls, spinner){
             //calls[0] = sent, calls[1] = success
@@ -334,6 +335,131 @@
             $("#table-panel").css("display", "block");
         }
 
+        function show_word_time_category(){
+            target = document.getElementById('words-time-category-div');
+            spinner = new Spinner(spin_opts).spin(target);
+            calls = [0,0]; //calls[0] = sent, calls[1] = success
+            data_calls = [];
+
+            years = [];
+            for (i = start_year; i <= end_year; i++) {
+                years[years.length] = i.toString(); 
+            }
+            // (method, word, categories, years, amount, plot_func, calls, data_calls, spinner)
+            ajax_call("wordCount", [], ["NEWS"], years, 0, draw_word_time_category, calls, data_calls, spinner);
+            ajax_call("wordCount", [], ["ACADEMIC"], years, 0, draw_word_time_category, calls, data_calls, spinner);
+            ajax_call("wordCount", [], ["CREATIVE"], years, 0, draw_word_time_category, calls, data_calls, spinner);
+            ajax_call("wordCount", [], ["SPOKEN"], years, 0, draw_word_time_category, calls, data_calls, spinner);
+            ajax_call("wordCount", [], ["GAZETTE"], years, 0, draw_word_time_category, calls, data_calls, spinner);
+        }
+
+        function draw_word_time_category(data_received, spinner){
+            console.log(data_received);
+            data = [];
+            var categories = [];
+
+            for (i = 0; i < 5; i++) {
+                categories[i] = [];
+            }
+
+            for (i = 0; i < data_received.length; i++) {
+                if(data_received[i].category == "NEWS"){
+                    categories[0][categories[0].length] = [Date.UTC(data_received[i].year, 0, 1), data_received[i].count]
+                }else if(data_received[i].category == "ACADEMIC"){
+                    categories[1][categories[1].length] = [Date.UTC(data_received[i].year, 0, 1), data_received[i].count]
+                }else if(data_received[i].category == "CREATIVE"){
+                    categories[2][categories[2].length] = [Date.UTC(data_received[i].year, 0, 1), data_received[i].count]
+                }else if(data_received[i].category == "SPOKEN"){
+                    categories[3][categories[3].length] = [Date.UTC(data_received[i].year, 0, 1), data_received[i].count]
+                }else if(data_received[i].category == "GAZETTE"){
+                    categories[4][categories[4].length] = [Date.UTC(data_received[i].year, 0, 1), data_received[i].count]
+                }
+            }
+            
+            if(categories[0].length>0){
+                    data[data.length] = {data:categories[0],name: "News"}
+            }
+            if(categories[1].length>0){
+                    data[data.length] = {data:categories[1],name: "Academic"}
+            }
+            if(categories[2].length>0){
+                    data[data.length] = {data:categories[2],name: "Creative Writing"}
+            }
+            if(categories[3].length>0){
+                    data[data.length] = {data:categories[3],name: "Spoken"}
+            }
+            if(categories[4].length>0){
+                    data[data.length] = {data:categories[4],name: "Gazette"}
+            }
+
+            console.log(data);
+
+            spinner.stop();
+            
+
+            chart = $('#words-time-category-chart').highcharts({
+                chart: {
+                    zoomType: 'x',
+                    type: 'spline'
+                },
+                title: {
+                    text: null
+                },
+                subtitle: {
+                    text: document.ontouchstart === undefined ?
+                            'Click and drag in the plot area to zoom in' :
+                            'Pinch the chart to zoom in'
+                },
+                xAxis: {
+                    type: 'datetime',
+                    labels:
+                        {
+                            formatter: function () {
+                                return Highcharts.dateFormat("%Y", this.value);
+                            }
+                        },
+                        tickInterval: Date.UTC(2010, 0, 1) - Date.UTC(2009, 0, 1)
+                },
+                yAxis: {
+                    title: {
+                        text: 'Words'
+                    }
+                },
+                tooltip: {
+                        shared: true
+                    },
+                legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                        borderWidth: 0
+                    },
+                plotOptions: {
+                    area: {
+                        fillColor: {
+                            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                            stops: [
+                                [0, Highcharts.getOptions().colors[0]],
+                                [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                            ]
+                        },
+                        marker: {
+                            radius: 2
+                        },
+                        lineWidth: 1,
+                        states: {
+                            hover: {
+                                lineWidth: 1
+                            }
+                        },
+                        threshold: null
+                    }
+                },
+
+                series: data
+            });
+        }
+
         function show_composition() {
             target = document.getElementById('composition-div');
             spinner = new Spinner(spin_opts).spin(target);
@@ -372,134 +498,37 @@
             // Build the chart
             
             $('#composition-chart').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
-            title: {
-                text: null
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Cotegory share',
-                data: data_set
-            }]
-        });
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+                },
+                title: {
+                    text: null
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Cotegory share',
+                    data: data_set
+                }]
+            });
         };
 
 
-        Morris.Bar({
-        element: 'morris-bar-chart',
-        data: [{
-            y: 'Total',
-            1: 100,
-            2: 90,
-            3: 75,
-            4: 65,
-            5: 34
-        }],
-        xkey: 'y',
-        ykeys: ['1', '2', '3', '4', '5'],
-        labels: ['මේ', 'ඒ', 'හා', 'ද', 'බව'],
-        hideHover: 'auto',
-        resize: true
-    });
-
-
-        Morris.Line({
-        element: 'morris-area-chart',
-        data: [{
-            period: '2010',
-            1: 2666,
-            2: null,
-            3: 2647,
-            4: 2294,
-            5: 2441
-        }, {
-            period: '2011',
-            1: 2778,
-            2: 2294,
-            3: 2441,
-            4: 2294,
-            5: 2441
-        }, {
-            period: '2012',
-            1: 4912,
-            2: 1969,
-            3: 2501,
-            4: 5432,
-            5: 7654
-        }, {
-            period: '2013',
-            1: 3767,
-            2: 3597,
-            3: 5689,
-            4: 6543,
-            5: 9876
-        }, {
-            period: '2014',
-            1: 6810,
-            2: 1914,
-            3: 2293,
-            4: 4321,
-            5: 5678
-        }, {
-            period: '2015',
-            1: 5670,
-            2: 4293,
-            3: 1881,
-            4: 2312,
-            5: 7654
-        }, {
-            period: '2016',
-            1: 4820,
-            2: 3795,
-            3: 1588,
-            4: 1345,
-            5: 3456
-        }, {
-            period: '2017',
-            1: 15073,
-            2: 5967,
-            3: 5175,
-            4: 2345,
-            5: 7890
-        }, {
-            period: '2018',
-            1: 10687,
-            2: 4460,
-            3: 2028,
-            4: 1234,
-            5: 7865
-        }, {
-            period: '2019',
-            1: 8432,
-            2: 5713,
-            3: 1791,
-            4: 2222,
-            5: 3333
-        }],
-        xkey: 'period',
-        ykeys: ['1', '2', '3', '4', '5'],
-        labels: ['මේ', 'ඒ', 'හා', 'ද', 'බව'],
-        pointSize: 2,
-        hideHover: 'auto',
-        resize: true
-    });
+        
 
 // $('[data-toggle="popover"]').popover({
 //     trigger: 'hover',
