@@ -34,10 +34,10 @@
                 <a href="#"><i class="fa fa-dashboard fa-fw"></i> Statistics<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="stat.php">Statistics</a>
+                        <a href="stat-word.php">Word</a>
                     </li>
                     <li>
-                        <a href="stat-word.php">Statistics - Word</a>
+                        <a href="stat-bigram.php">Bigram</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
