@@ -55,7 +55,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default" id="frequent-words-table-div">
                         <div class="panel-heading">
-                            <i class="fa fa-columns fa-fw"></i> Frequent Words
+                            <i class="fa fa-columns fa-fw"></i> Frequent Bigrams
                         </div>
                         <div class="panel-body sinmin-panel-body">
                             <div class="table-responsive">
@@ -390,7 +390,7 @@
                 },
                 yAxis: {
                     title: {
-                        text: 'Words'
+                        text: 'Bigrams'
                     }
                 },
                 tooltip: {
@@ -534,7 +534,7 @@
                 yAxis: {
                     min: 0,
                     title: {
-                        text: 'Words'
+                        text: 'Bigrams'
                     }
                 },
                 legend: {
@@ -555,7 +555,7 @@
                     }
                 },
                 series: [{
-                    name: 'Words',
+                    name: 'Bigrams',
                     data: data_set
 
                 }]
