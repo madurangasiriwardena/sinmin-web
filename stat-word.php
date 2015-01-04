@@ -277,6 +277,8 @@
             $('#frequent-words-table-content').html( '<table class="table table-striped table-bordered table-hover" border="0" id="example"></table>' );
  
             table = $('#example').DataTable( {
+                "info": false,
+                "paging": false,
                 "data": data_set,
                 "columns": column_titles,
                 "columnDefs": column_defs
