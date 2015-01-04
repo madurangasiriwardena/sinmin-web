@@ -39,6 +39,9 @@
                     <li>
                         <a href="stat-bigram.php">Bigram</a>
                     </li>
+                    <li>
+                        <a href="stat-trigram.php">Trigram</a>
+                    </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>

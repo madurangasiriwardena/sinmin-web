@@ -191,7 +191,6 @@
             var method_name;
 
             var ngram_arr = word.split(',');
-
             
             var valied_string = true;
             var method_name = [];
@@ -241,10 +240,6 @@
             }
 
             function plot_popular_draw(data_received, ngram_arr){
-                console.log("--------------------");
-                console.log(data_received);
-                console.log(ngram_arr);
-                console.log("--------------------");
                 data = [];
                 words = [];
                 word_frequency = [];
@@ -339,31 +334,16 @@
                 });
             }
 
-            function draw_table(data_received){
+            function draw_table(data_received, words){
                 data = [];
-                words = [];
-                word_frequency = [];
-                word_frequency_available = []; 
                 column_titles = [];
 
-                for (i = 0; i < data_received[0].words.length; i++) {
-                    word_temp = data_received[0].words[i].word;
-                    word_temp = word_temp.trim();
-
-                    if (typeof word_frequency[word_temp] === "undefined"){
-                        words[words.length] = word_temp;
-                        word_frequency[word_temp] = [];
-                        word_frequency_available[word_temp] = [];
-                    }
-                    word_frequency[word_temp][(data_received[0].words[i].year).toString()] = data_received[0].words[i].frequency;
-                    word_frequency_available[word_temp][(data_received[0].words[i].year).toString()] = true;
-                }
-
-                for (var i = 0; i < words.length; i++) {
-                    for (var j = from; j <= to; j++) {
-                        if (typeof word_frequency_available[words[i]][j.toString()] === "undefined"){
-                            word_frequency[words[i]][j.toString()] = 0;
-                        }
+                for (i = 0; i < data_received.length; i++) {
+                    data[i] = {};
+                    for (j = 0; j < data_received[i].length; j++) {
+                        year = data_received[i][j].date;
+                        frequency = data_received[i][j].frequency;
+                        data[i][year.toString()] = frequency;
                     };
                 };
 
@@ -372,17 +352,16 @@
                     var row = [];
                     row[0] = i;
                     for(j = 0; j< words.length; j++){
-                        row[row.length] = word_frequency[words[j]][i.toString()];
+                        row[row.length] = data[j][i.toString()];
                     }
 
                     dataSet[dataSet.length] = row; 
                 }
                 
                 column_titles[0] = {"title": "Year"};
-                for (var i = 0; i < 10; i++) {
+                for (i = 0; i < words.length; i++) {
                     column_titles[column_titles.length] = {"title": words[i]};
                 };
-
 
                 $('#table-content').html( '<table class="table table-striped table-bordered table-hover" border="0" id="example"></table>' );
  
@@ -399,7 +378,6 @@
             function ajax_call(method, words, word_index, categories, years, plot_func, draw_table, calls, data_calls){
                 //calls[0] = sent, calls[1] = success
                 calls[0] = calls[0]+1;
-                console.log("++++++++++"+calls[0]);
                 var data;
                 if(categories.length==0 & years.length!=0){
                     data = {"time":years}
@@ -431,13 +409,11 @@
                         Accept : "application/json"
                     },
                     success: function (data) {
-                        console.log(data);
                         data_calls[word_index] = data;
                         calls[1] = calls[1]+1;
-                        console.log("------"+calls[1])
                         if(calls[0] == calls[1]){
                             plot_func(data_calls, words);
-                            // draw_table(data_calls);
+                            draw_table(data_calls, words);
                         }
                     },
                     error: function (data) { console.log(data)},
