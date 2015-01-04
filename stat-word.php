@@ -28,62 +28,18 @@
                 <div class="col-lg-12">
                     <h1 class="page-header">Statistics - Word</h1>
                 </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default" id="frequent-words-table-div">
-                        <div class="panel-heading">
-                            <i class="fa fa-columns fa-fw"></i> Frequent Words
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body sinmin-panel-body">
-                            <div class="table-responsive">
-                                <div class="table-content" id="frequent-words-table-content"></div>
-                            </div>
-                            <!-- /.table-responsive -->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                </div>
             </div>
             <div class="row">
                 <div class="col-lg-8">
-                    <!-- /.panel -->
                     <div class="panel panel-default" id="words-time-category-div">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Time & Category
                         </div>
-                        <!-- /.panel-heading -->
                         <div class="panel-body sinmin-panel-body">
                             <div id="words-time-category-chart"></div>
                         </div>
-                        <!-- /.panel-body -->
                     </div>
-                    <!-- /.panel -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Frequency in category
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="row">
-                                
-                                <!-- /.col-lg-4 (nested) -->
-                                <div class="col-lg-12">
-                                    <div id="morris-bar-chart"></div>
-                                </div>
-                                <!-- /.col-lg-8 (nested) -->
-                            </div>
-                            <!-- /.row -->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                    
-                    <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-8 -->
                 <div class="col-lg-4">
                     <div class="panel panel-default" id="composition-div">
                         <div class="panel-heading">
@@ -92,13 +48,43 @@
                         <div class="panel-body sinmin-panel-body">
                             <div id="composition-chart"></div>
                         </div>
-                        <!-- /.panel-body -->
                     </div>
-                    <div class="panel panel-default">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default" id="frequent-words-table-div">
+                        <div class="panel-heading">
+                            <i class="fa fa-columns fa-fw"></i> Frequent Words
+                        </div>
+                        <div class="panel-body sinmin-panel-body">
+                            <div class="table-responsive">
+                                <div class="table-content" id="frequent-words-table-content"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="panel panel-default" id="time-div">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Frequency over years
+                        </div>
+                        <div class="panel-body sinmin-panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="time-chart"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!-- <div class="panel panel-default">
                         <div class="panel-heading">
                             Count
                         </div>
-                        <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
@@ -118,22 +104,12 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- /.table-responsive -->
                         </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-
-                    <!-- /.panel -->
-                    
-                <!-- /.col-lg-4 -->
+                    </div> -->
+                </div>
             </div>
-            <!-- /.row -->
         </div>
-        <!-- /#page-wrapper -->
-
     </div>
-    <!-- /#wrapper -->
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
@@ -163,6 +139,7 @@
         show_composition();
         show_frequent_words();
         show_word_time_category();
+        show_time();
 
         function ajax_call(method, word, categories, years, amount, plot_func, calls, data_calls, spinner){
             //calls[0] = sent, calls[1] = success
@@ -176,17 +153,6 @@
                 data = {}
             }else{
                 data = {"time":years, "category":categories}
-            }
-
-            if(word.length == 1){
-                data["value"] = word[0];
-            }else if(word.length == 2){
-                data["value1"] = word[0];
-                data["value2"] = word[1];
-            }else if(word.length == 3){
-                data["value1"] = word[0];
-                data["value2"] = word[1];
-                data["value3"] = word[2];
             }
 
             if(amount != 0){
@@ -527,13 +493,72 @@
             });
         };
 
+        function show_time() {
+            target = document.getElementById('time-div');
+            spinner = new Spinner(spin_opts).spin(target);
+            calls = [0,0]; //calls[0] = sent, calls[1] = success
+            data_calls = [];
 
-        
+            years = [];
+            for (i = start_year; i <= end_year; i++) {
+                years[years.length] = i.toString(); 
+            }
+            ajax_call("wordCount", [], [], years, 0, draw_time, calls, data_calls, spinner);
+            // (method, word, categories, years, amount, plot_func, calls, data_calls, spinner)
+        }
 
-// $('[data-toggle="popover"]').popover({
-//     trigger: 'hover',
-//         'placement': 'top'
-// });
+
+        function draw_time(data_received, spinner){
+            data_set = [];
+            years = [];
+
+            for (var i = 0; i < data_received.length; i++) {
+                data_set[data_set.length] = [data_received[i].count];
+                years[years.length] = [data_received[i].year];
+            };
+
+            spinner.stop();
+            
+            $('#time-chart').highcharts({
+                chart: {
+                        type: 'column'
+                },
+                title: {
+                    text: null
+                },
+                xAxis: {
+                    categories: years
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Words'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Words',
+                    data: data_set
+
+                }]
+            });
+        };
 
 $(function () {
   $('[data-toggle="popover"]').popover()

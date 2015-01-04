@@ -48,9 +48,6 @@
                     <li>
                         <a href="compare.php">Compare</a>
                     </li>
-                    <li>
-                        <a href="#">Popular</a>
-                    </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>

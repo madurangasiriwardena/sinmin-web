@@ -211,7 +211,7 @@
                 }
             };
 
-            document.getElementById("panel-heading").innerHTML = "Most popular words after '"+word+"'";
+            document.getElementById("panel-heading").innerHTML = "Comparing '"+word+"' over time";
             plot_popular();
 
             function plot_popular() {
