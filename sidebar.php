@@ -22,7 +22,7 @@
                         <a href="frequency.php">Frequency</a>
                     </li>
                     <li>
-                        <a href="popularwords.php">Popular</a>
+                        <a href="popularwords.php">Probable</a>
                     </li>
                     <li>
                         <a href="compare-chart.php">Compare</a>

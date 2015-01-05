@@ -67,7 +67,7 @@
                                         <i class="fa fa-star fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div><h3>Popular</h3></div>
+                                        <div><h3>Probable</h3></div>
                                     </div>
                                 </div>
                             </div>
@@ -91,139 +91,28 @@
                     </a>
                 </div>
             </div>
-            <!-- /.row -->
             <div class="row">
                 <div class="col-lg-8">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" id="words-time-category-div">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Time & Category
-                            
                         </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div id="morris-area-chart"></div>
+                        <div class="panel-body sinmin-panel-body">
+                            <div id="words-time-category-chart"></div>
                         </div>
-                        <!-- /.panel-body -->
                     </div>
-                    <!-- /.panel -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Bar Chart Example
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                        Actions
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a href="#">Action</a>
-                                        </li>
-                                        <li><a href="#">Another action</a>
-                                        </li>
-                                        <li><a href="#">Something else here</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Separated link</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="row">
-                                
-                                <!-- /.col-lg-4 (nested) -->
-                                <div class="col-lg-12">
-                                    <div id="morris-bar-chart"></div>
-                                </div>
-                                <!-- /.col-lg-8 (nested) -->
-                            </div>
-                            <!-- /.row -->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                    
-                    <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-8 -->
                 <div class="col-lg-4">
-                <div class="panel panel-default">
+                    <div class="panel panel-default" id="composition-div">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Composition
                         </div>
-                        <div class="panel-body">
-                            <div id="morris-donut-chart"></div>
-                            <a href="#" class="btn btn-default btn-block">View Details</a>
+                        <div class="panel-body sinmin-panel-body">
+                            <div id="composition-chart"></div>
                         </div>
-                        <!-- /.panel-body -->
                     </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bell fa-fw"></i> Notifications Panel
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small"><em>4 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small"><em>12 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                    <span class="pull-right text-muted small"><em>27 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> New Task
-                                    <span class="pull-right text-muted small"><em>43 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small"><em>11:32 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-bolt fa-fw"></i> Server Crashed!
-                                    <span class="pull-right text-muted small"><em>11:13 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-warning fa-fw"></i> Server Not Responding
-                                    <span class="pull-right text-muted small"><em>10:57 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-shopping-cart fa-fw"></i> New Order Placed
-                                    <span class="pull-right text-muted small"><em>9:49 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-money fa-fw"></i> Payment Received
-                                    <span class="pull-right text-muted small"><em>Yesterday</em>
-                                    </span>
-                                </a>
-                            </div>
-                            <!-- /.list-group -->
-                            <a href="#" class="btn btn-default btn-block">View All Alerts</a>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                    
-                <!-- /.col-lg-4 -->
+                </div>
             </div>
-            <!-- /.row -->
-        </div>
-        <!-- /#page-wrapper -->
 
     </div>
     <!-- /#wrapper -->
@@ -237,143 +126,252 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
 
-    <!-- Morris Charts JavaScript -->
-    <script src="js/plugins/morris/raphael.min.js"></script>
-    <script src="js/plugins/morris/morris.min.js"></script>
+    <script src="js/plugins/highcharts/highcharts.js"></script>
+    <script src="js/plugins/highcharts/modules/exporting.js"></script>
+
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 
-    <script type="text/javascript">
-        Morris.Donut({
-        element: 'morris-donut-chart',
-        data: [{
-            label: "News",
-            value: 55000000
-        }, {
-            label: "Academic",
-            value: 10000000
-        }, {
-            label: "Creative Writing",
-            value: 40000000
-        }, {
-            label: "Spoken",
-            value: 5000000
-        }, {
-            label: "Gazette",
-            value: 15000000
-        }],
-        resize: true
-    });
-    </script>
+    <link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
 
     <script type="text/javascript">
-        Morris.Bar({
-        element: 'morris-bar-chart',
-        data: [{
-            y: '2006',
-            a: 100,
-            b: 90
-        }, {
-            y: '2007',
-            a: 75,
-            b: 65
-        }, {
-            y: '2008',
-            a: 50,
-            b: 40
-        }, {
-            y: '2009',
-            a: 75,
-            b: 65
-        }, {
-            y: '2010',
-            a: 50,
-            b: 40
-        }, {
-            y: '2011',
-            a: 75,
-            b: 65
-        }, {
-            y: '2012',
-            a: 100,
-            b: 90
-        }],
-        xkey: 'y',
-        ykeys: ['a', 'b'],
-        labels: ['Series A', 'Series B'],
-        hideHover: 'auto',
-        resize: true
-    });
-    </script>
+        show_composition();
+        show_word_time_category();
 
-    <script type="text/javascript">
-        Morris.Line({
-        element: 'morris-area-chart',
-        data: [{
-            period: '2006',
-            News: 0,
-            Academic: 0,
-            Creative_Writing: 0,
-            Spoken: 5432,
-            Gazette: 7654
-        }, {
-            period: '2007',
-            News: 0,
-            Academic: 0,
-            Creative_Writing: 0,
-            Spoken: 6543,
-            Gazette: 9876
-        }, {
-            period: '2008',
-            News: 6810,
-            Academic: 1914,
-            Creative_Writing: 0,
-            Spoken: 4321,
-            Gazette: 5678
-        }, {
-            period: '2009',
-            News: 5670,
-            Academic: 4293,
-            Creative_Writing: 1881,
-            Spoken: 2312,
-            Gazette: 7654
-        }, {
-            period: '2010',
-            News: 4820,
-            Academic: 3795,
-            Creative_Writing: 1588,
-            Spoken: 1345,
-            Gazette: 3456
-        }, {
-            period: '2011',
-            News: 15073,
-            Academic: 5967,
-            Creative_Writing: 5175,
-            Spoken: 2345,
-            Gazette: 7890
-        }, {
-            period: '2012',
-            News: 10687,
-            Academic: 4460,
-            Creative_Writing: 2028,
-            Spoken: 1234,
-            Gazette: 7865
-        }, {
-            period: '2013',
-            News: 8432,
-            Academic: 5713,
-            Creative_Writing: 1791,
-            Spoken: 2222,
-            Gazette: 3333
-        }],
-        xkey: 'period',
-        ykeys: ['News', 'Academic', 'Creative_Writing', 'Spoken', 'Gazette'],
-        labels: ['News', 'Academic', 'Creative Writing', 'Spoken', 'Gazette'],
-        pointSize: 2,
-        hideHover: 'auto',
-        resize: true
-    });
+        function ajax_call(method, word, categories, years, amount, plot_func, calls, data_calls, spinner){
+            //calls[0] = sent, calls[1] = success
+            calls[0] = calls[0]+1;
+            var data;
+            if(categories.length==0 & years.length!=0){
+                data = {"time":years}
+            }else if(years.length==0 & categories.length!=0){
+                data = {"category":categories}
+            }else if(years.length==0 & categories.length==0){
+                data = {}
+            }else{
+                data = {"time":years, "category":categories}
+            }
+
+            if(amount != 0){
+                data["amount"] = amount;
+            }
+
+            data = JSON.stringify(data);
+
+            $.ajax({
+                url: api_url+method,
+                type: 'POST',
+                data: data,
+                headers: {
+                    'Content-Type': "application/json",
+                    Accept : "application/json"
+                },
+                success: function (data) {
+                    data_calls.push.apply(data_calls, data);
+                    calls[1] = calls[1]+1;
+                    if(calls[0] == calls[1]){
+                        plot_func(data_calls, spinner);
+                    }
+                },
+                error: function (data) { console.log(data)},
+            });
+        }
+
+        function show_word_time_category(){
+            target = document.getElementById('words-time-category-div');
+            spinner = new Spinner(spin_opts).spin(target);
+            calls = [0,0]; //calls[0] = sent, calls[1] = success
+            data_calls = [];
+
+            years = [];
+            for (i = start_year; i <= end_year; i++) {
+                years[years.length] = i.toString(); 
+            }
+            // (method, word, categories, years, amount, plot_func, calls, data_calls, spinner)
+            ajax_call("wordCount", [], ["NEWS"], years, 0, draw_word_time_category, calls, data_calls, spinner);
+            ajax_call("wordCount", [], ["ACADEMIC"], years, 0, draw_word_time_category, calls, data_calls, spinner);
+            ajax_call("wordCount", [], ["CREATIVE"], years, 0, draw_word_time_category, calls, data_calls, spinner);
+            ajax_call("wordCount", [], ["SPOKEN"], years, 0, draw_word_time_category, calls, data_calls, spinner);
+            ajax_call("wordCount", [], ["GAZETTE"], years, 0, draw_word_time_category, calls, data_calls, spinner);
+        }
+
+        function draw_word_time_category(data_received, spinner){
+            console.log(data_received);
+            data = [];
+            var categories = [];
+
+            for (i = 0; i < 5; i++) {
+                categories[i] = [];
+            }
+
+            for (i = 0; i < data_received.length; i++) {
+                if(data_received[i].category == "NEWS"){
+                    categories[0][categories[0].length] = [Date.UTC(data_received[i].year, 0, 1), data_received[i].count]
+                }else if(data_received[i].category == "ACADEMIC"){
+                    categories[1][categories[1].length] = [Date.UTC(data_received[i].year, 0, 1), data_received[i].count]
+                }else if(data_received[i].category == "CREATIVE"){
+                    categories[2][categories[2].length] = [Date.UTC(data_received[i].year, 0, 1), data_received[i].count]
+                }else if(data_received[i].category == "SPOKEN"){
+                    categories[3][categories[3].length] = [Date.UTC(data_received[i].year, 0, 1), data_received[i].count]
+                }else if(data_received[i].category == "GAZETTE"){
+                    categories[4][categories[4].length] = [Date.UTC(data_received[i].year, 0, 1), data_received[i].count]
+                }
+            }
+            
+            if(categories[0].length>0){
+                    data[data.length] = {data:categories[0],name: "News"}
+            }
+            if(categories[1].length>0){
+                    data[data.length] = {data:categories[1],name: "Academic"}
+            }
+            if(categories[2].length>0){
+                    data[data.length] = {data:categories[2],name: "Creative Writing"}
+            }
+            if(categories[3].length>0){
+                    data[data.length] = {data:categories[3],name: "Spoken"}
+            }
+            if(categories[4].length>0){
+                    data[data.length] = {data:categories[4],name: "Gazette"}
+            }
+
+            console.log(data);
+
+            spinner.stop();
+            
+
+            chart = $('#words-time-category-chart').highcharts({
+                chart: {
+                    zoomType: 'x',
+                    type: 'spline'
+                },
+                title: {
+                    text: null
+                },
+                subtitle: {
+                    text: document.ontouchstart === undefined ?
+                            'Click and drag in the plot area to zoom in' :
+                            'Pinch the chart to zoom in'
+                },
+                xAxis: {
+                    type: 'datetime',
+                    labels:
+                        {
+                            formatter: function () {
+                                return Highcharts.dateFormat("%Y", this.value);
+                            }
+                        },
+                        tickInterval: Date.UTC(2010, 0, 1) - Date.UTC(2009, 0, 1)
+                },
+                yAxis: {
+                    title: {
+                        text: 'Words'
+                    }
+                },
+                tooltip: {
+                        shared: true
+                    },
+                legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                        borderWidth: 0
+                    },
+                plotOptions: {
+                    area: {
+                        fillColor: {
+                            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                            stops: [
+                                [0, Highcharts.getOptions().colors[0]],
+                                [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                            ]
+                        },
+                        marker: {
+                            radius: 2
+                        },
+                        lineWidth: 1,
+                        states: {
+                            hover: {
+                                lineWidth: 1
+                            }
+                        },
+                        threshold: null
+                    }
+                },
+
+                series: data
+            });
+        }
+
+        function show_composition() {
+            target = document.getElementById('composition-div');
+            spinner = new Spinner(spin_opts).spin(target);
+            calls = [0,0]; //calls[0] = sent, calls[1] = success
+            data_calls = [];
+            categories = ["NEWS","ACADEMIC","CREATIVE","SPOKEN","GAZETTE"];
+            ajax_call("wordCount", [], categories, [], 0, draw_composition, calls, data_calls, spinner);
+            // (method, word, categories, years, amount, plot_func, calls, data_calls, spinner)
+        }
+
+
+        function draw_composition(data_received, spinner){
+            console.log(data_received);
+            data_set = [];
+
+            for (var i = 0; i < data_received.length; i++) {
+                data_set[data_set.length] = [data_received[i].category, data_received[i].count];
+            };
+
+            spinner.stop();
+
+            // Make monochrome colors and set them as default for all pies
+            Highcharts.getOptions().plotOptions.pie.colors = (function () {
+                var colors = [],
+                    base = Highcharts.getOptions().colors[0],
+                    i;
+
+                for (i = 0; i < 5; i += 1) {
+                    // Start out with a darkened base color (negative brighten), and end
+                    // up with a much brighter color
+                    colors.push(Highcharts.Color(base).brighten((i - 3) / 7).get());
+                }
+                return colors;
+            }());
+
+            // Build the chart
+            
+            $('#composition-chart').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+                },
+                title: {
+                    text: null
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Cotegory share',
+                    data: data_set
+                }]
+            });
+        };
+
     </script>
 
 </body>
