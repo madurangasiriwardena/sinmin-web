@@ -489,7 +489,7 @@
                 },
                 series: [{
                     type: 'pie',
-                    name: 'Cotegory share',
+                    name: 'Category share',
                     data: data_set
                 }]
             });
