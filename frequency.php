@@ -269,10 +269,118 @@
                 }
             }
         });
+
+        function ajax_call(method, word, categories, years, plot_func, draw_table, calls, calls_frequency_data, calls_count_data, frequency){
+            //calls[0] = sent, calls[1] = success
+            calls[0] = calls[0]+1;
+            console.log(calls[0]);
+            var data;
+            if(categories.length==0 & years.length!=0){
+                data = {"time":years}
+            }else if(years.length==0 & categories.length!=0){
+                data = {"category":categories}
+            }else if(years.length==0 & categories.length==0){
+                data = {}
+            }else{
+                data = {"time":years, "category":categories}
+            }
+
+            if(word.length == 1){
+                data["value"] = word[0];
+            }else if(word.length == 2){
+                data["value1"] = word[0];
+                data["value2"] = word[1];
+            }else if(word.length == 3){
+                data["value1"] = word[0];
+                data["value2"] = word[1];
+                data["value3"] = word[2];
+            }
+
+            data = JSON.stringify(data);
+            console.log(data);
+
+            $.ajax({
+                url: api_url+method,
+                type: 'POST',
+                data: data,
+                headers: {
+                    'Content-Type': "application/json",
+                    Accept : "application/json"
+                },
+                success: function (data) {
+                    if(frequency){
+                        calls_frequency_data.push.apply(calls_frequency_data, data);
+                    }else{
+                        calls_count_data.push.apply(calls_count_data, data);
+                    }
+                    calls[1] = calls[1]+1;
+                    console.log(calls[0] + " " + calls[1]);
+                    if(calls[0] == calls[1]){
+                        plot_func(calls_frequency_data, calls_count_data);
+                        draw_table(calls_frequency_data, calls_count_data);
+                    }
+                },
+                error: function (data) { console.log(data)},
+            });
+        }
         
-        var sent_calls;
-        var success_calls;
-        var data_calls;
+        // var sent_calls;
+        // var success_calls;
+        // var data_calls;
+
+        function decimalPlaces(number) {
+          return ((+number).toFixed(20)).replace(/^-?\d*\.?|0+$/g, '').length
+        }
+
+        (function(){
+
+            /**
+             * Decimal adjustment of a number.
+             *
+             * @param   {String}    type    The type of adjustment.
+             * @param   {Number}    value   The number.
+             * @param   {Integer}   exp     The exponent (the 10 logarithm of the adjustment base).
+             * @returns {Number}            The adjusted value.
+             */
+            function decimalAdjust(type, value, exp) {
+                // If the exp is undefined or zero...
+                if (typeof exp === 'undefined' || +exp === 0) {
+                    return Math[type](value);
+                }
+                value = +value;
+                exp = +exp;
+                // If the value is not a number or the exp is not an integer...
+                if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
+                    return NaN;
+                }
+                // Shift
+                value = value.toString().split('e');
+                value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
+                // Shift back
+                value = value.toString().split('e');
+                return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
+            }
+
+            // Decimal round
+            if (!Math.round10) {
+                Math.round10 = function(value, exp) {
+                    return decimalAdjust('round', value, exp);
+                };
+            }
+            // Decimal floor
+            if (!Math.floor10) {
+                Math.floor10 = function(value, exp) {
+                    return decimalAdjust('floor', value, exp);
+                };
+            }
+            // Decimal ceil
+            if (!Math.ceil10) {
+                Math.ceil10 = function(value, exp) {
+                    return decimalAdjust('ceil', value, exp);
+                };
+            }
+
+        })();
 
 
         $('#myForm').submit(function() {
@@ -282,10 +390,11 @@
             var offset = 0;
             var spinner;
             var method_name;
+            var method_count_name;
 
-            sent_calls = 0;
-            success_calls = 0;
-            data_calls = [];
+            calls = [0,0]; //calls[0] = sent, calls[1] = success
+            calls_frequency_data = [];
+            calls_count_data = [];
 
             word = word.trim();
             var word_arr = word.split(' ');
@@ -294,10 +403,13 @@
 
             if(word_arr.length == 1){
                 method_name = "wordFrequency";
+                method_count_name = "wordCount";
             }else if(word_arr.length == 2){
                 method_name = "bigramFrequency";
+                method_count_name = "bigramCount";
             }else if(word_arr.length == 3){
                 method_name = "trigramFrequency";
+                method_count_name = "trigramCount";
             }else{
                 valied_string = false;
             }
@@ -343,14 +455,25 @@
                     years[years.length] = i.toString(); 
                 }
                 
-                ajax_call(method_name, word_arr, [], years, plot_time_draw, draw_table);
+                ajax_call(method_name, word_arr, [], years, plot_time_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
+                ajax_call(method_count_name, [], [], years, plot_time_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
             }
 
-            function plot_time_draw(data_received){
+            function plot_time_draw(data_received, count_data_received){
                 var data = [];
 
                 for (i = 0; i < data_received.length; i++) {
-                    data[data.length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
+                    if(count_data_received[i].count != 0){
+                        temp = data_received[i].frequency/count_data_received[i].count;
+                        if(decimalPlaces(temp)>19){
+                            temp = Number(temp.toFixed(19));
+                        }
+                        data[data.length] = [Date.UTC(data_received[i].date, 0, 1), temp]
+                        console.log(temp)
+                    }else{
+                        data[data.length] = [Date.UTC(data_received[i].date, 0, 1), 0];
+                    }
+                    
                 }
 
                 spinner.stop();
@@ -445,20 +568,32 @@
                 }
 
                 if(all_categories == 1){
-                    ajax_call(method_name, word_arr, [], [], plot_category_draw, draw_table);
+                    ajax_call(method_name, word_arr, [], [], plot_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
+                    ajax_call(method_count_name, [], [], [], plot_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
                 }
-                ajax_call(method_name, word_arr, categories, [], plot_category_draw, draw_table);
+                ajax_call(method_name, word_arr, categories, [], plot_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
+                ajax_call(method_count_name, [], categories, [], plot_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
                 
             }
 
-            function plot_category_draw(data_received) {
+            function plot_category_draw(data_received, count_data_received) {
 
                 var data = [];
                 var categories = [];
 
                 for (i = 0; i < data_received.length; i++) {
-                    data[data.length] = [data_received[i].frequency];
-                    categories[categories.length] = [data_received[i].category]
+                    if(count_data_received[i].count != 0){
+                        temp = data_received[i].frequency/count_data_received[i].count;
+                        if(decimalPlaces(temp)>19){
+                            temp = Number(temp.toFixed(19));
+                        }
+                        data[data.length] = [temp];
+                    }
+                    else{
+                        data[data.length] = [0];
+                    }
+                    
+                    categories[categories.length] = [data_received[i].category];
                 }
 
                 spinner.stop();
@@ -531,71 +666,161 @@
                     years[years.length] = i.toString(); 
                 }
 
-
-                var categories = [];
                 if($('#category-0').is(':checked')){
-                    ajax_call(method_name, word_arr, [], years, plot_time_category_draw, draw_table);
+                    ajax_call(method_name, word_arr, [], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
+                    ajax_call(method_count_name, [], [], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
                 }
                 if($('#category-1').is(':checked')){
-                    ajax_call(method_name, word_arr, ["NEWS"], years, plot_time_category_draw, draw_table);
+                    ajax_call(method_name, word_arr, ["NEWS"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
+                    ajax_call(method_count_name, [], ["NEWS"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
                 }
                 if($('#category-2').is(':checked')){
-                    ajax_call(method_name, word_arr, ["ACADEMIC"], years, plot_time_category_draw, draw_table); 
+                    ajax_call(method_name, word_arr, ["ACADEMIC"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
+                    ajax_call(method_count_name, [], ["ACADEMIC"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
                 }
                 if($('#category-3').is(':checked')){
-                    ajax_call(method_name, word_arr, ["CREATIVE"], years, plot_time_category_draw, draw_table); 
+                    ajax_call(method_name, word_arr, ["CREATIVE"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
+                    ajax_call(method_count_name, [], ["CREATIVE"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
                 }
                 if($('#category-4').is(':checked')){
-                    ajax_call(method_name, word_arr, ["SPOKEN"], years, plot_time_category_draw, draw_table);
+                    ajax_call(method_name, word_arr, ["SPOKEN"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
+                    ajax_call(method_count_name, [], ["SPOKEN"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
                 }
                 if($('#category-5').is(':checked')){
-                    ajax_call(method_name, word_arr, ["GAZETTE"], years, plot_time_category_draw, draw_table);
+                    ajax_call(method_name, word_arr, ["GAZETTE"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
+                    ajax_call(method_count_name, [], ["GAZETTE"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
                 }
             }
 
-            function plot_time_category_draw(data_received) {
+            function plot_time_category_draw(data_received, count_data_received) {
                 var data = [];
-                var categories = [];
+                // var categories = [];
+                frequencies = {};
+                counts = {};
 
-                for (i = 0; i < 6; i++) {
-                    categories[i] = [];
+                if($('#category-0').is(':checked')){
+                    frequencies["all"] = {};
+                    counts["all"] = {};
+                }
+                if($('#category-1').is(':checked')){
+                    frequencies["NEWS"] = {};
+                    counts["NEWS"] = {};
+                }
+                if($('#category-2').is(':checked')){
+                    frequencies["ACADEMIC"] = {};
+                    counts["ACADEMIC"] = {};
+                }
+                if($('#category-3').is(':checked')){
+                    frequencies["CREATIVE"] = {};
+                    counts["CREATIVE"] = {};
+                }
+                if($('#category-4').is(':checked')){
+                    frequencies["SPOKEN"] = {};
+                    counts["SPOKEN"] = {};
+                }
+                if($('#category-5').is(':checked')){
+                    frequencies["GAZETTE"] = {};
+                    counts["GAZETTE"] = {};
                 }
 
-                for (i = 0; i < data_received.length; i++) {
-                    if(data_received[i].category == "all"){
-                        categories[0][categories[0].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
-                    }else if(data_received[i].category == "NEWS"){
-                        categories[1][categories[1].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
-                    }else if(data_received[i].category == "ACADEMIC"){
-                        categories[2][categories[2].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
-                    }else if(data_received[i].category == "CREATIVE"){
-                        categories[3][categories[3].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
-                    }else if(data_received[i].category == "SPOKEN"){
-                        categories[4][categories[4].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
-                    }else if(data_received[i].category == "GAZETTE"){
-                        categories[5][categories[5].length] = [Date.UTC(data_received[i].date, 0, 1), data_received[i].frequency]
+                for(i = 0; i < data_received.length; i++) {
+                    frequencies[data_received[i].category][data_received[i].date] = data_received[i].frequency;
+                }
+
+                for(i = 0; i < count_data_received.length; i++) {
+                    counts[count_data_received[i].category][count_data_received[i].year] = count_data_received[i].count;
+                }
+
+                if($('#category-0').is(':checked')){
+                    categories = [];
+
+                    for(i=from;i<=to;i++){
+                        if(counts["all"][i] != 0){
+                            temp = frequencies["all"][i]/counts["all"][i];
+                            temp = Math.round10(temp, -20);
+                            categories[categories.length] = [Date.UTC(i, 0, 1), temp]
+                        }else{
+                            categories[categories.length] = [Date.UTC(i, 0, 1), 0];
+                        }
                     }
-                }
-                if(categories[0].length>0){
-                        data[data.length] = {data:categories[0],name: "All"}
-                }
-                if(categories[1].length>0){
-                        data[data.length] = {data:categories[1],name: "News"}
-                }
-                if(categories[2].length>0){
-                        data[data.length] = {data:categories[2],name: "Academic"}
-                }
-                if(categories[3].length>0){
-                        data[data.length] = {data:categories[3],name: "Creative Writing"}
-                }
-                if(categories[4].length>0){
-                        data[data.length] = {data:categories[4],name: "Spoken"}
-                }
-                if(categories[5].length>0){
-                        data[data.length] = {data:categories[5],name: "Gazette"}
-                }
 
-                console.log(data);
+                    data[data.length] = {data:categories,name: "All"}
+                }
+                if($('#category-1').is(':checked')){
+                    categories = [];
+
+                    for(i=from;i<=to;i++){
+                        if(counts["NEWS"][i] != 0){
+                            temp = frequencies["NEWS"][i]/counts["NEWS"][i];
+                            temp = Math.round10(temp, -20);
+                            categories[categories.length] = [Date.UTC(i, 0, 1), temp]
+                        }else{
+                            categories[categories.length] = [Date.UTC(i, 0, 1), 0];
+                        }
+                    }
+
+                    data[data.length] = {data:categories,name: "News"}
+                }
+                if($('#category-2').is(':checked')){
+                    categories = [];
+
+                    for(i=from;i<=to;i++){
+                        if(counts["ACADEMIC"][i] != 0){
+                            temp = frequencies["ACADEMIC"][i]/counts["ACADEMIC"][i];
+                            temp = Math.round10(temp, -20);
+                            categories[categories.length] = [Date.UTC(i, 0, 1), temp]
+                        }else{
+                            categories[categories.length] = [Date.UTC(i, 0, 1), 0];
+                        }
+                    }
+
+                    data[data.length] = {data:categories,name: "Academic"}
+                }
+                if($('#category-3').is(':checked')){
+                    categories = [];
+
+                    for(i=from;i<=to;i++){
+                        if(counts["CREATIVE"][i] != 0){
+                            temp = frequencies["CREATIVE"][i]/counts["CREATIVE"][i];
+                            temp = Math.round10(temp, -20);
+                            categories[categories.length] = [Date.UTC(i, 0, 1), temp]
+                        }else{
+                            categories[categories.length] = [Date.UTC(i, 0, 1), 0];
+                        }
+                    }
+
+                    data[data.length] = {data:categories,name: "Creative Writing"}
+                }
+                if($('#category-4').is(':checked')){
+                    categories = [];
+
+                    for(i=from;i<=to;i++){
+                        if(counts["SPOKEN"][i] != 0){
+                            temp = frequencies["SPOKEN"][i]/counts["SPOKEN"][i];
+                            temp = Math.round10(temp, -20);
+                            categories[categories.length] = [Date.UTC(i, 0, 1), temp]
+                        }else{
+                            categories[categories.length] = [Date.UTC(i, 0, 1), 0];
+                        }
+                    }
+
+                    data[data.length] = {data:categories,name: "Spoken"}
+                }
+                if($('#category-5').is(':checked')){
+                    categories = [];
+
+                    for(i=from;i<=to;i++){
+                        if(counts["GAZETTE"][i] != 0){
+                            temp = frequencies["GAZETTE"][i]/counts["GAZETTE"][i];
+                            temp = Math.round10(temp, -20);
+                            categories[categories.length] = [Date.UTC(i, 0, 1), temp];
+                        }else{
+                            categories[categories.length] = [Date.UTC(i, 0, 1), 0];
+                        }
+                    }
+
+                    data[data.length] = {data:categories,name: "Gazette"}
+                }
 
                 spinner.stop();
                 $("#graph-panel").css("display", "block");
@@ -638,7 +863,8 @@
                     yAxis: {
                         title: {
                             text: 'Words'
-                        }
+                        },
+                        min: 0
                     },
                     tooltip: {
                             shared: true
@@ -676,14 +902,16 @@
             }
 
 
-            function draw_table(data_received){
+            function draw_table(data_received, count_data_received){
                 var categories = [];
                 var columns = [];
                 var column_titles = [];
                 var no_date = 0;
+                counts = [];
 
                 for (i = 0; i < 6; i++) {
-                    categories[i] = [];
+                    categories[i] = {};
+                    counts[i] = {};
                 }
 
                 for (i = 0; i < 6; i++) {
@@ -715,6 +943,22 @@
                     }
                 }
 
+                for (i = 0; i < count_data_received.length; i++) {
+                    if(count_data_received[i].category == "all"){
+                        counts[0][count_data_received[i].year] = count_data_received[i].count;
+                    }else if(count_data_received[i].category == "NEWS"){
+                        counts[1][count_data_received[i].year] = count_data_received[i].count;
+                    }else if(count_data_received[i].category == "ACADEMIC"){
+                        counts[2][count_data_received[i].year] = count_data_received[i].count;
+                    }else if(count_data_received[i].category == "CREATIVE"){
+                        counts[3][count_data_received[i].year] = count_data_received[i].count;
+                    }else if(count_data_received[i].category == "SPOKEN"){
+                        counts[4][count_data_received[i].year] = count_data_received[i].count;
+                    }else if(count_data_received[i].category == "GAZETTE"){
+                        counts[5][count_data_received[i].year] = count_data_received[i].count;
+                    }
+                }
+
                 var dataSet = [];
                 if(no_date == 0){
                     for (i = from; i <= to; i++) {
@@ -722,7 +966,13 @@
                         row[0] = i;
                         for(j = 0; j< categories.length; j++){
                             if(columns[j]==1){
-                                row[row.length] = categories[j][i.toString()];
+                                if(counts[j][i.toString()] != 0){
+                                    temp = categories[j][i.toString()]/counts[j][i.toString()];
+                                    temp = Math.round10(temp, -20);
+                                    row[row.length] = temp;
+                                }else{
+                                    row[row.length] = 0;
+                                }
                             }
                         }
 
@@ -733,7 +983,13 @@
                     row[0] = "All";
                     for(j = 0; j< categories.length; j++){
                         if(columns[j]==1){
-                            row[row.length] = categories[j][0+""];
+                            if(counts[j][0] != 0){
+                                temp = categories[j][0]/counts[j][0];
+                                temp = Math.round10(temp, -20);
+                                row[row.length] = temp;
+                            }else{
+                                row[row.length] = 0;
+                            }
                         }
                     }
 
