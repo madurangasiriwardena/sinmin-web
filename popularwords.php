@@ -262,10 +262,9 @@
                         word_frequency[word_temp] = [];
                         word_frequency_available[word_temp] = {};
                     }
+                    temp = 0;
                     if(word_count[data_received[0].words[i].year] > 0){
                         temp = data_received[0].words[i].frequency/word_count[data_received[0].words[i].year];
-                    }else{
-                        temp = 0;
                     }
                     temp = Math.round10(temp, -20);
                     word_frequency[word_temp][word_frequency[word_temp].length] = [Date.UTC(data_received[0].words[i].year, 0, 1), temp];
@@ -384,10 +383,9 @@
                         word_frequency[word_temp] = {};
                         word_frequency_available[word_temp] = {};
                     }
-                    if(word_count[data_received[0].words[i].year] > 0){
+                    temp = 0;
+                    if(word_count[data_received[0].words[i].year] != 0){
                         temp = data_received[0].words[i].frequency/word_count[data_received[0].words[i].year];
-                    }else{
-                        temp = 0;
                     }
                     temp = Math.round10(temp, -10);
                     word_frequency[word_temp][(data_received[0].words[i].year).toString()] = temp;
