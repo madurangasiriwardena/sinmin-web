@@ -465,9 +465,7 @@
                 for (i = 0; i < data_received.length; i++) {
                     if(count_data_received[i].count != 0){
                         temp = data_received[i].frequency/count_data_received[i].count;
-                        if(decimalPlaces(temp)>19){
-                            temp = Number(temp.toFixed(19));
-                        }
+                        temp = Math.round10(temp, -20);
                         data[data.length] = [Date.UTC(data_received[i].date, 0, 1), temp]
                         console.log(temp)
                     }else{
@@ -584,9 +582,7 @@
                 for (i = 0; i < data_received.length; i++) {
                     if(count_data_received[i].count != 0){
                         temp = data_received[i].frequency/count_data_received[i].count;
-                        if(decimalPlaces(temp)>19){
-                            temp = Number(temp.toFixed(19));
-                        }
+                        temp = Math.round10(temp, -20);
                         data[data.length] = [temp];
                     }
                     else{
