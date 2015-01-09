@@ -174,7 +174,7 @@
     $(document).ready(function(){
         $('#from').val(start_year);
         $('#to').val(end_year);
-        $('#word').val(word_string);
+        $('#word').val(word_string1 + "," + word_string2);
         $("#graph-panel").css("display", "none");
         $("#table-panel").css("display", "none");
     });
@@ -194,6 +194,7 @@
             
             var valied_string = true;
             var method_name = [];
+            var method_count_name = [];
 
             for (var i = 0; i < ngram_arr.length; i++) {
                 ngram_arr[i] = ngram_arr[i].trim();
@@ -201,10 +202,13 @@
 
                 if(word_arr.length == 1){
                     method_name[i] = "wordFrequency";
+                    method_count_name[i] = "wordCount";
                 }else if(word_arr.length == 2){
                     method_name[i] = "bigramFrequency";
+                    method_count_name[i] = "bigramCount";
                 }else if(word_arr.length == 3){
                     method_name[i] = "trigramFrequency";
+                    method_count_name[i] = "trigramCount";
                 }else{
                     valied_string = false;
                 }
@@ -221,8 +225,9 @@
                     $('#table-content').contents().remove();
                 }
 
-                calls = [0,0];
-                data_calls = [];
+                calls = [0,0]; //calls[0] = sent, calls[1] = success
+                calls_frequency_data = [];
+                calls_count_data = [];
 
                 var target = document.getElementById('page-wrapper');
                 spinner = new Spinner(spin_opts).spin(target);
@@ -234,23 +239,33 @@
                 
                 if(valied_string){
                     for (var i = 0; i < ngram_arr.length; i++) {
-                        ajax_call(method_name[i], ngram_arr, i, [], years, plot_popular_draw, draw_table, calls, data_calls)
+                        ajax_call(method_name[i], ngram_arr, i, [], years, plot_popular_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
+                        ajax_call(method_count_name[i], ngram_arr, i, [], years, plot_popular_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
+                        // ajax_call(method, words, word_index, categories, years, plot_func, draw_table, calls, calls_frequency_data, calls_count_data, frequency)
                     };
                 }
             }
 
-            function plot_popular_draw(data_received, ngram_arr){
+            function plot_popular_draw(data_received, ngram_arr, count_data_received){
                 data = [];
                 words = [];
                 word_frequency = [];
-                word_frequency_available = []; 
+                word_count = {};
+
+                for (var i = 0; i < count_data_received.length; i++) {
+                    word_count[count_data_received[i].year] = count_data_received[i].count;
+                };
 
                 for (var i = 0; i < ngram_arr.length; i++) {
                     word_temp = ngram_arr[i];
-
                     word_frequency[i] = [];
                     for (var j = 0; j < data_received[i].length; j++) {
-                        word_frequency[i][word_frequency[i].length] = [Date.UTC(data_received[i][j].date, 0, 1), data_received[i][j].frequency]
+                        temp = 0;
+                        if(word_count[data_received[i][j].date] != 0){
+                            temp = data_received[i][j].frequency/word_count[data_received[i][j].date];
+                        }
+                        temp = Math.round10(temp, -20);
+                        word_frequency[i][word_frequency[i].length] = [Date.UTC(data_received[i][j].date, 0, 1), temp];
                     };
                 }
 
@@ -297,7 +312,8 @@
                     yAxis: {
                         title: {
                             text: 'Words'
-                        }
+                        },
+                        min: 0
                     },
                     tooltip: {
                             shared: true
@@ -334,16 +350,26 @@
                 });
             }
 
-            function draw_table(data_received, words){
+            function draw_table(data_received, words, count_data_received){
                 data = [];
                 column_titles = [];
+                word_count = {};
+
+                for (var i = 0; i < count_data_received.length; i++) {
+                    word_count[count_data_received[i].year] = count_data_received[i].count;
+                };
 
                 for (i = 0; i < data_received.length; i++) {
                     data[i] = {};
                     for (j = 0; j < data_received[i].length; j++) {
                         year = data_received[i][j].date;
                         frequency = data_received[i][j].frequency;
-                        data[i][year.toString()] = frequency;
+                        temp = 0;
+                        if(word_count[data_received[i][j].date] != 0){
+                            temp = frequency/word_count[data_received[i][j].date];
+                        }
+                        temp = Math.round10(temp, -10);
+                        data[i][year.toString()] = temp;
                     };
                 };
 
@@ -375,7 +401,7 @@
 
 
 
-            function ajax_call(method, words, word_index, categories, years, plot_func, draw_table, calls, data_calls){
+            function ajax_call(method, words, word_index, categories, years, plot_func, draw_table, calls, calls_frequency_data, calls_count_data, frequency){
                 //calls[0] = sent, calls[1] = success
                 calls[0] = calls[0]+1;
                 var data;
@@ -389,13 +415,19 @@
                     data = {"time":years, "category":categories}
                 }
 
-                word_arr = words[word_index].split(' ');
+                if(frequency){
+                    word_arr = words[word_index].split(' ');
 
-                if(word_arr.length == 1){
-                    data["value"] = word_arr[0];
-                }else if(word_arr.length == 2){
-                    data["value1"] = word_arr[0];
-                    data["value2"] = word_arr[1];
+                    if(word_arr.length == 1){
+                        data["value"] = word_arr[0];
+                    }else if(word_arr.length == 2){
+                        data["value1"] = word_arr[0];
+                        data["value2"] = word_arr[1];
+                    }else if(word_arr.length == 3){
+                        data["value1"] = word_arr[0];
+                        data["value2"] = word_arr[1];
+                        data["value3"] = word_arr[2];
+                    }
                 }
 
                 data = JSON.stringify(data);
@@ -409,16 +441,77 @@
                         Accept : "application/json"
                     },
                     success: function (data) {
-                        data_calls[word_index] = data;
+                        if(frequency){
+                            calls_frequency_data[word_index] = data;
+                        }else{
+                            calls_count_data.push.apply(calls_count_data, data);
+                        }
                         calls[1] = calls[1]+1;
                         if(calls[0] == calls[1]){
-                            plot_func(data_calls, words);
-                            draw_table(data_calls, words);
+                            plot_func(calls_frequency_data, words, calls_count_data);
+                            draw_table(calls_frequency_data, words, calls_count_data);
                         }
+
+                        // data_calls[word_index] = data;
+                        // calls[1] = calls[1]+1;
+                        // if(calls[0] == calls[1]){
+                        //     plot_func(data_calls, words);
+                        //     draw_table(data_calls, words);
+                        // }
                     },
                     error: function (data) { console.log(data)},
                 });
             }
+
+            (function(){
+
+                /**
+                 * Decimal adjustment of a number.
+                 *
+                 * @param   {String}    type    The type of adjustment.
+                 * @param   {Number}    value   The number.
+                 * @param   {Integer}   exp     The exponent (the 10 logarithm of the adjustment base).
+                 * @returns {Number}            The adjusted value.
+                 */
+                function decimalAdjust(type, value, exp) {
+                    // If the exp is undefined or zero...
+                    if (typeof exp === 'undefined' || +exp === 0) {
+                        return Math[type](value);
+                    }
+                    value = +value;
+                    exp = +exp;
+                    // If the value is not a number or the exp is not an integer...
+                    if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
+                        return NaN;
+                    }
+                    // Shift
+                    value = value.toString().split('e');
+                    value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
+                    // Shift back
+                    value = value.toString().split('e');
+                    return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
+                }
+
+                // Decimal round
+                if (!Math.round10) {
+                    Math.round10 = function(value, exp) {
+                        return decimalAdjust('round', value, exp);
+                    };
+                }
+                // Decimal floor
+                if (!Math.floor10) {
+                    Math.floor10 = function(value, exp) {
+                        return decimalAdjust('floor', value, exp);
+                    };
+                }
+                // Decimal ceil
+                if (!Math.ceil10) {
+                    Math.ceil10 = function(value, exp) {
+                        return decimalAdjust('ceil', value, exp);
+                    };
+                }
+
+            })();
 
             function timestamp(date){
                 var myDate=date.split("-");
