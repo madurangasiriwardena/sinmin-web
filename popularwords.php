@@ -192,10 +192,7 @@
 
             var spinner;
             var method_name;
-
-            sent_calls = 0;
-            success_calls = 0;
-            data_calls = [];
+            var method_count_name;
 
             word = word.trim();
             var word_arr = word.split(' ');
@@ -204,8 +201,10 @@
 
             if(word_arr.length == 1){
                 method_name = "frequentWordsAfterWordTimeRange";
+                method_count_name = "bigramCount";
             }else if(word_arr.length == 2){
                 method_name = "frequentWordsAfterBigramTimeRange";
+                method_count_name = "trigramCount";
             }else{
                 valied_string = false;
             }
@@ -227,15 +226,32 @@
                 years = [];
                 years[years.length] = from;
                 years[years.length] = to;
+
+                years_count = [];
+                for (i = from; i <= to; i++) {
+                    years_count[years_count.length] = i.toString(); 
+                }
+
+                calls = [0,0]; //calls[0] = sent, calls[1] = success
+                calls_frequency_data = [];
+                calls_count_data = [];
                 
-                ajax_call(method_name, word_arr, [], years, plot_popular_draw, draw_table);
+                ajax_call(method_name, word_arr, [], years, plot_popular_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
+                ajax_call(method_count_name, [], [], years_count, plot_popular_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
+                // ajax_call(method, word, categories, years, plot_func, draw_table, calls, calls_frequency_data, calls_count_data, frequency)
             }
 
-            function plot_popular_draw(data_received){
+            function plot_popular_draw(data_received, count_data_received){
                 data = [];
                 words = [];
-                word_frequency = [];
-                word_frequency_available = []; 
+                word_frequency = {};
+                word_frequency_available = {}; 
+                word_count = {};
+
+                for (var i = 0; i < count_data_received.length; i++) {
+                    word_count[count_data_received[i].year] = count_data_received[i].count;
+                };
+                console.log(word_count);
 
                 for (i = 0; i < data_received[0].words.length; i++) {
                     word_temp = data_received[0].words[i].word;
@@ -244,9 +260,15 @@
                     if (typeof word_frequency[word_temp] === "undefined"){
                         words[words.length] = word_temp;
                         word_frequency[word_temp] = [];
-                        word_frequency_available[word_temp] = [];
+                        word_frequency_available[word_temp] = {};
                     }
-                    word_frequency[word_temp][word_frequency[word_temp].length] = [Date.UTC(data_received[0].words[i].year, 0, 1), data_received[0].words[i].frequency]
+                    if(word_count[data_received[0].words[i].year] > 0){
+                        temp = data_received[0].words[i].frequency/word_count[data_received[0].words[i].year];
+                    }else{
+                        temp = 0;
+                    }
+                    temp = Math.round10(temp, -20);
+                    word_frequency[word_temp][word_frequency[word_temp].length] = [Date.UTC(data_received[0].words[i].year, 0, 1), temp];
                     word_frequency_available[word_temp][(data_received[0].words[i].year).toString()] = true;
                 }
 
@@ -303,7 +325,8 @@
                     yAxis: {
                         title: {
                             text: 'Words'
-                        }
+                        },
+                        min: 0
                     },
                     tooltip: {
                             shared: true
@@ -340,12 +363,17 @@
                 });
             }
 
-            function draw_table(data_received){
+            function draw_table(data_received, count_data_received){
                 data = [];
                 words = [];
                 word_frequency = [];
                 word_frequency_available = []; 
                 column_titles = [];
+                word_count = {};
+
+                for (var i = 0; i < count_data_received.length; i++) {
+                    word_count[count_data_received[i].year] = count_data_received[i].count;
+                };
 
                 for (i = 0; i < data_received[0].words.length; i++) {
                     word_temp = data_received[0].words[i].word;
@@ -353,10 +381,16 @@
 
                     if (typeof word_frequency[word_temp] === "undefined"){
                         words[words.length] = word_temp;
-                        word_frequency[word_temp] = [];
-                        word_frequency_available[word_temp] = [];
+                        word_frequency[word_temp] = {};
+                        word_frequency_available[word_temp] = {};
                     }
-                    word_frequency[word_temp][(data_received[0].words[i].year).toString()] = data_received[0].words[i].frequency;
+                    if(word_count[data_received[0].words[i].year] > 0){
+                        temp = data_received[0].words[i].frequency/word_count[data_received[0].words[i].year];
+                    }else{
+                        temp = 0;
+                    }
+                    temp = Math.round10(temp, -10);
+                    word_frequency[word_temp][(data_received[0].words[i].year).toString()] = temp;
                     word_frequency_available[word_temp][(data_received[0].words[i].year).toString()] = true;
                 }
 
@@ -395,10 +429,61 @@
                 $("#table-panel").css("display", "block");
             }
 
+            (function(){
+
+                /**
+                 * Decimal adjustment of a number.
+                 *
+                 * @param   {String}    type    The type of adjustment.
+                 * @param   {Number}    value   The number.
+                 * @param   {Integer}   exp     The exponent (the 10 logarithm of the adjustment base).
+                 * @returns {Number}            The adjusted value.
+                 */
+                function decimalAdjust(type, value, exp) {
+                    // If the exp is undefined or zero...
+                    if (typeof exp === 'undefined' || +exp === 0) {
+                        return Math[type](value);
+                    }
+                    value = +value;
+                    exp = +exp;
+                    // If the value is not a number or the exp is not an integer...
+                    if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
+                        return NaN;
+                    }
+                    // Shift
+                    value = value.toString().split('e');
+                    value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
+                    // Shift back
+                    value = value.toString().split('e');
+                    return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
+                }
+
+                // Decimal round
+                if (!Math.round10) {
+                    Math.round10 = function(value, exp) {
+                        return decimalAdjust('round', value, exp);
+                    };
+                }
+                // Decimal floor
+                if (!Math.floor10) {
+                    Math.floor10 = function(value, exp) {
+                        return decimalAdjust('floor', value, exp);
+                    };
+                }
+                // Decimal ceil
+                if (!Math.ceil10) {
+                    Math.ceil10 = function(value, exp) {
+                        return decimalAdjust('ceil', value, exp);
+                    };
+                }
+
+            })();
 
 
-            function ajax_call(method, word, categories, years, plot_func, draw_table){
-                sent_calls = sent_calls+1
+            function ajax_call(method, word, categories, years, plot_func, draw_table, calls, calls_frequency_data, calls_count_data, frequency){
+                //calls[0] = sent, calls[1] = success
+                calls[0] = calls[0]+1;
+                console.log(calls[0]);
                 var data;
                 if(categories.length==0 & years.length!=0){
                     data = {"time":years}
@@ -417,7 +502,9 @@
                     data["value2"] = word[1];
                 }
 
-                data["amount"] = 10;
+                if(frequency){
+                    data["amount"] = 10;
+                }
 
                 data = JSON.stringify(data);
 
@@ -430,11 +517,16 @@
                         Accept : "application/json"
                     },
                     success: function (data) {
-                        data_calls.push.apply(data_calls, data);
-                        success_calls = success_calls+1;
-                        if(sent_calls == success_calls){
-                            plot_func(data_calls);
-                            draw_table(data_calls);
+                        if(frequency){
+                            calls_frequency_data.push.apply(calls_frequency_data, data);
+                        }else{
+                            calls_count_data.push.apply(calls_count_data, data);
+                        }
+                        calls[1] = calls[1]+1;
+                        console.log(calls[0] + " " + calls[1]);
+                        if(calls[0] == calls[1]){
+                            plot_func(calls_frequency_data, calls_count_data);
+                            draw_table(calls_frequency_data, calls_count_data);
                         }
                     },
                     error: function (data) { console.log(data)},
