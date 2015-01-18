@@ -179,22 +179,56 @@
 
 
     <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Error</h4>
-      </div>
-      <div class="modal-body">
-        You can search only upto trigrams.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
-      </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Error</h4>
+                </div>
+                <div class="modal-body">
+                    You can search only upto trigrams.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
+
+    <div class="modal fade" id="ajaxErrorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Error</h4>
+                </div>
+                <div class="modal-body">
+                    Error occured while connecting to server. Please try again
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="notSelectedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Error</h4>
+                </div>
+                <div class="modal-body">
+                    Select at least one option from time and category
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- /#wrapper -->
 
     <!-- jQuery -->
@@ -270,7 +304,7 @@
             }
         });
 
-        function ajax_call(method, word, categories, years, plot_func, draw_table, calls, calls_frequency_data, calls_count_data, frequency){
+        function ajax_call(method, word, categories, years, plot_func, draw_table, calls, calls_frequency_data, calls_count_data, frequency, ajax_objs, cancel_ajax, spinner){
             //calls[0] = sent, calls[1] = success
             calls[0] = calls[0]+1;
             console.log(calls[0]);
@@ -299,7 +333,7 @@
             data = JSON.stringify(data);
             console.log(data);
 
-            $.ajax({
+            ajax_objs[ajax_objs.length] = $.ajax({
                 url: api_url+method,
                 type: 'POST',
                 data: data,
@@ -316,17 +350,16 @@
                     calls[1] = calls[1]+1;
                     console.log(calls[0] + " " + calls[1]);
                     if(calls[0] == calls[1]){
-                        plot_func(calls_frequency_data, calls_count_data);
+                        plot_func(calls_frequency_data, calls_count_data, spinner);
                         draw_table(calls_frequency_data, calls_count_data);
                     }
                 },
-                error: function (data) { console.log(data)},
+                error: function (data) { 
+                    console.log(data);
+                    cancel_ajax(ajax_objs, spinner);
+                },
             });
         }
-        
-        // var sent_calls;
-        // var success_calls;
-        // var data_calls;
 
         function decimalPlaces(number) {
           return ((+number).toFixed(20)).replace(/^-?\d*\.?|0+$/g, '').length
@@ -382,19 +415,27 @@
 
         })();
 
+        function cancel_ajax(ajax_objs, spinner){
+            for (var i = 0; i < ajax_objs.length; i++) {
+                ajax_objs[i].abort();
+            };
+            $('#ajaxErrorModal').modal('show');
+            spinner.stop();
+        }
+
 
         $('#myForm').submit(function() {
             var word = document.getElementById("word").value;
             var from = document.getElementById("from").value;
             var to = document.getElementById("to").value;
             var offset = 0;
-            var spinner;
             var method_name;
             var method_count_name;
 
             calls = [0,0]; //calls[0] = sent, calls[1] = success
             calls_frequency_data = [];
             calls_count_data = [];
+            ajax_objs = [];
 
             word = word.trim();
             var word_arr = word.split(' ');
@@ -425,11 +466,10 @@
                     plot_time();
                     document.getElementById("panel-heading").innerHTML = "Frequency of '"+word+"' over time";
                 }else if(!($('#enable-category').is(':checked')) && !($('#enable-time').is(':checked'))){
-                    // alert("d");
+                    $('#notSelectedModal').modal('show');
                 }
             }else{
-                $('#myModal').modal('show')
-             
+                $('#myModal').modal('show');
             }
 
                        
@@ -447,7 +487,7 @@
                     $('#table-content').contents().remove();
                 }
 
-                var target = document.getElementById('page-wrapper');
+                target = document.getElementById('page-wrapper');
                 spinner = new Spinner(spin_opts).spin(target);
 
                 years = [];
@@ -455,11 +495,11 @@
                     years[years.length] = i.toString(); 
                 }
                 
-                ajax_call(method_name, word_arr, [], years, plot_time_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
-                ajax_call(method_count_name, [], [], years, plot_time_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
+                ajax_call(method_name, word_arr, [], years, plot_time_draw, draw_table, calls, calls_frequency_data, calls_count_data, true, ajax_objs, cancel_ajax, spinner);
+                ajax_call(method_count_name, [], [], years, plot_time_draw, draw_table, calls, calls_frequency_data, calls_count_data, false, ajax_objs, cancel_ajax, spinner);
             }
 
-            function plot_time_draw(data_received, count_data_received){
+            function plot_time_draw(data_received, count_data_received, spinner){
                 var data = [];
 
                 for (i = 0; i < data_received.length; i++) {
@@ -513,7 +553,8 @@
                     yAxis: {
                         title: {
                             text: 'Words'
-                        }
+                        },
+                        min: 0
                     },
                     tooltip: {
                             shared: true
@@ -539,7 +580,7 @@
                     $('#table-content').contents().remove();
                 }
 
-                var target = document.getElementById('page-wrapper');
+                target = document.getElementById('page-wrapper');
                 spinner = new Spinner(spin_opts).spin(target);
 
                 var all_categories = 0;
@@ -566,11 +607,11 @@
                 }
 
                 if(all_categories == 1){
-                    ajax_call(method_name, word_arr, [], [], plot_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
-                    ajax_call(method_count_name, [], [], [], plot_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
+                    ajax_call(method_name, word_arr, [], [], plot_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true, ajax_objs, cancel_ajax, spinner);
+                    ajax_call(method_count_name, [], [], [], plot_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false, ajax_objs, cancel_ajax, spinner);
                 }
-                ajax_call(method_name, word_arr, categories, [], plot_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
-                ajax_call(method_count_name, [], categories, [], plot_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
+                ajax_call(method_name, word_arr, categories, [], plot_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true, ajax_objs, cancel_ajax, spinner);
+                ajax_call(method_count_name, [], categories, [], plot_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false, ajax_objs, cancel_ajax, spinner);
                 
             }
 
@@ -654,7 +695,7 @@
                     $('#table-content').contents().remove();
                 }
 
-                var target = document.getElementById('page-wrapper');
+                target = document.getElementById('page-wrapper');
                 spinner = new Spinner(spin_opts).spin(target);
 
                 var years = [];
@@ -663,28 +704,28 @@
                 }
 
                 if($('#category-0').is(':checked')){
-                    ajax_call(method_name, word_arr, [], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
-                    ajax_call(method_count_name, [], [], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
+                    ajax_call(method_name, word_arr, [], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true, ajax_objs, cancel_ajax, spinner);
+                    ajax_call(method_count_name, [], [], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false, ajax_objs, cancel_ajax, spinner);
                 }
                 if($('#category-1').is(':checked')){
-                    ajax_call(method_name, word_arr, ["NEWS"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
-                    ajax_call(method_count_name, [], ["NEWS"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
+                    ajax_call(method_name, word_arr, ["NEWS"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true, ajax_objs, cancel_ajax, spinner);
+                    ajax_call(method_count_name, [], ["NEWS"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false, ajax_objs, cancel_ajax, spinner);
                 }
                 if($('#category-2').is(':checked')){
-                    ajax_call(method_name, word_arr, ["ACADEMIC"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
-                    ajax_call(method_count_name, [], ["ACADEMIC"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
+                    ajax_call(method_name, word_arr, ["ACADEMIC"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true, ajax_objs, cancel_ajax, spinner);
+                    ajax_call(method_count_name, [], ["ACADEMIC"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false, ajax_objs, cancel_ajax, spinner);
                 }
                 if($('#category-3').is(':checked')){
-                    ajax_call(method_name, word_arr, ["CREATIVE"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
-                    ajax_call(method_count_name, [], ["CREATIVE"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
+                    ajax_call(method_name, word_arr, ["CREATIVE"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true, ajax_objs, cancel_ajax, spinner);
+                    ajax_call(method_count_name, [], ["CREATIVE"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false, ajax_objs, cancel_ajax, spinner);
                 }
                 if($('#category-4').is(':checked')){
-                    ajax_call(method_name, word_arr, ["SPOKEN"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
-                    ajax_call(method_count_name, [], ["SPOKEN"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
+                    ajax_call(method_name, word_arr, ["SPOKEN"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true, ajax_objs, cancel_ajax, spinner);
+                    ajax_call(method_count_name, [], ["SPOKEN"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false, ajax_objs, cancel_ajax, spinner);
                 }
                 if($('#category-5').is(':checked')){
-                    ajax_call(method_name, word_arr, ["GAZETTE"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
-                    ajax_call(method_count_name, [], ["GAZETTE"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
+                    ajax_call(method_name, word_arr, ["GAZETTE"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, true, ajax_objs, cancel_ajax, spinner);
+                    ajax_call(method_count_name, [], ["GAZETTE"], years, plot_time_category_draw, draw_table, calls, calls_frequency_data, calls_count_data, false, ajax_objs, cancel_ajax, spinner);
                 }
             }
 
@@ -964,7 +1005,7 @@
                             if(columns[j]==1){
                                 if(counts[j][i.toString()] != 0){
                                     temp = categories[j][i.toString()]/counts[j][i.toString()];
-                                    temp = Math.round10(temp, -20);
+                                    temp = Math.round10(temp, -10);
                                     row[row.length] = temp;
                                 }else{
                                     row[row.length] = 0;
@@ -981,7 +1022,7 @@
                         if(columns[j]==1){
                             if(counts[j][0] != 0){
                                 temp = categories[j][0]/counts[j][0];
-                                temp = Math.round10(temp, -20);
+                                temp = Math.round10(temp, -10);
                                 row[row.length] = temp;
                             }else{
                                 row[row.length] = 0;
