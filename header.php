@@ -13,7 +13,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="index.html">Sinmin</a>
+    <a class="navbar-brand-img" href="index.php"><img src="images/Logo_96x96.png"></a>
 </div>
 
 <div class="header-pull-right">
