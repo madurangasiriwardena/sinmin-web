@@ -170,3 +170,12 @@ fieldset[disabled] .sinmin-form-control {
 .sinmin-panel-body{
   min-height: 150px;
 }
+
+.header-pull-right {
+  padding-right: 15px;
+  padding-top: 15px;
+  padding-left: 0;
+  text-align: right;
+  border-right: 5px solid #eee;
+  border-left: 0;
+}

@@ -131,6 +131,23 @@
         <a id="close_x" class="fa fa-close fa-fw close" href="#"></a>
     </div>
 
+    <div class="modal fade" id="ajaxErrorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Error</h4>
+                </div>
+                <div class="modal-body">
+                    Error occured while connecting to server. Please try again
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- /#wrapper -->
 
     <!-- jQuery -->
@@ -158,30 +175,34 @@
 
     <script type="text/javascript">
 
-    function type_in_singlish(input_id) {
-        $("#light_box").lightbox_me({centered: true, preventScroll: true, onLoad: function() {
-            $("#light_box").find("textarea:first").focus();
-        }});
-        $('#input_id').val(input_id);
-    };
+        function type_in_singlish(input_id) {
+            $("#light_box").lightbox_me({centered: true, preventScroll: true, onLoad: function() {
+                $("#light_box").find("textarea:first").focus();
+            }});
+            $('#input_id').val(input_id);
+        };
 
-    function copyit () {
-        var text = $('#box2').val();
-        $("#"+$('#input_id').val()+"").val(text);
-        $("#light_box").trigger('close');
-    }
+        function copyit () {
+            var text = $('#box2').val();
+            $("#"+$('#input_id').val()+"").val(text);
+            $("#light_box").trigger('close');
+        }
 
-    $(document).ready(function(){
-        $('#from').val(start_year);
-        $('#to').val(end_year);
-        $('#word').val(word_string);
-        $("#graph-panel").css("display", "none");
-        $("#table-panel").css("display", "none");
-    });
+        $(document).ready(function(){
+            $('#from').val(start_year);
+            $('#to').val(end_year);
+            $('#word').val(word_string);
+            $("#graph-panel").css("display", "none");
+            $("#table-panel").css("display", "none");
+        });
 
-    var sent_calls;
-        var success_calls;
-        var data_calls;        
+        function cancel_ajax(ajax_objs, spinner){
+            for (var i = 0; i < ajax_objs.length; i++) {
+                ajax_objs[i].abort();
+            };
+            $('#ajaxErrorModal').modal('show');
+            spinner.stop();
+        }       
     
         $('#myForm').submit(function() {
             
@@ -190,7 +211,6 @@
             var to = document.getElementById("to").value;
             var offset = 0;
 
-            var spinner;
             var method_name;
             var method_count_name;
 
@@ -220,7 +240,7 @@
                     $('#table-content').contents().remove();
                 }
 
-                var target = document.getElementById('page-wrapper');
+                target = document.getElementById('page-wrapper');
                 spinner = new Spinner(spin_opts).spin(target);
 
                 years = [];
@@ -235,13 +255,14 @@
                 calls = [0,0]; //calls[0] = sent, calls[1] = success
                 calls_frequency_data = [];
                 calls_count_data = [];
+                ajax_objs = [];
                 
-                ajax_call(method_name, word_arr, [], years, plot_popular_draw, draw_table, calls, calls_frequency_data, calls_count_data, true);
-                ajax_call(method_count_name, [], [], years_count, plot_popular_draw, draw_table, calls, calls_frequency_data, calls_count_data, false);
+                ajax_call(method_name, word_arr, [], years, plot_popular_draw, draw_table, calls, calls_frequency_data, calls_count_data, true, ajax_objs, cancel_ajax, spinner);
+                ajax_call(method_count_name, [], [], years_count, plot_popular_draw, draw_table, calls, calls_frequency_data, calls_count_data, false, ajax_objs, cancel_ajax, spinner);
                 // ajax_call(method, word, categories, years, plot_func, draw_table, calls, calls_frequency_data, calls_count_data, frequency)
             }
 
-            function plot_popular_draw(data_received, count_data_received){
+            function plot_popular_draw(data_received, count_data_received, spinner){
                 data = [];
                 words = [];
                 word_frequency = {};
@@ -251,7 +272,6 @@
                 for (var i = 0; i < count_data_received.length; i++) {
                     word_count[count_data_received[i].year] = count_data_received[i].count;
                 };
-                console.log(word_count);
 
                 for (i = 0; i < data_received[0].words.length; i++) {
                     word_temp = data_received[0].words[i].word;
@@ -477,8 +497,15 @@
 
             })();
 
+            function cancel_ajax(ajax_objs, spinner){
+                for (var i = 0; i < ajax_objs.length; i++) {
+                    ajax_objs[i].abort();
+                };
+                $('#ajaxErrorModal').modal('show');
+                spinner.stop();
+            }
 
-            function ajax_call(method, word, categories, years, plot_func, draw_table, calls, calls_frequency_data, calls_count_data, frequency){
+            function ajax_call(method, word, categories, years, plot_func, draw_table, calls, calls_frequency_data, calls_count_data, frequency, ajax_objs, cancel_ajax, spinner){
                 //calls[0] = sent, calls[1] = success
                 calls[0] = calls[0]+1;
                 console.log(calls[0]);
@@ -506,7 +533,7 @@
 
                 data = JSON.stringify(data);
 
-                $.ajax({
+                ajax_objs[ajax_objs.length] = $.ajax({
                     url: api_url+method,
                     type: 'POST',
                     data: data,
@@ -515,6 +542,7 @@
                         Accept : "application/json"
                     },
                     success: function (data) {
+                        console.log(data);
                         if(frequency){
                             calls_frequency_data.push.apply(calls_frequency_data, data);
                         }else{
@@ -523,11 +551,14 @@
                         calls[1] = calls[1]+1;
                         console.log(calls[0] + " " + calls[1]);
                         if(calls[0] == calls[1]){
-                            plot_func(calls_frequency_data, calls_count_data);
+                            plot_func(calls_frequency_data, calls_count_data, spinner);
                             draw_table(calls_frequency_data, calls_count_data);
                         }
                     },
-                    error: function (data) { console.log(data)},
+                    error: function (data) { 
+                        console.log(data);
+                        cancel_ajax(ajax_objs, spinner);
+                    },
                 });
             }
 
