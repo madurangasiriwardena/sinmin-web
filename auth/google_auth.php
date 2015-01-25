@@ -26,18 +26,10 @@ require_once realpath(dirname(__FILE__) . '/google-api-php-client/autoload.php')
  ************************************************/
 $client_id = '1014775670027-gh16lqdk35kbsi33qtbm5hdoq1atcie9.apps.googleusercontent.com';
 $client_secret = 'Y5hjoknG2qIdofIRSwLuBA3Q';
-// $redirect_uri = 'http://localhost/sinmin-web/auth/google_auth.php';
-// $root_uri = 'http://localhost/sinmin-web/';
 
 $protocol = $_SERVER['HTTPS'] == '' ? 'http://' : 'https://';
 $redirect_uri = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 $root_uri = $protocol . $_SERVER['HTTP_HOST'].'/sinmin-web/';
-
-// echo $_SERVER['PHP_SELF'];
-// echo $root_uri;
-// echo $redirect_uri; exit;
-
-// echo "ssdsfdsdf"; exit;
 
 $client = new Google_Client();
 $client->setClientId($client_id);
