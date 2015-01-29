@@ -27,7 +27,7 @@ require_once realpath(dirname(__FILE__) . '/google-api-php-client/autoload.php')
 $client_id = '1014775670027-gh16lqdk35kbsi33qtbm5hdoq1atcie9.apps.googleusercontent.com';
 $client_secret = 'Y5hjoknG2qIdofIRSwLuBA3Q';
 
-$protocol = $_SERVER['HTTPS'] == '' ? 'http://' : 'https://';
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 $redirect_uri = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 $root_uri = $protocol . $_SERVER['HTTP_HOST'].'/sinmin-web/';
 
@@ -62,7 +62,10 @@ if (isset($_REQUEST['logout'])) {
 if (isset($_GET['code'])) {
   $client->authenticate($_GET['code']);
   $_SESSION['access_token'] = $client->getAccessToken();
-  $redirect = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+  $redirect = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+
+  echo $redirect;
+  exit();
   header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
 }
 

@@ -1,6 +1,10 @@
 <?php
     session_start();
-    if(!isset($_SESSION['auth_type']) || empty($_SESSION['auth_type'])) {
+    /*echo $_SESSION['access_token'];
+    echo $_SESSION['access_token'];
+    exit();*/
+    if(!isset($_SESSION['access_token']) || empty($_SESSION['access_token'])) {
+
         $protocol = $_SERVER['HTTPS'] == '' ? 'http://' : 'https://';
         $root_uri = $protocol . $_SERVER['HTTP_HOST'].'/sinmin-web/login.php';
         header('Location: '.$root_uri);
