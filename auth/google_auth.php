@@ -63,9 +63,6 @@ if (isset($_GET['code'])) {
   $client->authenticate($_GET['code']);
   $_SESSION['access_token'] = $client->getAccessToken();
   $redirect = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
-
-  echo $redirect;
-  exit();
   header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
 }
 
