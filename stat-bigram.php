@@ -141,7 +141,7 @@
         show_word_time_category();
         show_time();
 
-        function ajax_call(method, word, categories, years, amount, plot_func, calls, data_calls, spinner){
+        function ajax_call(method, word, categories, years, amount, plot_func, calls, data_calls, spinner, ajax_objs, cancel_ajax, retry, div_element){
             //calls[0] = sent, calls[1] = success
             calls[0] = calls[0]+1;
             var data;
@@ -161,7 +161,7 @@
 
             data = JSON.stringify(data);
 
-            $.ajax({
+            ajax_objs[ajax_objs.length] = $.ajax({
                 url: api_url+method,
                 type: 'POST',
                 data: data,
@@ -176,7 +176,25 @@
                         plot_func(data_calls, spinner);
                     }
                 },
-                error: function (data) { console.log(data)},
+                error: function (jqXHR, textStatus, errorThrown ) {
+                    if(textStatus === "error" || textStatus === "timeout" || textStatus === "parsererror"){
+                        cancel_ajax(ajax_objs, spinner, retry, div_element);
+                    }
+                },
+            });
+        }
+
+        function cancel_ajax(ajax_objs, spinner, retry, div_element){
+            for (var i = 0; i < ajax_objs.length; i++) {
+                ajax_objs[i].abort();
+            };
+
+            $('#'+div_element).html('<div class="align-center"><span class="fa fa-refresh fa-5x"></span><br/>Error while connecting to server<br/>Click to retry</div>');
+            spinner.stop();
+            $('#'+div_element).bind( "click", function() {
+                $('#'+div_element).unbind( "click" );
+                $('#'+div_element).html("");
+                retry();
             });
         }
 
@@ -185,13 +203,16 @@
             spinner = new Spinner(spin_opts).spin(target);
             calls = [0,0]; //calls[0] = sent, calls[1] = success
             data_calls = [];
+
+            ajax_objs = [];
+
             categories = ["NEWS","ACADEMIC","CREATIVE","SPOKEN","GAZETTE"];
-            ajax_call("frequentBigrams", [], [], [], 10, draw_frequent_words, calls, data_calls, spinner);
-            ajax_call("frequentBigrams", [], ["NEWS"], [], 10, draw_frequent_words, calls, data_calls, spinner);
-            ajax_call("frequentBigrams", [], ["ACADEMIC"], [], 10, draw_frequent_words, calls, data_calls, spinner);
-            ajax_call("frequentBigrams", [], ["CREATIVE"], [], 10, draw_frequent_words, calls, data_calls, spinner);
-            ajax_call("frequentBigrams", [], ["SPOKEN"], [], 10, draw_frequent_words, calls, data_calls, spinner);
-            ajax_call("frequentBigrams", [], ["GAZETTE"], [], 10, draw_frequent_words, calls, data_calls, spinner);
+            ajax_call("frequentBigrams", [], [], [], 10, draw_frequent_words, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_frequent_words, "frequent-words-table-content");
+            ajax_call("frequentBigrams", [], ["NEWS"], [], 10, draw_frequent_words, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_frequent_words, "frequent-words-table-content");
+            ajax_call("frequentBigrams", [], ["ACADEMIC"], [], 10, draw_frequent_words, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_frequent_words, "frequent-words-table-content");
+            ajax_call("frequentBigrams", [], ["CREATIVE"], [], 10, draw_frequent_words, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_frequent_words, "frequent-words-table-content");
+            ajax_call("frequentBigrams", [], ["SPOKEN"], [], 10, draw_frequent_words, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_frequent_words, "frequent-words-table-content");
+            ajax_call("frequentBigrams", [], ["GAZETTE"], [], 10, draw_frequent_words, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_frequent_words, "frequent-words-table-content");
         }
 
         function draw_frequent_words(data_received, spinner){
@@ -313,12 +334,15 @@
             for (i = start_year; i <= end_year; i++) {
                 years[years.length] = i.toString(); 
             }
+
+            ajax_objs = [];
+
             // (method, word, categories, years, amount, plot_func, calls, data_calls, spinner)
-            ajax_call("bigramCount", [], ["NEWS"], years, 0, draw_word_time_category, calls, data_calls, spinner);
-            ajax_call("bigramCount", [], ["ACADEMIC"], years, 0, draw_word_time_category, calls, data_calls, spinner);
-            ajax_call("bigramCount", [], ["CREATIVE"], years, 0, draw_word_time_category, calls, data_calls, spinner);
-            ajax_call("bigramCount", [], ["SPOKEN"], years, 0, draw_word_time_category, calls, data_calls, spinner);
-            ajax_call("bigramCount", [], ["GAZETTE"], years, 0, draw_word_time_category, calls, data_calls, spinner);
+            ajax_call("bigramCount", [], ["NEWS"], years, 0, draw_word_time_category, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_word_time_category, "words-time-category-chart");
+            ajax_call("bigramCount", [], ["ACADEMIC"], years, 0, draw_word_time_category, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_word_time_category, "words-time-category-chart");
+            ajax_call("bigramCount", [], ["CREATIVE"], years, 0, draw_word_time_category, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_word_time_category, "words-time-category-chart");
+            ajax_call("bigramCount", [], ["SPOKEN"], years, 0, draw_word_time_category, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_word_time_category, "words-time-category-chart");
+            ajax_call("bigramCount", [], ["GAZETTE"], years, 0, draw_word_time_category, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_word_time_category, "words-time-category-chart");
         }
 
         function draw_word_time_category(data_received, spinner){
@@ -434,7 +458,10 @@
             calls = [0,0]; //calls[0] = sent, calls[1] = success
             data_calls = [];
             categories = ["NEWS","ACADEMIC","CREATIVE","SPOKEN","GAZETTE"];
-            ajax_call("bigramCount", [], categories, [], 0, draw_composition, calls, data_calls, spinner);
+
+            ajax_objs = [];
+
+            ajax_call("bigramCount", [], categories, [], 0, draw_composition, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_composition, "composition-chart");
             // (method, word, categories, years, amount, plot_func, calls, data_calls, spinner)
         }
 
@@ -505,8 +532,11 @@
             for (i = start_year; i <= end_year; i++) {
                 years[years.length] = i.toString(); 
             }
-            ajax_call("bigramCount", [], [], years, 0, draw_time, calls, data_calls, spinner);
-            // (method, word, categories, years, amount, plot_func, calls, data_calls, spinner)
+
+            ajax_objs = [];
+
+            ajax_call("bigramCount", [], [], years, 0, draw_time, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_time, "time-chart");
+            
         }
 
 
