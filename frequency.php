@@ -354,9 +354,10 @@
                         draw_table(calls_frequency_data, calls_count_data);
                     }
                 },
-                error: function (data) { 
-                    console.log(data);
-                    cancel_ajax(ajax_objs, spinner);
+                error: function (jqXHR, textStatus, errorThrown ) {
+                    if(textStatus === "error" || textStatus === "timeout" || textStatus === "parsererror"){
+                        cancel_ajax(ajax_objs, spinner);
+                    }
                 },
             });
         }
