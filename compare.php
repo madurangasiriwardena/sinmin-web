@@ -120,7 +120,7 @@
                                     Word-1
                                 </div>
                                 <h5 style="text-align: center"  id="word-1-title"></h5>
-                                <div class="panel-body  sinmin-panel-body">
+                                <div class="panel-body  sinmin-panel-body" id="table-1-div">
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-hover"  id="table-1">
                                         </table>
@@ -134,7 +134,7 @@
                                     Word-2
                                 </div>
                                 <h5 style="text-align: center" id="word-2-title"></h5>
-                                <div class="panel-body  sinmin-panel-body">
+                                <div class="panel-body  sinmin-panel-body" id="table-2-div">
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-hover" id="table-2">
                                         </table>
@@ -184,7 +184,7 @@
                 $("#panel-2").css("display", "none");
             });
 
-            function ajax_call(method, word, categories, years, amount, range, draw_table_func, spinner, table_id){
+            function ajax_call(method, word, categories, years, amount, range, draw_table_func, spinner, table_id, cancel_ajax, retry, div_element){
                 var data;
                 if(categories.length==0 & years.length!=0){
                     data = {"time":years}
@@ -206,7 +206,6 @@
                 }
 
                 data = JSON.stringify(data);
-                console.log(data);
 
                 $.ajax({
                     url: api_url+method,
@@ -219,17 +218,28 @@
                     success: function (data) {
                         draw_table_func(data, spinner, table_id);
                     },
-                    error: function (data) { console.log(data)},
+                    error: function (jqXHR, textStatus, errorThrown ) {
+                        if(textStatus === "error" || textStatus === "timeout" || textStatus === "parsererror"){
+                            cancel_ajax(spinner, retry, div_element);
+                        }
+                    },
+                });
+            }
+
+            function cancel_ajax(spinner, retry, div_element){
+
+                $('#'+div_element).html('<div class="align-center"><span class="fa fa-refresh fa-5x"></span><br/>Error while connecting to server<br/>Click to retry</div>');
+                spinner.stop();
+                $('#'+div_element).bind( "click", function() {
+                    $('#'+div_element).unbind( "click" );
+                    $('#'+div_element).html("");
+                    retry();
                 });
             }
 
             $('#myForm').submit(function() {
                 word1 = $('#word1').val();
                 word2 = $('#word2').val();
-                category = $('input[name=category_radio]:checked').val();
-                amount = $('#amount').val();
-                within1 = $('#within1').val();
-                within2 = $('#within1').val();
 
                 $('#word-1-title').text("Word-1 (w1) : "+word1);
                 $('#word-2-title').text("Word-2 (w2) : "+word2);
@@ -237,17 +247,37 @@
                 $("#panel-1").css("display", "block");
                 $("#panel-2").css("display", "block");
 
+                table1_call();
+                table2_call();
+            });
+
+            function table1_call(){
+                word1 = $('#word1').val();
+                category = $('input[name=category_radio]:checked').val();
+                amount = $('#amount').val();
+                within1 = $('#within1').val();
+
                 target1 = document.getElementById('panel-1');
                 spinner1 = new Spinner(spin_opts).spin(target1);
+                
+                method_name = [];
+                method_name = "frequentWordsAroundWord";
+                ajax_call(method_name, word1, [category], [], amount, within1, draw_table, spinner1, "1", cancel_ajax, table1_call, "table-1-div");
+            }
+
+            function table2_call(){
+                word2 = $('#word2').val();
+                category = $('input[name=category_radio]:checked').val();
+                amount = $('#amount').val();
+                within2 = $('#within2').val();
+
                 target2 = document.getElementById('panel-2');
                 spinner2 = new Spinner(spin_opts).spin(target2);
                 
                 method_name = [];
-                method_name[0] = "frequentWordsAroundWord";
-                method_name[1] = "frequentWordsAroundWord";
-                ajax_call(method_name[0], word1, [category], [], amount, within1, draw_table, spinner1, "1");
-                ajax_call(method_name[1], word2, [category], [], amount, within2, draw_table, spinner2, "2");
-            });
+                method_name = "frequentWordsAroundWord";
+                ajax_call(method_name, word2, [category], [], amount, within2, draw_table, spinner2, "2", cancel_ajax, table2_call, "table-2-div");
+            }
 
             function draw_table(data_received, spinner, table_id){
                 console.log(data_received);
