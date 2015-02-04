@@ -620,9 +620,15 @@
                 var data = [];
                 var categories = [];
 
+                counts = {};
+
+                for (var i = 0; i < count_data_received.length; i++) {
+                    counts[count_data_received[i].category] = count_data_received[i].count;
+                };
+
                 for (i = 0; i < data_received.length; i++) {
-                    if(count_data_received[i].count != 0){
-                        temp = data_received[i].frequency/count_data_received[i].count;
+                    if(counts[data_received[i].category] === undefined || counts[data_received[i].category] != 0){
+                        temp = data_received[i].frequency/counts[data_received[i].category];
                         temp = Math.round10(temp, -20);
                         data[data.length] = [temp];
                     }

@@ -199,3 +199,8 @@ fieldset[disabled] .sinmin-form-control {
 .navbar-brand-img{
   padding-left: 20px;
 }
+
+.align-center{
+  margin: 0 auto;
+  text-align: center;
+}

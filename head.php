@@ -19,9 +19,6 @@
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="css/plugins/morris.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 

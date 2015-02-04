@@ -141,8 +141,8 @@
         show_composition();
         show_word_time_category();
 
-        function ajax_call(method, word, categories, years, amount, plot_func, calls, data_calls, spinner){
-            //calls[0] = sent, calls[1] = success
+        function ajax_call(method, word, categories, years, amount, plot_func, calls, data_calls, spinner, ajax_objs, cancel_ajax, retry, div_element){
+            
             calls[0] = calls[0]+1;
             var data;
             if(categories.length==0 & years.length!=0){
@@ -161,7 +161,7 @@
 
             data = JSON.stringify(data);
 
-            $.ajax({
+            ajax_objs[ajax_objs.length] = $.ajax({
                 url: api_url+method,
                 type: 'POST',
                 data: data,
@@ -176,7 +176,25 @@
                         plot_func(data_calls, spinner);
                     }
                 },
-                error: function (data) { console.log(data)},
+                error: function (jqXHR, textStatus, errorThrown ) {
+                    if(textStatus === "error"){
+                        cancel_ajax(ajax_objs, spinner, retry, div_element);
+                    }
+                },
+            });
+        }
+
+        function cancel_ajax(ajax_objs, spinner, retry, div_element){
+            for (var i = 0; i < ajax_objs.length; i++) {
+                ajax_objs[i].abort();
+            };
+
+            $('#'+div_element).html('<div class="align-center"><span class="fa fa-refresh fa-5x"></span><br/>Error while connecting to server<br/>Click to retry</div>');
+            spinner.stop();
+            $('#'+div_element).bind( "click", function() {
+                $('#'+div_element).unbind( "click" );
+                $('#'+div_element).html("");
+                retry();
             });
         }
 
@@ -190,12 +208,15 @@
             for (i = start_year; i <= end_year; i++) {
                 years[years.length] = i.toString(); 
             }
+
+            ajax_objs = [];
+
             // (method, word, categories, years, amount, plot_func, calls, data_calls, spinner)
-            ajax_call("wordCount", [], ["NEWS"], years, 0, draw_word_time_category, calls, data_calls, spinner);
-            ajax_call("wordCount", [], ["ACADEMIC"], years, 0, draw_word_time_category, calls, data_calls, spinner);
-            ajax_call("wordCount", [], ["CREATIVE"], years, 0, draw_word_time_category, calls, data_calls, spinner);
-            ajax_call("wordCount", [], ["SPOKEN"], years, 0, draw_word_time_category, calls, data_calls, spinner);
-            ajax_call("wordCount", [], ["GAZETTE"], years, 0, draw_word_time_category, calls, data_calls, spinner);
+            ajax_call("wordCount", [], ["NEWS"], years, 0, draw_word_time_category, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_word_time_category, "words-time-category-chart");
+            ajax_call("wordCount", [], ["ACADEMIC"], years, 0, draw_word_time_category, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_word_time_category, "words-time-category-chart");
+            ajax_call("wordCount", [], ["CREATIVE"], years, 0, draw_word_time_category, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_word_time_category, "words-time-category-chart");
+            ajax_call("wordCount", [], ["SPOKEN"], years, 0, draw_word_time_category, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_word_time_category, "words-time-category-chart");
+            ajax_call("wordCount", [], ["GAZETTE"], years, 0, draw_word_time_category, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_word_time_category, "words-time-category-chart");
         }
 
         function draw_word_time_category(data_received, spinner){
@@ -311,7 +332,10 @@
             calls = [0,0]; //calls[0] = sent, calls[1] = success
             data_calls = [];
             categories = ["NEWS","ACADEMIC","CREATIVE","SPOKEN","GAZETTE"];
-            ajax_call("wordCount", [], categories, [], 0, draw_composition, calls, data_calls, spinner);
+
+            ajax_objs = [];
+
+            ajax_call("wordCount", [], categories, [], 0, draw_composition, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_composition, "composition-chart");
             // (method, word, categories, years, amount, plot_func, calls, data_calls, spinner)
         }
 
