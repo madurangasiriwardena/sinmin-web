@@ -177,7 +177,7 @@
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown ) {
-                    if(textStatus === "error"){
+                    if(textStatus === "error" || textStatus === "timeout" || textStatus === "parsererror"){
                         cancel_ajax(ajax_objs, spinner, retry, div_element);
                     }
                 },

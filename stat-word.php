@@ -69,7 +69,7 @@
                 <div class="col-lg-8">
                     <div class="panel panel-default" id="time-div">
                         <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Frequency over years
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Count over years
                         </div>
                         <div class="panel-body sinmin-panel-body">
                             <div class="row">
@@ -137,7 +137,7 @@
         show_word_time_category();
         show_time();
 
-        function ajax_call(method, word, categories, years, amount, plot_func, calls, data_calls, spinner){
+        function ajax_call(method, word, categories, years, amount, plot_func, calls, data_calls, spinner, ajax_objs, cancel_ajax, retry, div_element){
             //calls[0] = sent, calls[1] = success
             calls[0] = calls[0]+1;
             var data;
@@ -157,7 +157,7 @@
 
             data = JSON.stringify(data);
 
-            $.ajax({
+            ajax_objs[ajax_objs.length] = $.ajax({
                 url: api_url+method,
                 type: 'POST',
                 data: data,
@@ -172,7 +172,25 @@
                         plot_func(data_calls, spinner);
                     }
                 },
-                error: function (data) { console.log(data)},
+                error: function (jqXHR, textStatus, errorThrown ) {
+                    if(textStatus === "error" || textStatus === "timeout" || textStatus === "parsererror"){
+                        cancel_ajax(ajax_objs, spinner, retry, div_element);
+                    }
+                },
+            });
+        }
+
+        function cancel_ajax(ajax_objs, spinner, retry, div_element){
+            for (var i = 0; i < ajax_objs.length; i++) {
+                ajax_objs[i].abort();
+            };
+
+            $('#'+div_element).html('<div class="align-center"><span class="fa fa-refresh fa-5x"></span><br/>Error while connecting to server<br/>Click to retry</div>');
+            spinner.stop();
+            $('#'+div_element).bind( "click", function() {
+                $('#'+div_element).unbind( "click" );
+                $('#'+div_element).html("");
+                retry();
             });
         }
 
@@ -182,16 +200,18 @@
             calls = [0,0]; //calls[0] = sent, calls[1] = success
             data_calls = [];
             categories = ["NEWS","ACADEMIC","CREATIVE","SPOKEN","GAZETTE"];
-            ajax_call("frequentWords", [], [], [], 10, draw_frequent_words, calls, data_calls, spinner);
-            ajax_call("frequentWords", [], ["NEWS"], [], 10, draw_frequent_words, calls, data_calls, spinner);
-            ajax_call("frequentWords", [], ["ACADEMIC"], [], 10, draw_frequent_words, calls, data_calls, spinner);
-            ajax_call("frequentWords", [], ["CREATIVE"], [], 10, draw_frequent_words, calls, data_calls, spinner);
-            ajax_call("frequentWords", [], ["SPOKEN"], [], 10, draw_frequent_words, calls, data_calls, spinner);
-            ajax_call("frequentWords", [], ["GAZETTE"], [], 10, draw_frequent_words, calls, data_calls, spinner);
+
+            ajax_objs = [];
+
+            ajax_call("frequentWords", [], [], [], 10, draw_frequent_words, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_frequent_words, "frequent-words-table-content");
+            ajax_call("frequentWords", [], ["NEWS"], [], 10, draw_frequent_words, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_frequent_words, "frequent-words-table-content");
+            ajax_call("frequentWords", [], ["ACADEMIC"], [], 10, draw_frequent_words, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_frequent_words, "frequent-words-table-content");
+            ajax_call("frequentWords", [], ["CREATIVE"], [], 10, draw_frequent_words, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_frequent_words, "frequent-words-table-content");
+            ajax_call("frequentWords", [], ["SPOKEN"], [], 10, draw_frequent_words, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_frequent_words, "frequent-words-table-content");
+            ajax_call("frequentWords", [], ["GAZETTE"], [], 10, draw_frequent_words, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_frequent_words, "frequent-words-table-content");
         }
 
         function draw_frequent_words(data_received, spinner){
-            console.log(data_received);
 
             data_set = [];
             column_titles = [];
@@ -282,7 +302,6 @@
 
             $("#example").find("thead").on('click', 'th', function(){
                 var col_idx =  table.column(this).index();
-                console.log("colId = " + col_idx);
                 if(col_idx>0 & col_idx%2==1){
                     if(table.column(col_idx+1).visible()){
                         table.column(col_idx+1).visible(false);
@@ -309,16 +328,19 @@
             for (i = start_year; i <= end_year; i++) {
                 years[years.length] = i.toString(); 
             }
+
+            ajax_objs = [];
+
             // (method, word, categories, years, amount, plot_func, calls, data_calls, spinner)
-            ajax_call("wordCount", [], ["NEWS"], years, 0, draw_word_time_category, calls, data_calls, spinner);
-            ajax_call("wordCount", [], ["ACADEMIC"], years, 0, draw_word_time_category, calls, data_calls, spinner);
-            ajax_call("wordCount", [], ["CREATIVE"], years, 0, draw_word_time_category, calls, data_calls, spinner);
-            ajax_call("wordCount", [], ["SPOKEN"], years, 0, draw_word_time_category, calls, data_calls, spinner);
-            ajax_call("wordCount", [], ["GAZETTE"], years, 0, draw_word_time_category, calls, data_calls, spinner);
+            ajax_call("wordCount", [], ["NEWS"], years, 0, draw_word_time_category, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_word_time_category, "words-time-category-chart");
+            ajax_call("wordCount", [], ["ACADEMIC"], years, 0, draw_word_time_category, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_word_time_category, "words-time-category-chart");
+            ajax_call("wordCount", [], ["CREATIVE"], years, 0, draw_word_time_category, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_word_time_category, "words-time-category-chart");
+            ajax_call("wordCount", [], ["SPOKEN"], years, 0, draw_word_time_category, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_word_time_category, "words-time-category-chart");
+            ajax_call("wordCount", [], ["GAZETTE"], years, 0, draw_word_time_category, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_word_time_category, "words-time-category-chart");
         }
 
         function draw_word_time_category(data_received, spinner){
-            console.log(data_received);
+
             data = [];
             var categories = [];
 
@@ -356,7 +378,6 @@
                     data[data.length] = {data:categories[4],name: "Gazette"}
             }
 
-            console.log(data);
 
             spinner.stop();
             
@@ -430,13 +451,16 @@
             calls = [0,0]; //calls[0] = sent, calls[1] = success
             data_calls = [];
             categories = ["NEWS","ACADEMIC","CREATIVE","SPOKEN","GAZETTE"];
-            ajax_call("wordCount", [], categories, [], 0, draw_composition, calls, data_calls, spinner);
+
+            ajax_objs = [];
+
+            ajax_call("wordCount", [], categories, [], 0, draw_composition, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_composition, "composition-chart");
             // (method, word, categories, years, amount, plot_func, calls, data_calls, spinner)
         }
 
 
         function draw_composition(data_received, spinner){
-            console.log(data_received);
+
             data_set = [];
 
             for (var i = 0; i < data_received.length; i++) {
@@ -501,7 +525,10 @@
             for (i = start_year; i <= end_year; i++) {
                 years[years.length] = i.toString(); 
             }
-            ajax_call("wordCount", [], [], years, 0, draw_time, calls, data_calls, spinner);
+
+            ajax_objs = [];
+
+            ajax_call("wordCount", [], [], years, 0, draw_time, calls, data_calls, spinner, ajax_objs, cancel_ajax, show_time, "time-chart");
             // (method, word, categories, years, amount, plot_func, calls, data_calls, spinner)
         }
 
