@@ -344,7 +344,6 @@
                 },
                 success: function (data) {
                     data = JSON.parse(data);
-                    console.log();
                     if(frequency){
                         calls_frequency_data.push.apply(calls_frequency_data, data);
                     }else{

@@ -55,6 +55,15 @@
                 <!-- /.nav-second-level -->
             </li>
             <li>
+                <a href="#"><i class="fa fa-files-o fa-fw"></i> Wild Card<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="wild-card-search.php">Wild Card Search</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li>
                 <a href="converter.php"><i class="fa fa-table fa-fw"></i> Unicode Converter</a>
             </li>
         </ul>

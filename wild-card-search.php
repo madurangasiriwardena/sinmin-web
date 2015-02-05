@@ -155,28 +155,27 @@
 
 
         $(document).ready(function(){
-            $('#word').val(word_string);
+            $('#word').val(word_string+"*");
             $("#word-div").css("display", "none");
         });
 
         function ajax_call(method, word, draw_table, cancel_ajax, spinner){
-            console.log(word)
             data = {"value":word};
-            console.log(data.value)
 
             data = JSON.stringify(data);
-            console.log(data)
 
             ajax_obj = $.ajax({
-                url: api_url+method,
+                url: api_url,
                 type: 'POST',
                 data: data,
                 headers: {
                     'Content-Type': "application/json",
-                    Accept : "application/json"
+                    Accept : "application/json",
+                    'Method-Name': method
                 },
                 success: function (data) {
-                    console.log(data);
+                    data = JSON.parse(data);
+                    draw_table(data, spinner)
                 },
                 error: function (jqXHR, textStatus, errorThrown ) {
                     if(textStatus === "error" || textStatus === "timeout" || textStatus === "parsererror"){
@@ -193,15 +192,30 @@
 
         $('#myForm').submit(function() {
             word = document.getElementById("word").value;
-            console.log(word);
-            target = document.getElementById('word-div');
+            target = document.getElementById('page-wrapper');
             spinner = new Spinner(spin_opts).spin(target);
 
             ajax_call("wildCardSearch", word, draw_table, cancel_ajax, spinner);
         });
 
-        function draw_table(){
+        function draw_table(data, spinner){
+            dataSet = [];
+            for (var i = 0; i < data.length; i++) {
+                dataSet[dataSet.length] = [data[i].value];
+            };
 
+            column_titles = [];
+            column_titles[0] = {"title": "Words"};
+
+            $('#word-table').html( '<table class="table table-striped table-bordered table-hover" border="0" id="example"></table>' );
+ 
+            var Table = $('#example').dataTable( {
+                "data": dataSet,
+                "columns": column_titles
+            } );
+
+            spinner.stop();
+            $("#word-div").css("display", "block");
         }
     </script>
 
