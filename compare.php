@@ -208,14 +208,16 @@
                 data = JSON.stringify(data);
 
                 $.ajax({
-                    url: api_url+method,
+                    url: api_url,
                     type: 'POST',
                     data: data,
                     headers: {
                         'Content-Type': "application/json",
-                        Accept : "application/json"
+                        Accept : "application/json",
+                        'Method-Name': method
                     },
                     success: function (data) {
+                        data = JSON.parse(data);
                         draw_table_func(data, spinner, table_id);
                     },
                     error: function (jqXHR, textStatus, errorThrown ) {

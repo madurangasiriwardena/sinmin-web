@@ -158,14 +158,16 @@
             data = JSON.stringify(data);
 
             ajax_objs[ajax_objs.length] = $.ajax({
-                url: api_url+method,
+                url: api_url,
                 type: 'POST',
                 data: data,
                 headers: {
                     'Content-Type': "application/json",
-                    Accept : "application/json"
+                    Accept : "application/json",
+                    'Method-Name': method
                 },
                 success: function (data) {
+                    data = JSON.parse(data);
                     data_calls.push.apply(data_calls, data);
                     calls[1] = calls[1]+1;
                     if(calls[0] == calls[1]){

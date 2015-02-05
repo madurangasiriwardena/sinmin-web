@@ -331,17 +331,20 @@
             }
 
             data = JSON.stringify(data);
-            console.log(data);
+            // console.log(data);
 
             ajax_objs[ajax_objs.length] = $.ajax({
-                url: api_url+method,
+                url: api_url,
                 type: 'POST',
                 data: data,
                 headers: {
                     'Content-Type': "application/json",
-                    Accept : "application/json"
+                    Accept : "application/json",
+                    'Method-Name': method
                 },
                 success: function (data) {
+                    data = JSON.parse(data);
+                    console.log();
                     if(frequency){
                         calls_frequency_data.push.apply(calls_frequency_data, data);
                     }else{
