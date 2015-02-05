@@ -7,7 +7,7 @@
 
 		$authToken = 'Basic c2lubWluOnNpbm1pbg==';
 
-		$method = apache_request_headers()['Method-Name'];
+		$method = $_SERVER['HTTP_METHOD_NAME'];
 
 		// Setup cURL
 		$ch = curl_init('http://sinhala-corpus.projects.uom.lk/SinminREST/rest/api/'.$method);
