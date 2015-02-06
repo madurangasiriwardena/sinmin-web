@@ -64,6 +64,15 @@
                 <!-- /.nav-second-level -->
             </li>
             <li>
+                <a href="#"><i class="fa fa-files-o fa-fw"></i> Latest Articles<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="latest-articles.php">Latest Sentences for Word</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li>
                 <a href="converter.php"><i class="fa fa-table fa-fw"></i> Unicode Converter</a>
             </li>
         </ul>
