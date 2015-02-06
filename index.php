@@ -113,6 +113,64 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> About
+                        </div>
+                        <div class="panel-body sinmin-panel-body">
+                            <div><p>Sinmin is the largest corpus available for Sinhala. The corpus was 
+                            developed by University of Moratuwa.</p>
+                                <p>The corpus contains more than 70 million words of text and is divided 
+                                among spoken, news item, creative writing, academic and gazete texts. It 
+                                includes data from 2008-2014 and the corpus is also updated regularly. 
+                                Because of its design, it is perhaps the only corpus of Sinhala that is 
+                                suitable for looking at current, ongoing changes in the language.</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-default" id="details-div">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Sinmin Includes
+                        </div>
+                        <div class="panel-body sinmin-panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td>Words Tockens</td>
+                                            <td>69906350</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Distinct Words</td>
+                                            <td>1226762</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Distinct Bigrams</td>
+                                            <td>17525467</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Distinct Trigrams</td>
+                                            <td>38911310</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sentences</td>
+                                            <td>4800000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Articles</td>
+                                            <td>232000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
 
     </div>
     <!-- /#wrapper -->
@@ -291,7 +349,8 @@
                 yAxis: {
                     title: {
                         text: 'Words'
-                    }
+                    },
+                    min:0
                 },
                 tooltip: {
                         shared: true
