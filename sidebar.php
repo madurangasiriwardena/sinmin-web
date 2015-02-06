@@ -73,6 +73,9 @@
                 <!-- /.nav-second-level -->
             </li>
             <li>
+                <a href="about-us.php"><i class="fa fa-table fa-fw"></i> About Us</a>
+            </li>
+            <li>
                 <a href="converter.php"><i class="fa fa-table fa-fw"></i> Unicode Converter</a>
             </li>
         </ul>
