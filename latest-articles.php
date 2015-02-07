@@ -20,7 +20,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Latest sentences for word</h1>
+                        <h1 class="page-header">Latest articles for word</h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -312,13 +312,14 @@
             data = data[0]["articles"];
             for (var i = 0; i < data.length; i++) {
                 temp = (data[i]["sentence"]).split(word);
-                dataSet[dataSet.length] = [temp[0],word,temp[1]];
+                dataSet[dataSet.length] = [temp[0] + " <b><i>" +word + "</i></b> " +temp[1], data[i]["title"], "<a href='"+data[i]["link"]+"' target='_blank'>" +data[i]["link"]+"</a>"];
             };
 
             column_titles = [];
-            column_titles[0] = {"title": "Before","width": "45%"};
-            column_titles[1] = {"title": "Word","width": "10%"};
-            column_titles[2] = {"title": "After","width": "45%"};
+
+            column_titles[0] = {"title": "Sentence","width": "60%"};
+            column_titles[1] = {"title": "Title","width": "20%"};
+            column_titles[2] = {"title": "Source","width": "20%"};
 
             $('#word-table').html( '<table class="table table-striped table-bordered table-hover" border="0" id="example"></table>' );
  
