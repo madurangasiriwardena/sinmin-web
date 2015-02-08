@@ -51,7 +51,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default" id="frequent-words-table-div">
                         <div class="panel-heading">
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="row">
                 <div class="col-lg-8">
                     <div class="panel panel-default" id="time-div">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <!-- <div class="panel panel-default">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             Count
                         </div>
@@ -90,22 +90,27 @@
                                 <table class="table table-bordered table-hover">
                                     <tbody>
                                         <tr>
-                                            <td>Word</td>
-                                            <td>5000000</td>
+                                            <td>Words Tockens</td>
+                                            <td>69906350</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Distinct Trigrams</td>
+                                            <td>38911310</td>
                                         </tr>
                                         <tr>
                                             <td>Sentences</td>
-                                            <td>200000</td>
+                                            <td>4800000</td>
                                         </tr>
                                         <tr>
                                             <td>Articles</td>
-                                            <td>100000</td>
+                                            <td>232000</td>
+                                        </tr>td>100000</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -137,7 +142,7 @@
 
     <script type="text/javascript">
         show_composition();
-        show_frequent_words();
+        // show_frequent_words();
         show_word_time_category();
         show_time();
 
