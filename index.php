@@ -75,7 +75,7 @@
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <a href="stat.php">
+                    <a href="stat-word.php">
                         <div class="panel sinmin-panel-purple">
                             <div class="panel-heading">
                                 <div class="row">
