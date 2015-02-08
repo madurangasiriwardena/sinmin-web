@@ -104,7 +104,6 @@
                                         <tr>
                                             <td>Articles</td>
                                             <td>232000</td>
-                                        </tr>td>100000</td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -55,7 +55,7 @@
                 <!-- /.nav-second-level -->
             </li>
             <li>
-                <a href="#"><i class="fa fa-files-o fa-fw"></i> Wild Card<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-star fa-fw"></i> Wild Card<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
                         <a href="wild-card-search.php">Wild Card Search</a>
@@ -64,7 +64,7 @@
                 <!-- /.nav-second-level -->
             </li>
             <li>
-                <a href="#"><i class="fa fa-files-o fa-fw"></i> Latest Articles<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-line-chart fa-fw"></i> Latest Articles<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
                         <a href="latest-articles.php">Latest Articles for Word</a>
@@ -76,7 +76,7 @@
                 <a href="converter.php"><i class="fa fa-table fa-fw"></i> Unicode Converter</a>
             </li>
             <li>
-                <a href="about-us.php"><i class="fa fa-table fa-fw"></i> About Us</a>
+                <a href="about-us.php"><i class="fa fa-users fa-fw"></i> About Us</a>
             </li>
         </ul>
     </div>
