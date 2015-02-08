@@ -25,6 +25,17 @@
                     <!-- /.col-lg-12 -->
                 </div>
                 <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>Sinmin is developed by Dimuthu Upeksha, Maduranga Siriwardena, Chamila Wijayarathna and 
+                                Lahiru Lasandun under the supervision of Dr. Chinthana Wimalasuriya, Prof. Gihan Dias and 
+                                Mr. Nisansa de Silva as the final year project.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-lg-3">
                         <div class="panel panel-default">
                             <div class="panel-heading" id="table-panel-heading">Dimuthu Upeksha</div>

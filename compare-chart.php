@@ -33,32 +33,42 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <form role="form" id="myForm" onsubmit="return false;">
-                                            <div class="sinmin-form-group">
-                                                <label class="sinmin-label">Word</label>
-                                                <input class="sinmin-form-control" id="word">
+                                            <div class="col-lg-12">
+                                                <div class="sinmin-form-group">
+                                                    <label class="sinmin-label">Word</label>
+                                                    <input class="sinmin-form-control" id="word">
+                                                </div>
                                             </div>
-                                            <div class="sinmin-form-group">
-                                                <span class="pull-right"><input type="button" class="btn btn-outline btn-primary" value="Type in Singlish" onclick="type_in_singlish('word')"></span>
-                                                
+                                            <div class="col-lg-12">
+                                                <div class="sinmin-form-group">
+                                                    <span class="pull-right"><input type="button" class="btn btn-outline btn-primary" value="Type in Singlish" onclick="type_in_singlish('word')"></span>
+                                                </div>
                                             </div>
-                                            <div class="sinmin-form-group" style="margin-top:20px">
-                                                <label  class="sinmin-label">Time</label>
+                                            <div class="col-lg-12">
+                                                    <p><i>* Enter comma seperated n-grams</i></p>
                                             </div>
-                                            <div class="sinmin-form-group">
-                                                <table style="width:100%">
-                                                    <tr>
-                                                        <td style="width:50%;"><label  class="sinmin-label">From</label></td>
-                                                        <td style="width:50%;padding-left:5px"><label  class="sinmin-label">To</label></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="padding-right:5px"><input class="sinmin-form-control" id="from"></td>
-                                                        <td style="padding-left:5px"><input class="sinmin-form-control" id="to"></td>
-                                                    </tr>
-                                                </table>   
+                                            <div class="col-lg-12">
+                                                <div class="sinmin-form-group">
+                                                    <label  class="sinmin-label">Time</label>
+                                                </div>
+                                                <div class="sinmin-form-group">
+                                                    <table style="width:100%">
+                                                        <tr>
+                                                            <td style="width:50%;"><label  class="sinmin-label">From</label></td>
+                                                            <td style="width:50%;padding-left:5px"><label  class="sinmin-label">To</label></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="padding-right:5px"><input class="sinmin-form-control" id="from"></td>
+                                                            <td style="padding-left:5px"><input class="sinmin-form-control" id="to"></td>
+                                                        </tr>
+                                                    </table>   
+                                                </div>
                                             </div>
                                             <br/>
-                                            <button input="submit" class="btn btn-outline btn-primary">Search</button>
-                                            <button type="reset" class="btn btn-outline btn-primary">Reset</button>
+                                            <div class="col-lg-12">
+                                                <button input="submit" class="btn btn-outline btn-primary">Search</button>
+                                                <button type="reset" class="btn btn-outline btn-primary">Reset</button>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
