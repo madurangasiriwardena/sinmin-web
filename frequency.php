@@ -20,7 +20,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Frequency of n-gram</h1>
+                        <h1 class="page-header">Probability of n-gram</h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -36,7 +36,7 @@
                                         <div class="col-lg-6">
                                             <div class="sinmin-form-group">
                                                 <label class="sinmin-label">Word</label>
-                                                <input class="sinmin-form-control" id="word">
+                                                <input class="sinmin-form-control" name="word" id="word">
                                             </div>
                                             <div class="sinmin-form-group">
                                                 <span class="pull-right"><input type="button" class="btn btn-outline btn-primary" value="Type in Singlish" onclick="type_in_singlish('word')"></span>
@@ -52,11 +52,11 @@
                                                 </div>
                                                 <div class="sinmin-form-group">
                                                     <label class="sinmin-label">From</label>
-                                                    <input class="sinmin-form-control" id="from">
+                                                    <input class="sinmin-form-control" name="from" id="from">
                                                 </div>
                                                 <div class="sinmin-form-group">
                                                     <label class="sinmin-label">To</label>
-                                                    <input class="sinmin-form-control" id="to">
+                                                    <input class="sinmin-form-control" name="to" id="to">
                                                 </div>
                                         </div>
                                     </div>
@@ -69,32 +69,32 @@
                                                 <div>
                                                     <div class="sinmin-checkbox">
                                                         <label>
-                                                            <input class="checkbox-category" type="checkbox" id="category-0" checked="true" style="position: absolute;">All
+                                                            <input class="checkbox-category require-one" type="checkbox" id="category-0" name="category-0" checked="true" style="position: absolute;">All
                                                         </label>
                                                     </div>
                                                     <div class="sinmin-checkbox">
                                                         <label>
-                                                            <input class="checkbox-category" type="checkbox" id="category-1" checked="true" style="position: absolute;">News
+                                                            <input class="checkbox-category require-one" type="checkbox" id="category-1" name="category-1" checked="true" style="position: absolute;">News
                                                         </label>
                                                     </div>
                                                     <div class="sinmin-checkbox">
                                                         <label>
-                                                            <input class="checkbox-category" type="checkbox" id="category-2" checked="true" style="position: absolute;">Academic
+                                                            <input class="checkbox-category require-one" type="checkbox" id="category-2" name="category-2" checked="true" style="position: absolute;">Academic
                                                         </label>
                                                     </div>
                                                     <div class="sinmin-checkbox">
                                                         <label>
-                                                            <input class="checkbox-category" type="checkbox" id="category-3" checked="true" style="position: absolute;">Creative Writing
+                                                            <input class="checkbox-category require-one" type="checkbox" id="category-3" name="category-3" checked="true" style="position: absolute;">Creative Writing
                                                         </label>
                                                     </div>
                                                     <div class="sinmin-checkbox">
                                                         <label>
-                                                            <input class="checkbox-category" type="checkbox" id="category-4" checked="true" style="position: absolute;">Spoken
+                                                            <input class="checkbox-category require-one" type="checkbox" id="category-4" name="category-4" checked="true" style="position: absolute;">Spoken
                                                         </label>
                                                     </div>
                                                     <div class="sinmin-checkbox">
                                                         <label>
-                                                            <input class="checkbox-category" type="checkbox"  id="category-5" checked="true" style="position: absolute;">Gazette
+                                                            <input class="checkbox-category require-one" type="checkbox"  id="category-5" name="category-5" checked="true" style="position: absolute;">Gazette
                                                         </label>
                                                     </div>
                                                 </div>
@@ -232,7 +232,7 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
@@ -254,6 +254,8 @@
     
     <link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
 
+    <script src="js/jquery.validate.min.js"></script>
+
     <script type="text/javascript" charset="utf-8">
 
        function type_in_singlish(input_id) {
@@ -269,6 +271,20 @@
             $("#light_box").trigger('close');
         }
 
+        $.validator.addMethod("greaterThan",function (value, element, param) {
+          var $min = $(param);
+          if (this.settings.onfocusout) {
+            $min.off(".validate-greaterThan").on("blur.validate-greaterThan", function () {
+              $(element).valid();
+            });
+          }
+          return parseInt(value) > parseInt($min.val());
+        }, "To must be greater than From");
+
+        $.validator.addMethod('require-one', function(value) {
+            return $('.require-one:checked').size() > 0;
+        }, 'Please check at least one category.');
+
 
         $(document).ready(function(){
             $('#from').val(start_year);
@@ -276,6 +292,51 @@
             $('#word').val(word_string);
             $("#graph-panel").css("display", "none");
             $("#table-panel").css("display", "none");
+
+            // $("#myForm").validate();
+
+            var checkboxes = $('.require-one');
+            var checkbox_names = $.map(checkboxes, function(e, i) {
+                return $(e).attr("name")
+            }).join(" ");
+
+            $("#myForm").validate({
+                rules: {
+                    word: "required",
+                    from: {
+                          required: function(){
+                                return $('#enable-time').is(':checked');
+                          }
+                    },
+                    to: {
+                          required: function(){
+                                return $('#enable-time').is(':checked');
+                          },
+                          greaterThan: '#from'
+                    }
+                },
+                messages: {
+                    word: "Enter a word to search",
+                    from: "Enter a valied starting year"
+                },
+                submitHandler: function() {
+                    submit();
+                },
+                success: function(label) {
+                // set &nbsp; as text for IE
+                    label.html("&nbsp;").addClass("checked");
+                },
+                highlight: function(element, errorClass) {
+                    $(element).parent().next().find("." + errorClass).removeClass("checked");
+                },
+                groups: {
+                    checks: checkbox_names
+                },
+                errorPlacement: function(error, element) {
+                    if (element.attr("type") == "checkbox") error.insertAfter(checkboxes.last());
+                    else error.insertAfter(element);
+                }
+            });
         });
 
 
@@ -427,7 +488,7 @@
         }
 
 
-        $('#myForm').submit(function() {
+        function submit(){
             var word = document.getElementById("word").value;
             var from = document.getElementById("from").value;
             var to = document.getElementById("to").value;
@@ -460,14 +521,14 @@
 
             if(valied_string){
                 if($('#enable-category').is(':checked') && $('#enable-time').is(':checked')){
-                    document.getElementById("panel-heading").innerHTML = "Frequency of '"+word+"' over time and category";
+                    document.getElementById("panel-heading").innerHTML = "Probability of '"+word+"' over time and category";
                     plot_time_category();
                 }else if($('#enable-category').is(':checked') && !($('#enable-time').is(':checked'))){
-                    document.getElementById("panel-heading").innerHTML = "Frequency of '"+word+"' over category";
+                    document.getElementById("panel-heading").innerHTML = "Probability of '"+word+"' over category";
                     plot_category();
                 }else if(!($('#enable-category').is(':checked')) && $('#enable-time').is(':checked')){
                     plot_time();
-                    document.getElementById("panel-heading").innerHTML = "Frequency of '"+word+"' over time";
+                    document.getElementById("panel-heading").innerHTML = "Probability of '"+word+"' over time";
                 }else if(!($('#enable-category').is(':checked')) && !($('#enable-time').is(':checked'))){
                     $('#notSelectedModal').modal('show');
                 }
@@ -555,7 +616,7 @@
                     },
                     yAxis: {
                         title: {
-                            text: 'Words'
+                            text: 'Probability'
                         },
                         min: 0
                     },
@@ -668,7 +729,7 @@
                     yAxis: {
                         min: 0,
                         title: {
-                            text: 'Words'
+                            text: 'Probability'
                         }
                     },
                     legend: {
@@ -908,7 +969,7 @@
                     },
                     yAxis: {
                         title: {
-                            text: 'Words'
+                            text: 'Probability'
                         },
                         min: 0
                     },
@@ -1067,7 +1128,7 @@
             }
             
             
-        });
+        };
     </script>
 
 </body>

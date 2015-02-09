@@ -6,6 +6,8 @@
 
     <title>Sinmin</title>
 
+    <script src="js/jquery.js"></script>
+
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 

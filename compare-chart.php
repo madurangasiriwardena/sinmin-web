@@ -36,7 +36,7 @@
                                             <div class="col-lg-12">
                                                 <div class="sinmin-form-group">
                                                     <label class="sinmin-label">Word</label>
-                                                    <input class="sinmin-form-control" id="word">
+                                                    <input class="sinmin-form-control" name="word" id="word">
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
@@ -58,8 +58,8 @@
                                                             <td style="width:50%;padding-left:5px"><label  class="sinmin-label">To</label></td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="padding-right:5px"><input class="sinmin-form-control" id="from"></td>
-                                                            <td style="padding-left:5px"><input class="sinmin-form-control" id="to"></td>
+                                                            <td style="padding-right:5px"><input class="sinmin-form-control" name="from" id="from"></td>
+                                                            <td style="padding-left:5px"><input class="sinmin-form-control" name="to" id="to"></td>
                                                         </tr>
                                                     </table>   
                                                 </div>
@@ -160,9 +160,6 @@
 
     <!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 
@@ -183,6 +180,8 @@
 
     <link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
 
+    <script src="js/jquery.validate.min.js"></script>
+
     <script type="text/javascript">
 
         function type_in_singlish(input_id) {
@@ -198,15 +197,56 @@
             $("#light_box").trigger('close');
         }
 
+        $.validator.addMethod("greaterThan",function (value, element, param) {
+          var $min = $(param);
+          if (this.settings.onfocusout) {
+            $min.off(".validate-greaterThan").on("blur.validate-greaterThan", function () {
+              $(element).valid();
+            });
+          }
+          return parseInt(value) > parseInt($min.val());
+        }, "To must be greater than From");
+
         $(document).ready(function(){
             $('#from').val(start_year);
             $('#to').val(end_year);
             $('#word').val(word_string1 + "," + word_string2);
             $("#graph-panel").css("display", "none");
             $("#table-panel").css("display", "none");
+
+            $("#myForm").validate({
+                rules: {
+                    word: "required",
+                    from: {
+                          required: function(){
+                                return $('#enable-time').is(':checked');
+                          }
+                    },
+                    to: {
+                          required: function(){
+                                return $('#enable-time').is(':checked');
+                          },
+                          greaterThan: '#from'
+                    }
+                },
+                messages: {
+                    word: "Enter a word to search",
+                    from: "Enter a valied starting year"
+                },
+                submitHandler: function() {
+                    submit();
+                },
+                success: function(label) {
+                // set &nbsp; as text for IE
+                    label.html("&nbsp;").addClass("checked");
+                },
+                highlight: function(element, errorClass) {
+                    $(element).parent().next().find("." + errorClass).removeClass("checked");
+                }
+            });
         });        
     
-        $('#myForm').submit(function() {
+        function submit() {
             
             var word = document.getElementById("word").value;
             var from = document.getElementById("from").value;
@@ -549,10 +589,8 @@
                 var myDate=date.split("-");
                 var newDate=myDate[1]+"/"+myDate[0]+"/"+myDate[2];
                 return (new Date(newDate).getTime());
-            }
-            
-            
-        });
+            }            
+        }
     </script>
 
 </body>

@@ -25,12 +25,17 @@
 		// Send the request
 		$response = curl_exec($ch);
 
-		// Check for errors
-		if($response === FALSE){
-		    die(curl_error($ch));
-		}
+		$http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		curl_close($ch);
 
-		print_r( $response);
+		// Check for errors
+		if($http_status == 200){
+			print_r( $response);
+		}else{
+			header('HTTP/1.1 500 Internal Server Error');
+	        header('Content-Type: application/json; charset=UTF-8');
+	        die(json_encode(array('message' => 'ERROR', 'code' => $http_status)));
+		}
     }else{
     	header('HTTP/1.1 500 Internal Server Error');
         header('Content-Type: application/json; charset=UTF-8');

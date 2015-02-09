@@ -35,7 +35,7 @@
                                             <div class="col-lg-6">
                                                 <div class="sinmin-form-group">
                                                     <label class="sinmin-label">Word</label>
-                                                    <input class="sinmin-form-control" id="word">
+                                                    <input class="sinmin-form-control" name="word" id="word">
                                                 </div>
                                                 <div class="sinmin-form-group">
                                                     <span class="pull-right"><input type="button" class="btn btn-outline btn-primary" value="Type in Singlish" onclick="type_in_singlish('word')"></span>  
@@ -46,11 +46,11 @@
                                             <div class="col-lg-3">
                                                 <div class="sinmin-form-group">
                                                     <label class="sinmin-label">Amount</label>
-                                                    <input class="sinmin-form-control" id="amount">
+                                                    <input class="sinmin-form-control" name="amount" id="amount">
                                                 </div>
                                                 <div class="sinmin-form-group">
                                                     <label class="sinmin-label">Year</label>
-                                                    <input class="sinmin-form-control" id="year">
+                                                    <input class="sinmin-form-control" name="year" id="year">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3">
@@ -178,9 +178,6 @@
         </div>
     </div>
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 
@@ -198,6 +195,9 @@
     
     <link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
 
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/additional-methods.min.js"></script>
+    
     <script type="text/javascript">
         function type_in_singlish(input_id) {
             $("#light_box").lightbox_me({centered: true, preventScroll: true, onLoad: function() {
@@ -218,6 +218,35 @@
             $('#amount').val(20);
             $('#year').val(2013);
             $("#word-div").css("display", "none");
+
+            $("#myForm").validate({
+                rules: {
+                    word: "required",
+                    year: {
+                        required: true,
+                        digits: true
+                    },
+                    amount: {
+                        required: true,
+                        digits: true
+                    }
+                },
+                messages: {
+                    word: "Enter a word to search",
+                    year: "Year is required",
+                    amount: "Amount is required"
+                },
+                submitHandler: function() {
+                    submit();
+                },
+                success: function(label) {
+                // set &nbsp; as text for IE
+                    label.html("&nbsp;").addClass("checked");
+                },
+                highlight: function(element, errorClass) {
+                    $(element).parent().next().find("." + errorClass).removeClass("checked");
+                }
+            });
         });
 
         function ajax_call(method, word, word_arr, amount, years, categories, draw_table, cancel_ajax, spinner){
@@ -271,7 +300,7 @@
             spinner.stop();
         }
 
-        $('#myForm').submit(function() {
+        function submit() {
             word = document.getElementById("word").value;
             amount = document.getElementById("amount").value;
             year = document.getElementById("year").value;
@@ -305,7 +334,7 @@
             }else{
                 $('#myModal').modal('show');
             }
-        });
+        }
 
         function draw_table(data, spinner, word){
             dataSet = [];

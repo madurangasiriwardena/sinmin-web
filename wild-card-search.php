@@ -35,7 +35,7 @@
                                             <div class="col-lg-6">
                                                 <div class="sinmin-form-group">
                                                     <label class="sinmin-label">Word</label>
-                                                    <input class="sinmin-form-control" id="word">
+                                                    <input class="sinmin-form-control" name="word" id="word">
                                                 </div>
                                                 <div class="sinmin-form-group">
                                                     <span class="pull-right"><input type="button" class="btn btn-outline btn-primary" value="Type in Singlish" onclick="type_in_singlish('word')"></span>  
@@ -119,9 +119,6 @@
         </div>
     </div>
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 
@@ -138,6 +135,8 @@
     <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
     
     <link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <script src="js/jquery.validate.min.js"></script>
 
     <script type="text/javascript">
         function type_in_singlish(input_id) {
@@ -157,6 +156,25 @@
         $(document).ready(function(){
             $('#word').val(word_string+"*");
             $("#word-div").css("display", "none");
+
+            $("#myForm").validate({
+                rules: {
+                    word: "required"
+                },
+                messages: {
+                    word: "Enter a word to search"
+                },
+                submitHandler: function() {
+                    submit();
+                },
+                success: function(label) {
+                // set &nbsp; as text for IE
+                    label.html("&nbsp;").addClass("checked");
+                },
+                highlight: function(element, errorClass) {
+                    $(element).parent().next().find("." + errorClass).removeClass("checked");
+                }
+            });
         });
 
         function ajax_call(method, word, draw_table, cancel_ajax, spinner){
@@ -190,13 +208,13 @@
             spinner.stop();
         }
 
-        $('#myForm').submit(function() {
+        function submit() {
             word = document.getElementById("word").value;
             target = document.getElementById('page-wrapper');
             spinner = new Spinner(spin_opts).spin(target);
 
             ajax_call("wildCardSearch", word, draw_table, cancel_ajax, spinner);
-        });
+        }
 
         function draw_table(data, spinner){
             dataSet = [];

@@ -34,7 +34,7 @@
                                                 <div class="col-lg-6">
                                                     <div class="sinmin-form-group">
                                                         <label class="sinmin-label">Word-1</label>
-                                                        <input class="sinmin-form-control" id="word1">
+                                                        <input class="sinmin-form-control" name="word1" id="word1">
                                                     </div>
                                                     <div class="sinmin-form-group">
                                                         <span class="pull-right"><input type="button" class="btn btn-outline btn-primary" value="Type in Singlish" onclick="type_in_singlish('word1')"></span>
@@ -42,13 +42,13 @@
                                                     <br><br>
                                                     <div class="sinmin-form-group">
                                                         <label class="sinmin-label">Within</label>
-                                                        <input class="sinmin-form-control" id="within1" value="5">
+                                                        <input class="sinmin-form-control" name="within1" id="within1" value="5">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="sinmin-form-group">
                                                         <label class="sinmin-label">Word-2</label>
-                                                        <input class="sinmin-form-control" id="word2">
+                                                        <input class="sinmin-form-control" name="word2" id="word2">
                                                     </div>
                                                     <div class="sinmin-form-group">
                                                         <span class="pull-right"><input type="button" class="btn btn-outline btn-primary" value="Type in Singlish" onclick="type_in_singlish('word2')"></span>
@@ -56,7 +56,7 @@
                                                     <br><br>
                                                     <div class="sinmin-form-group">
                                                         <label class="sinmin-label">Within</label>
-                                                        <input class="sinmin-form-control" id="within2" value="5">
+                                                        <input class="sinmin-form-control" name="within2" id="within2" value="5">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -97,7 +97,7 @@
                                                 <div class="col-lg-6">
                                                     <div class="sinmin-form-group">
                                                         <label class="sinmin-label">Amount</label>
-                                                        <input class="sinmin-form-control" id="amount" value="20">
+                                                        <input class="sinmin-form-control" name="amount" id="amount" value="20">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
@@ -165,8 +165,6 @@
             </div>
         </div>
     </div>
-
-        <script src="js/jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
         <script src="js/sb-admin-2.js"></script>
@@ -176,12 +174,51 @@
         <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
         <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
 
+        <script src="js/jquery.validate.min.js"></script>
+        <script src="js/additional-methods.min.js"></script>
+
         <script type="text/javascript" charset="utf-8">
             $(document).ready(function(){
                 $('#word1').val(word_string1);
                 $('#word2').val(word_string2);
                 $("#panel-1").css("display", "none");
                 $("#panel-2").css("display", "none");
+
+                $("#myForm").validate({
+                    rules: {
+                        word1: "required",
+                        word2: "required",
+                        within1: {
+                            required: true,
+                            digits: true
+                        },
+                        within2: {
+                            required: true,
+                            digits: true
+                        },
+                        amount: {
+                            required: true,
+                            digits: true
+                        }
+                    },
+                    messages: {
+                        word1: "Enter the first word to search",
+                        word2: "Enter the second word to search",
+                        within1: "This field is required",
+                        within2: "This field is required",
+                        amount: "Amount is required"
+                    },
+                    submitHandler: function() {
+                        submit();
+                    },
+                    success: function(label) {
+                    // set &nbsp; as text for IE
+                        label.html("&nbsp;").addClass("checked");
+                    },
+                    highlight: function(element, errorClass) {
+                        $(element).parent().next().find("." + errorClass).removeClass("checked");
+                    }
+                });
             });
 
             function ajax_call(method, word, categories, years, amount, range, draw_table_func, spinner, table_id, cancel_ajax, retry, div_element){
@@ -239,7 +276,7 @@
                 });
             }
 
-            $('#myForm').submit(function() {
+            function submit() {
                 word1 = $('#word1').val();
                 word2 = $('#word2').val();
 
@@ -251,7 +288,7 @@
 
                 table1_call();
                 table2_call();
-            });
+            }
 
             function table1_call(){
                 word1 = $('#word1').val();

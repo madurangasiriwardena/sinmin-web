@@ -204,3 +204,8 @@ fieldset[disabled] .sinmin-form-control {
   margin: 0 auto;
   text-align: center;
 }
+
+label.error {
+  padding-bottom: 2px;
+  color: #EA5200;
+}
