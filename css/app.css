@@ -45,6 +45,10 @@
   margin-left: -20px;
 }
 
+/*.sinmin-checkbox-category{
+  text-align: left;
+}*/
+
 .sinmin-label{
   margin-bottom: 2px;
 }
@@ -206,6 +210,10 @@ fieldset[disabled] .sinmin-form-control {
 }
 
 label.error {
-  padding-bottom: 2px;
-  color: #EA5200;
+  color: #EA52AA;
+  height: 0px;
+}
+
+.align-top{
+  vertical-align: top;
 }

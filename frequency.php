@@ -94,7 +94,7 @@
                                                     </div>
                                                     <div class="sinmin-checkbox">
                                                         <label>
-                                                            <input class="checkbox-category require-one" type="checkbox"  id="category-5" name="category-5" checked="true" style="position: absolute;">Gazette
+                                                            <input class="checkbox-category require-one" type="checkbox"  id="category-5" name="category-5" checked="true" style="position: absolute;"><span>Gazette</span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -333,7 +333,9 @@
                     checks: checkbox_names
                 },
                 errorPlacement: function(error, element) {
-                    if (element.attr("type") == "checkbox") error.insertAfter(checkboxes.last());
+                    console.log(checkboxes.last().next("span").text());
+                    console.log(checkboxes.last().val());
+                    if (element.attr("type") == "checkbox") error.insertAfter(checkboxes.last().next("span"));
                     else error.insertAfter(element);
                 }
             });

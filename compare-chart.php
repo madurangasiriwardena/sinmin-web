@@ -58,8 +58,8 @@
                                                             <td style="width:50%;padding-left:5px"><label  class="sinmin-label">To</label></td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="padding-right:5px"><input class="sinmin-form-control" name="from" id="from"></td>
-                                                            <td style="padding-left:5px"><input class="sinmin-form-control" name="to" id="to"></td>
+                                                            <td style="padding-right:5px" class="align-top"><input class="sinmin-form-control" name="from" id="from"></td>
+                                                            <td style="padding-left:5px" class="align-top"><input class="sinmin-form-control align-top" name="to" id="to"></td>
                                                         </tr>
                                                     </table>   
                                                 </div>
@@ -205,7 +205,7 @@
             });
           }
           return parseInt(value) > parseInt($min.val());
-        }, "To must be greater than From");
+        }, "'To' must be greater than 'From'");
 
         $(document).ready(function(){
             $('#from').val(start_year);
