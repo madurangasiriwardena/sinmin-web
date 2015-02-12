@@ -19,10 +19,10 @@
                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Chart<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="frequency.php">Frequency</a>
+                        <a href="frequency.php">Probability</a>
                     </li>
                     <li>
-                        <a href="popularwords.php">Probable</a>
+                        <a href="popularwords.php">Trailing words</a>
                     </li>
                     <li>
                         <a href="compare-chart.php">Compare</a>
@@ -41,15 +41,6 @@
                     </li>
                     <li>
                         <a href="stat-trigram.php">Trigram</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-files-o fa-fw"></i> Compare<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="compare.php">Compare</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->

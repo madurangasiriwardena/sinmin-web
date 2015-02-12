@@ -1,8 +1,6 @@
 <?php
     session_start();
-    /*echo $_SESSION['access_token'];
-    echo $_SESSION['access_token'];
-    exit();*/
+
     if(!isset($_SESSION['access_token']) || empty($_SESSION['access_token'])) {
 
         $protocol = $_SERVER['HTTPS'] == '' ? 'http://' : 'https://';
@@ -23,12 +21,16 @@
 <div class="header-pull-right">
     <span>You are logged in as </span>
     <?php
-        if ($_SESSION['auth_type']='google') {
+        if ($_SESSION['auth_type']=='google') {
             echo $_SESSION['email'];
+        }elseif ($_SESSION['auth_type']=='ldap') {
+            echo $_SESSION['username'];
         }
     ?>
     <a href="<?php 
-        if ($_SESSION['auth_type']='google') {
+        if ($_SESSION['auth_type']=='google') {
+            echo $_SESSION['logout'];
+        }elseif ($_SESSION['auth_type']=='ldap') {
             echo $_SESSION['logout'];
         }  ?>">(Logout)</a>
 </div>
