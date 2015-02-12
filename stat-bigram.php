@@ -51,20 +51,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default" id="frequent-words-table-div">
-                        <div class="panel-heading">
-                            <i class="fa fa-columns fa-fw"></i> Frequent Bigrams
-                        </div>
-                        <div class="panel-body sinmin-panel-body">
-                            <div class="table-responsive">
-                                <div class="table-content" id="frequent-words-table-content"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
             <div class="row">
                 <div class="col-lg-8">
                     <div class="panel panel-default" id="time-div">
@@ -90,7 +76,7 @@
                                 <table class="table table-bordered table-hover">
                                     <tbody>
                                         <tr>
-                                            <td>Words Tockens</td>
+                                            <td>Words Tokens</td>
                                             <td>69906350</td>
                                         </tr>
                                         <tr>

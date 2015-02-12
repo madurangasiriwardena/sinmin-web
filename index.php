@@ -140,7 +140,7 @@
                                 <table class="table table-bordered table-striped table-hover">
                                     <tbody>
                                         <tr>
-                                            <td>Words Tockens</td>
+                                            <td>Words Tokens</td>
                                             <td>69906350</td>
                                         </tr>
                                         <tr>

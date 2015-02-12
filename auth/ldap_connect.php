@@ -27,11 +27,9 @@ if ($ldapconn)
 	    $_SESSION['logout'] = $root_uri."auth/ldap_logout.php";
 	    $_SESSION['auth_type']='ldap';
 	    $_SESSION['access_token'] = $uname;
-    	// echo $_SESSION['logout'];
         header('Location: '.$root_uri.'index.php');
-    	print "Congratulations! $username is authenticated.";
     }else{
-    	print "Access Denied!";
+
         $root_uri = $protocol . $_SERVER['HTTP_HOST'].'/sinmin-web/login.php';
         header('Location: '.$root_uri);
     }
