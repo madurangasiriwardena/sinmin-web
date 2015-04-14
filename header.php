@@ -1,4 +1,4 @@
-<?php
+<!--?php
     session_start();
 
     if(!isset($_SESSION['access_token']) || empty($_SESSION['access_token'])) {
@@ -7,7 +7,7 @@
         $root_uri = $protocol . $_SERVER['HTTP_HOST'].'/sinmin-web/login.php';
         header('Location: '.$root_uri);
     }
-?>
+?-->
 <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
@@ -19,7 +19,7 @@
 </div>
 
 <div class="header-pull-right">
-    <span>You are logged in as </span>
+    <!--span>You are logged in as </span>
     <?php
         if ($_SESSION['auth_type']=='google') {
             echo $_SESSION['email'];
@@ -32,5 +32,5 @@
             echo $_SESSION['logout'];
         }elseif ($_SESSION['auth_type']=='ldap') {
             echo $_SESSION['logout'];
-        }  ?>">(Logout)</a>
+        }  ?>">(Logout)</a-->
 </div>
