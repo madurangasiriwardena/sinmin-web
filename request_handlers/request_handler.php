@@ -1,7 +1,7 @@
 <?php
 
-	session_start();
-    if(isset($_SESSION['access_token']) || !empty($_SESSION['access_token'])) {
+	// session_start();
+ //    if(isset($_SESSION['access_token']) || !empty($_SESSION['access_token'])) {
 
         $postData = file_get_contents('php://input');
 
@@ -36,11 +36,11 @@
 	        header('Content-Type: application/json; charset=UTF-8');
 	        die(json_encode(array('message' => 'ERROR', 'code' => $http_status)));
 		}
-    }else{
-    	header('HTTP/1.1 500 Internal Server Error');
-        header('Content-Type: application/json; charset=UTF-8');
-        die(json_encode(array('message' => 'ERROR', 'code' => 500)));
-    }
+    // }else{
+    // 	header('HTTP/1.1 500 Internal Server Error');
+    //     header('Content-Type: application/json; charset=UTF-8');
+    //     die(json_encode(array('message' => 'ERROR', 'code' => 500)));
+    // }
 	
 
 ?>
