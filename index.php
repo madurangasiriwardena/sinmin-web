@@ -120,13 +120,12 @@
                             <i class="fa fa-bar-chart-o fa-fw"></i> About
                         </div>
                         <div class="panel-body sinmin-panel-body">
-                            <div><p>Sinmin is the largest corpus available for Sinhala. The corpus was 
-                            developed by University of Moratuwa.</p>
-                                <p>The corpus contains more than 70 million words of text and is divided 
+                            <div><p>Sinmin is a Corpus that was developed for Sinhala language by Department of Computer
+                            Science and Engineering - University of Moratuwa.</p>
+                                <p>Sinmin corpus contains more than 70 million words of text and is divided 
                                 among spoken, news item, creative writing, academic and gazete texts. It 
-                                includes data from 2008-2014 and the corpus is also updated regularly. 
-                                Because of its design, it is perhaps the only corpus of Sinhala that is 
-                                suitable for looking at current, ongoing changes in the language.</p></div>
+                                includes data from 2008-2014 and the corpus is also getting updated regularly. 
+                                </p></div>
                         </div>
                     </div>
                 </div>

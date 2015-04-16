@@ -29,9 +29,20 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p>Sinmin is developed by Dimuthu Upeksha, Maduranga Siriwardena, Chamila Wijayarathna and 
-                                Lahiru Lasandun under the supervision of Dr. Chinthana Wimalasuriya, Prof. Gihan Dias and 
-                                Mr. Nisansa de Silva as the final year project.</p>
-                            </div>
+                                Lahiru Lasandun who are final year undergraduates of Department of Computer Science and
+                                Engineering - University of Moratuwa, under the supervision of Dr. Chinthana Wimalasuriya, Prof. Gihan Dias and 
+                                Mr. Nisansa de Silva as their final year research and development project.</p>
+                           <br/>
+                           Blogs
+                           <br/>
+                           <a
+                           href="http://dimuthuupeksha.blogspot.com/2015/04/sinmin-sinhala-corpus-project_14.html">Dimuthu's
+                           Blog </a>
+                           <br/>
+                           <a
+                           href="http://cdwijayarathna.blogspot.com/2015/04/sinmin-corpus-for-sinhala-language.html">Chamila's
+                           Blog</a>
+                           </div>
                         </div>
                     </div>
                 </div>
