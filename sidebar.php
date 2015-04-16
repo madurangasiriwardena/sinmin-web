@@ -64,6 +64,9 @@
                 <!-- /.nav-second-level -->
             </li>
             <li>
+                <a href="data"><i class="fa fa-download fa-fw"></i> Download</a>
+            </li>
+            <li>
                 <a href="converter.php"><i class="fa fa-table fa-fw"></i> Unicode Converter</a>
             </li>
             <li>
